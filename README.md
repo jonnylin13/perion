@@ -6,7 +6,16 @@ Named after the first private server I've ever played, `titan` is a library of N
 
 ## Packages
 * crypto
+
+Provides a cryptography library that exposes everything you need to encrypt/decrypt data for MapleStory.
+
 * net
+
+Provides a packet parser using method-chaining syntax for compact and efficient parsing/writing packet structures.
+
+* wz
+
+Provides a WZ library that can read and write to the WZ file format.
 
 ## Current Features
 * Implements a simple packet parser and writer with method chaining for succinct code
