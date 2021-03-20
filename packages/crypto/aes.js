@@ -1,5 +1,5 @@
-import * as crypto from 'crypto';
-import {KEYS, SHIFT_KEYS} from './constants.js';
+const crypto = require('crypto');
+const {KEYS, SHIFT_KEYS} = require('./constants.js');
 /**
  * An internal class that provides utility functions for AES
  * @class
@@ -62,7 +62,7 @@ class Util {
  * A MapleStory implementation of AES-256-ECB
  * @class
  */
-export class AES {
+class AES {
   /**
    * AES class constructor
    * @constructor
@@ -158,3 +158,4 @@ export class AES {
     return data;
   }
 }
+module.exports = AES;

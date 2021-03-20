@@ -37,7 +37,7 @@ class Util {
  * @param {Buffer} data The input Buffer to encrypt
  * @return {Buffer} The encrypted Buffer
  */
-export function encrypt(data) {
+function encrypt(data) {
   const {length} = data;
   let j;
   let a;
@@ -78,7 +78,7 @@ export function encrypt(data) {
  * @param {Buffer} data A Shanda encrypted input Buffer
  * @return {Buffer} The decrypted buffer
  */
-export function decrypt(data) {
+function decrypt(data) {
   const {length} = data;
   let j;
   let a;
@@ -113,3 +113,4 @@ export function decrypt(data) {
   }
   return data;
 }
+module.exports = {encrypt, decrypt};

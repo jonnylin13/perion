@@ -1,10 +1,10 @@
 # `titan`
 
-Named after the first private server I've ever played, `titan` is a library of node modules that helps bring MapleStory private server development to a larger audience.
+Named after the first private server I've ever played, `titan` is a library of Node.js modules that helps bring MapleStory private server development to a larger audience.
 
-## Goals
+# Project Goals
 
-### Basic MapleStory Functionality
+## MapleStory-related Packages
 * Cryptography
 * Networking protocol
 * Damage calculations
@@ -15,10 +15,24 @@ Named after the first private server I've ever played, `titan` is a library of n
 * Generic MapleStory abstractions
 * Multiple MapleStory versions
 
-### Modern Features
+## Modern Features
 * Stateless server system with cache and message broker
 * Multi-threaded worker pool queue system using `worker_threads`
 * Uses Google's recommended JS style guidelines, fully documented code
+
+# Project Overview
+
+## Linter
+
+```
+npm run lint
+```
+
+## Test
+
+```
+npm run test
+```
 
 # Contributing
 

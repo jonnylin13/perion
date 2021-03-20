@@ -1,4 +1,4 @@
-import {AES, Shanda} from './packages/crypto/index';
+const {AES, Shanda} = require('./packages/crypto/index');
 /**
  * A module that exports all titan packages
  * @module @titan/titan

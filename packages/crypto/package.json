@@ -24,11 +24,10 @@
     "extends": ["eslint:recommended", "google"],
     "rules": {},
     "parserOptions": {
-      "ecmaVersion": 2017,
       "sourceType": "module"
     },
     "env": {
-      "es6": true,
+      "es2015": true,
       "node": true
     }
   }

@@ -1,8 +1,7 @@
-import * as Shanda from './shanda';
-import {AES} from './aes';
+const Shanda = require('./shanda');
+const {AES} = require('./aes');
 /**
  * A module that exports cryptography functions for MapleStory
  * @module @titan/crypto
  */
-exports.Shanda = Shanda;
-exports.AES = AES;
+module.exports = {Shanda, AES};
