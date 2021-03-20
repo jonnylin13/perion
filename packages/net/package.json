@@ -1,0 +1,23 @@
+{
+  "name": "@titan/net",
+  "version": "0.0.1",
+  "description": "A few networking utilities for MapleStory server development",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint packages/**/*.js --fix"
+  },
+  "keywords": [
+    "maplestory",
+    "networking",
+    "protocol",
+    "binary",
+    "parse",
+    "parsing"
+  ],
+  "author": "jonnylin13",
+  "license": "ISC"
+}
