@@ -5,4 +5,4 @@ const {Writer} = require('./packet/writer.js');
  * Exports the packet parser and writer
  * @module
  */
-exports.Packet = {Parser, Writer};
+module.exports = {Parser, Writer};

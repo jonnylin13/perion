@@ -142,3 +142,4 @@ class WZAES {
     return transform(data, this.xorKey);
   }
 }
+module.exports = WZAES;
