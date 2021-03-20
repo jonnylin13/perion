@@ -2,6 +2,26 @@
 
 Named after the first private server I've ever played, `titan` is a library of Node.js modules that helps bring MapleStory private server development to a larger audience.
 
+# Overview
+
+## Packages
+* crypto
+* net
+
+## Current Features
+* Implements a simple packet parser and writer with method chaining for succinct code
+
+```
+const packet = new Packet.Parser(<input buffer>);
+const fields = ['id', 'name', 'hp'];
+const unpacked = packet.int().mapleascii().int().collect(fields);
+
+```
+
+* Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
+* Implements AES and MapleStory Shanda encryption algorithms
+* Full unit tests and modular package structure. Only use the packages that you need!
+
 # Project Goals
 
 ## MapleStory-related Packages
@@ -18,7 +38,6 @@ Named after the first private server I've ever played, `titan` is a library of N
 ## Modern Features
 * Stateless server system with cache and message broker
 * Multi-threaded worker pool queue system using `worker_threads`
-* Uses Google's recommended JS style guidelines, fully documented code
 
 # Project Overview
 
