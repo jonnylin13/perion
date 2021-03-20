@@ -11,11 +11,10 @@ Named after the first private server I've ever played, `titan` is a library of N
 ## Current Features
 * Implements a simple packet parser and writer with method chaining for succinct code
 
-```
+```node
 const packet = new Packet.Parser(<input buffer>);
 const fields = ['id', 'name', 'hp'];
 const unpacked = packet.int().mapleascii().int().collect(fields);
-
 ```
 
 * Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
