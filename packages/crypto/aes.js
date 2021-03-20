@@ -26,6 +26,7 @@ class Util {
    * Morphs the IV, called after the IV is used
    * @function
    * @static
+   * @deprecated
    * @param {Buffer} iv
    * @param {number} mapleVersion
    * @return {Buffer} The new IV sequence
@@ -74,9 +75,6 @@ class AES {
     const left = (mapleVersion >> 8) & 0xff;
     const right = (mapleVersion << 8) & 0xff00;
     this.mapleVersion = left | right;
-    /** Not sure if this is the correct encryption algorithm */
-    const key = KEYS[this.mapleVersion];
-    this.cipher = crypto.createCipheriv('aes-256-ecb', key, null);
   }
   /**
    * Generates the packet header using the current IV
@@ -106,6 +104,7 @@ class AES {
    */
   transform(data) {
     const {length} = data;
+    const key = KEYS[this.mapleVersion];
     /** MapleStory's 1460 byte block */
     const blockLength = 1460;
     /** Subtract 4 bytes for the packet header */
@@ -116,14 +115,15 @@ class AES {
       let xorKey = ivScaled.slice();
       for (let j = 0; j < block; j++) {
         if (j % 16 === 0) {
-          xorKey = this.cipher.update(xorKey);
+          const cipher = crypto.createCipheriv('aes-256-cbc', key, this.iv);
+          xorKey = cipher.update(xorKey);
+          xorKey += cipher.final(xorKey);
         }
         data[i + j] ^= xorKey[j % 16];
       }
       i += block;
       currentBlockLength = blockLength;
     }
-    this.iv = Util.morphIV(this.iv);
     return data;
   }
   /**
@@ -136,6 +136,7 @@ class AES {
    * @return {Buffer} Returns the transformed data
    */
   _transform(data) {
+    const key = KEYS[this.mapleVersion];
     let remaining = data.length;
     let chunkLength = 0x5B0;
     let start = 0;
@@ -146,7 +147,9 @@ class AES {
       }
       for (let x = start; x < (start + chunkLength); x++) {
         if ((x - start) % myIv.length === 0) {
-          myIv = this.cipher.update(myIv);
+          const cipher = crypto.createCipheriv('aes-256-cbc', key, this.iv);
+          myIv = cipher.update(myIv);
+          myIv += cipher.final();
         }
         data[x] ^= myIv[(x - start) % myIv.length];
       }
@@ -154,7 +157,6 @@ class AES {
       remaining -= chunkLength;
       chunkLength = 0x5B4;
     }
-    this.iv = Util.morphIV(this.iv);
     return data;
   }
 }
