@@ -4,8 +4,8 @@
   "description": "Exports the cryptography functions needed for MapleStory",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint packages/**/*.js --fix"
+    "test": "mocha",
+    "lint": "eslint ./*.js --fix"
   },
   "keywords": [
     "cryptography",
