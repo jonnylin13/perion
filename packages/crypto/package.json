@@ -1,0 +1,35 @@
+{
+  "name": "@titan/crypto",
+  "version": "0.0.1",
+  "description": "Exports the cryptography functions needed for MapleStory",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint packages/**/*.js --fix"
+  },
+  "keywords": [
+    "cryptography",
+    "aes",
+    "shanda",
+    "maplestory"
+  ],
+  "author": "jonnylin13",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^8.3.2"
+  },
+  "eslintConfig": {
+    "extends": ["eslint:recommended", "google"],
+    "rules": {},
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+    },
+    "env": {
+      "es6": true,
+      "node": true
+    }
+  }
+}

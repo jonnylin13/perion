@@ -1,0 +1,39 @@
+{
+  "name": "@titan/titan",
+  "version": "0.0.1",
+  "description": "A library that contains all the utilities for creating a MapleStory server emulator.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint packages/**/*.js --fix"
+  },
+  "keywords": [
+    "maplestory",
+    "nodejs",
+    "node",
+    "javascript",
+    "private",
+    "server",
+    "private-server",
+    "mmorpg"
+  ],
+  "author": "jonnylin13",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^8.3.2"
+  },
+  "eslintConfig": {
+    "extends": ["eslint:recommended", "google"],
+    "rules": {},
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+    },
+    "env": {
+      "es6": true,
+      "node": true
+    }
+  }
+}
