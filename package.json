@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha '**/*.test.js'",
-    "lint": "eslint packages/**/*.js --fix"
+    "lint": "eslint packages/**/*.js --fix",
+    "doc": "./node_modules/.bin/jsdoc -r packages/**/*.js -d docs"
   },
   "keywords": [
     "maplestory",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-google": "^0.14.0",
+    "jsdoc": "^3.6.6",
     "mocha": "^8.3.2"
   },
   "eslintConfig": {

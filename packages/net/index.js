@@ -1,7 +1,8 @@
 
-const {Packet} = require('./packet.js');
+const {Parser} = require('./packet/parser.js');
+const {Writer} = require('./packet/writer.js');
 /**
  * Exports the packet parser and writer
- * @module
+ * @module @titan/net
  */
-module.exports = {Packet};
+module.exports = {Packet: {Parser, Writer}};

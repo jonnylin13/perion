@@ -1,16 +1,22 @@
 const assert = require('assert');
 const titan = require('../index.js');
 describe('@titan/titan module exports', function() {
-  it('should make Crypto package available', function() {
-    assert.strictEqual('Crypto' in titan, true);
+  it('should export crypto', function() {
+    assert.strictEqual('crypto' in titan, true);
   });
-  it('should make Crypto.AES available', function() {
-    assert.strictEqual('AES' in titan.Crypto, true);
+  it('should export crypto.AES', function() {
+    assert.strictEqual('AES' in titan.crypto, true);
   });
-  it('should make Crypto.Shanda available', function() {
-    assert.strictEqual('Shanda' in titan.Crypto, true);
+  it('should export crypto.Shanda', function() {
+    assert.strictEqual('Shanda' in titan.crypto, true);
   });
-  it('should make Packet.Parser available', function() {
-    assert.strictEqual('Parser' in titan.Packet, true);
+  it('should export net.Packet', function() {
+    assert.strictEqual('Packet' in titan.net, true);
+  });
+  it('should export net.Packet.Parser', function() {
+    assert.strictEqual('Parser' in titan.net.Packet, true);
+  });
+  it('should export net.Packet.Writer', function() {
+    assert.strictEqual('Writer' in titan.net.Packet, true);
   });
 });
