@@ -13,4 +13,11 @@ describe('@titan/crypto.Shanda', function() {
     assert.strictEqual(r1, 12);
     assert.strictEqual(r2, 127);
   });
+  it('should encrypt and decrypt a payload', function() {
+    const payload = Buffer.from([0x1, 0x1, 0x1, 0x1]);
+    const encrypted = crypto.Shanda.encrypt(payload);
+    assert.ok(encrypted.compare(Buffer.from([0xe3, 0x12, 0x62, 0x51])) === 0);
+    const decrypted = crypto.Shanda.decrypt(encrypted);
+    assert.ok(decrypted.compare(Buffer.from([0x1, 0x1, 0x1, 0x1])));
+  });
 });

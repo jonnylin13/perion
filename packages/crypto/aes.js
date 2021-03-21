@@ -1,10 +1,12 @@
 const crypto = require('crypto');
 const {KEYS, SHIFT_KEYS} = require('./constants.js');
+const net = require('../net/index.js');
+const cast = net.Packet.cast;
 /**
  * An internal class that provides utility functions for AES
  * @class
  */
-class Util {
+class AESUtil {
   /**
    * Scales the IV byte length by a multiplier
    * @function
@@ -26,36 +28,80 @@ class Util {
    * Morphs the IV, called after the IV is used
    * @function
    * @static
-   * @deprecated
    * @param {Buffer} iv
    * @param {number} mapleVersion
    * @return {Buffer} The new IV sequence
    */
   static morphIV(iv, mapleVersion) {
     const newSequence = Buffer.from([0xf2, 0x53, 0x50, 0xc6]);
-    const SHIFT_KEY = SHIFT_KEYS[mapleVersion];
+    const skey = SHIFT_KEYS[mapleVersion];
     for (let i = 0; i < 4; i++) {
-      const input = iv[i];
-      const tableInput = SHIFT_KEY[input];
-      newSequence[0] += SHIFT_KEY[newSequence[1] - input];
-      newSequence[1] -= newSequence[2] ^ tableInput;
-      newSequence[2] ^= SHIFT_KEY[newSequence[3]] + input;
-      newSequence[3] -= newSequence[0] - tableInput;
-      let val =
-        (
-          newSequence[0] |
-          ((newSequence[1] & 0xff) << 8 |
-          ((newSequence[2] & 0xff) << 16) |
-          ((newSequence[3]) & 0xff) << 24)
-        ) >>> 0;
-      let val2 = val >>> 0x1d;
-      val = (val << 0x03) >>> 0;
-      val2 |= val;
-      newSequence[0] = val2 & 0xff;
-      newSequence[1] = (val2 >> 8) & 0xff;
-      newSequence[2] = (val2 >> 16) & 0xff;
-      newSequence[3] = (val2 >> 24) & 0xff;
+      /** TODO: Removed, needs to be reworked */
+      // const inputByte = iv[i];
+      // const tableInput = skey[inputByte];
+      // newSequence[0] += skey[newSequence[1] - inputByte];
+      // newSequence[1] -= newSequence[2] ^ tableInput;
+      // newSequence[2] ^= skey[newSequence[3]] + inputByte;
+      // newSequence[3] -= newSequence[0] - tableInput;
+      // let val =
+      //   (
+      //     newSequence[0] |
+      //     ((newSequence[1] & 0xff) << 8 |
+      //     ((newSequence[2] & 0xff) << 16) |
+      //     ((newSequence[3]) & 0xff) << 24)
+      //   ) >>> 0;
+      // let val2 = val >>> 0x1d;
+      // val = (val << 0x03) >>> 0;
+      // val2 |= val;
+      // newSequence[0] = val2 & 0xff;
+      // newSequence[1] = (val2 >> 8) & 0xff;
+      // newSequence[2] = (val2 >> 16) & 0xff;
+      // newSequence[3] = (val2 >> 24) & 0xff;
+      this._morph(iv[i], newSequence, skey);
     }
+    return newSequence;
+  }
+  /**
+   * Morphs the input byte. Throwback to odin lol
+   * @function
+   * @static
+   * @private
+   * @param {number} inputByte
+   * @param {Buffer} newSequence
+   * @param {Buffer} shiftKey
+   * @return {Buffer} The modfied Buffer
+   */
+  static _morph(inputByte, newSequence, shiftKey) {
+    let t1 = newSequence[1];
+    const t2 = inputByte;
+    let t3 = shiftKey[t1 & 0xFF];
+    t3 -= inputByte;
+    newSequence[0] += t3;
+    t3 = newSequence[2];
+    t3 ^= shiftKey[t2 & 0xFF];
+    t1 -= t3 & 0xFF;
+    newSequence[1] = t1;
+    t1 = newSequence[3];
+    t3 = t1;
+    t1 -= newSequence[0] & 0xFF;
+    t3 = shiftKey[t3 & 0xFF];
+    t3 += inputByte;
+    t3 ^= newSequence[2];
+    newSequence[2] = t3;
+    t1 += shiftKey[t2 & 0xFF] & 0xFF;
+    newSequence[3] = t1;
+    let merry = (newSequence[0]) & 0xFF;
+    merry |= (newSequence[1] << 8) & 0xFF00;
+    merry |= (newSequence[2] << 16) & 0xFF0000;
+    merry |= (newSequence[3] << 24) & 0xFF000000;
+    let ret = merry;
+    ret = ret >>> 0x1d;
+    merry = merry << 3;
+    ret = ret | merry;
+    newSequence[0] = (ret & 0xFF);
+    newSequence[1] = ((ret >> 8) & 0xFF);
+    newSequence[2] = ((ret >> 16) & 0xFF);
+    newSequence[3] = ((ret >> 24) & 0xFF);
     return newSequence;
   }
 }
@@ -74,7 +120,8 @@ class AES {
     this.iv = iv;
     const left = (mapleVersion >> 8) & 0xff;
     const right = (mapleVersion << 8) & 0xff00;
-    this.mapleVersion = left | right;
+    this.maskedVersion = cast(left | right).int16();
+    this.mapleVersion = mapleVersion;
   }
   /**
    * Generates the packet header using the current IV
@@ -85,7 +132,7 @@ class AES {
   getPacketHeader(length) {
     let a = (this.iv[3] & 0xff);
     a |= (this.iv[2] << 8) & 0xff00;
-    a ^= this.mapleVersion;
+    a ^= this.maskedVersion;
     const b = a ^ (((length << 8) & 0xff00) | length >>> 8);
     const header = Buffer.from([
       (a >>> 8) & 0xff,
@@ -109,21 +156,21 @@ class AES {
     const blockLength = 1460;
     /** Subtract 4 bytes for the packet header */
     let currentBlockLength = 1456;
-    const ivScaled = Util.scaleIV(this.iv, 4, 4);
+    const ivScaled = AESUtil.scaleIV(this.iv, 4, 4);
+    const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
     for (let i = 0; i < length;) {
       const block = Math.min(length - i, currentBlockLength);
       let xorKey = ivScaled.slice();
       for (let j = 0; j < block; j++) {
         if (j % 16 === 0) {
-          const cipher = crypto.createCipheriv('aes-256-cbc', key, this.iv);
-          xorKey = cipher.update(xorKey);
-          xorKey += cipher.final(xorKey);
+          xorKey = Buffer.concat([cipher.update(xorKey), cipher.final()]);
         }
         data[i + j] ^= xorKey[j % 16];
       }
       i += block;
       currentBlockLength = blockLength;
     }
+    this.iv = AESUtil.morphIV(this.iv, this.mapleVersion);
     return data;
   }
   /**
@@ -141,23 +188,23 @@ class AES {
     let chunkLength = 0x5B0;
     let start = 0;
     while (remaining > 0) {
-      let myIv = Util.scaleIV(this.iv, 4, 4);
+      let scaledIV = AESUtil.scaleIV(this.iv, 4, 4);
       if (remaining < chunkLength) {
         chunkLength = remaining;
       }
       for (let x = start; x < (start + chunkLength); x++) {
-        if ((x - start) % myIv.length === 0) {
-          const cipher = crypto.createCipheriv('aes-256-cbc', key, this.iv);
-          myIv = cipher.update(myIv);
-          myIv += cipher.final();
+        if ((x - start) % scaledIV.length === 0) {
+          const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
+          scaledIV = Buffer.concat([cipher.update(scaledIV), cipher.final()]);
         }
-        data[x] ^= myIv[(x - start) % myIv.length];
+        data[x] ^= scaledIV[(x - start) % scaledIV.length];
       }
       start += chunkLength;
       remaining -= chunkLength;
       chunkLength = 0x5B4;
     }
+    this.iv = AESUtil.morphIV(this.iv, this.mapleVersion);
     return data;
   }
 }
-module.exports = AES;
+module.exports = {AES, AESUtil};

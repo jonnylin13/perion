@@ -37,11 +37,11 @@ function expandXorKey(key, currentIV, currentXorKey, length) {
    * then use the result to do the next one
    */
   for (let i = 0; i < nextBlockLength; i += 16) {
-    const cipher = crypto.createCipheriv('aes-256-cbc', key, currentIV);
-    let encrypted = cipher.update(this.iv);
+    const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
+    let encrypted = Buffer.concat([cipher.update(this.iv), cipher.final()]);
     encrypted += cipher.final();
     currentIV = encrypted;
-    nextBlock.write(encrypted.toString('base64'), i, 16, 'base64');
+    encrypted.copy(nextBlock, i, i, 16);
   }
   currentXorKey = Buffer.concat(currentXorKey, nextBlock);
   return {iv: currentIV, xorKey: currentXorKey}

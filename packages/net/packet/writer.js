@@ -12,7 +12,7 @@
     this.bytesWritten = 0;
   }
   /**
-   * Used to allocated more bytes to the Buffer
+   * Used to allocated more bytes to the Buffer dynamically
    * @method
    * @param {number} byteSize Total byte length required
    */

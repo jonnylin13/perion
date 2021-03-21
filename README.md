@@ -5,6 +5,10 @@ Named after the first private server I've ever played, `titan` is a library of N
 # Overview
 
 ## Packages
+* calc
+
+A calculator library that implements standard MapleStory specific calculations such as damage and stat modfiers.
+
 * crypto
 
 A cryptography library that exposes everything you need to encrypt/decrypt data for MapleStory.
