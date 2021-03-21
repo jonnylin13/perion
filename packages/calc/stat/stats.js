@@ -2,15 +2,15 @@ const {ADDED_STATS, PURE_STATS} = require('./constants.js');
 /** Should we be using pre-computed tables? */
 /**
  * Provides stat calculations for MapleStory characters
- * @class Stat
+ * @class Stats
  */
-export class Stat {
+export class Stats {
   /**
    * @constructor
    * @param {Object} playerStats 
    */
-  constructor({stats, hyper}) {
-    this.stats = stats;
+  constructor({base, hyper}) {
+    this.base = base;
     this.hyper = hyper;
     this.modified = Object.assign({}, stats);
   }
@@ -26,11 +26,11 @@ export class Stat {
   /**
    * Applies the hyper pure stat modifiers
    * @method
-   * @return {Stat}
+   * @return {Stats}
    */
   applyHyperPureStats() {
     for (const name of PURE_STATS) {
-      this.modified[stat] = this.stats[stat] + this._calcHyperPureStat(name);
+      this.modified[stat] = this.base[stat] + this._calcHyperPureStat(name);
     }
     return this;
   }
@@ -42,7 +42,7 @@ export class Stat {
    */
   _calcHyperMaxHP() {
     const modifier = (this.hyper.maxHp * 0.02);
-    return this.stats.maxHp * modifier;
+    return this.base.maxHp * modifier;
   }
   /**
    * Calculates the Max HP hyper stat modifier
@@ -52,15 +52,15 @@ export class Stat {
    */
   _calcHyperMaxMP() {
     const modifier = (this.hyper.maxMp * 0x02);
-    return this.stats.maxMp * modifier;
+    return this.base.maxMp * modifier;
   }
   /**
    * Applies the Max HP and Max MP hyper stat modifiers
-   * @returns {Stat}
+   * @returns {Stats}
    */
   applyHyperMaxHPMP() {
-    this.modified.maxMp = this.stats.maxMp + this._calcHyperMaxHP();
-    this.modified.maxHp = this.stats.maxHp + this._calcHyperMaxMP();
+    this.modified.maxMp = this.base.maxMp + this._calcHyperMaxHP();
+    this.modified.maxHp = this.base.maxHp + this._calcHyperMaxMP();
     return this;
   }
   /**
@@ -84,11 +84,11 @@ export class Stat {
   /**
    * Applies the hyper demon force and time force stat modifiers
    * @method
-   * @return {Stat}
+   * @return {Stats}
    */
   applyHyperDFTF() {
-    this.modified.df = this.stats.df + this._calcHyperDF();
-    this.modified.tf = this.stats.tf + this._calcHyperTF();
+    this.modified.df = this.base.df + this._calcHyperDF();
+    this.modified.tf = this.base.tf + this._calcHyperTF();
     return this;
   }
   /**
@@ -104,10 +104,10 @@ export class Stat {
   /**
    * Applies the hyper critical rate% stat modifier
    * @method
-   * @return {Stat}
+   * @return {Stats}
    */
   applyHyperCrit() {
-    this.modified.crit = this.stats.crit + this._calcHyperCrit();
+    this.modified.crit = this.base.crit + this._calcHyperCrit();
     return this;
   }
   /**
@@ -122,10 +122,10 @@ export class Stat {
   /**
    * Applies the hyper critical damage% stat modifier
    * @method
-   * @return {Stat}
+   * @return {Stats}
    */
   applyHyperCritDmg() {
-    this.modified.critDmg = this.stats.critDmg + this._calcHyperCritDmg();
+    this.modified.critDmg = this.base.critDmg + this._calcHyperCritDmg();
     return this;
   }
   /**
@@ -140,10 +140,10 @@ export class Stat {
   /**
    * Applies the hyper ignore defense% stat modifier
    * @method
-   * @return {Stat}
+   * @return {Stats}
    */
   applyHyperIgnoreDef() {
-    this.modified.ignoreDef = this.stats.ignoreDef + this._calcHyperIgnoreDef();
+    this.modified.ignoreDef = this.base.ignoreDef + this._calcHyperIgnoreDef();
     return this;
   }
   /**
@@ -159,17 +159,17 @@ export class Stat {
   /**
    * Applies the hyper boss dmg% stat modifier
    * @method
-   * @return {Stat}
+   * @return {Stats}
    */
   applyHyperBossDmg() {
-    this.modified.bossDmg = this.stats.bossDmg + this._calcHyperBossDmg();
+    this.modified.bossDmg = this.base.bossDmg + this._calcHyperBossDmg();
     return this;
   }
   _calcHyperDmg() {
     return this.hyper.dmg * 3;
   }
   applyHyperDmg() {
-    this.modified.dmg = this.stats.dmg + this._calcHyperDmg();
+    this.modified.dmg = this.base.dmg + this._calcHyperDmg();
     return this;
   }
   _calcHyperStatusResist() {
@@ -177,14 +177,14 @@ export class Stat {
     return 5 + ((this.hyper.statusResist - 5) * 2);
   }
   applyHyperStatusResist() {
-    const newVal = this.stats.statusResist + this._calcHyperStatusResist();
+    const newVal = this.base.statusResist + this._calcHyperStatusResist();
     this.modified.statusResist = newVal;
   }
   _calcHyperStance() {
     return this.hyper.stance * 2;
   }
   applyHyperStance() {
-    this.modified.stance = this.stats.stance + this._calcHyperStance();
+    this.modified.stance = this.base.stance + this._calcHyperStance();
   }
   _calcHyperWeaponAtt() {
     return this.hyper.weaponAtt * 3;
@@ -193,8 +193,8 @@ export class Stat {
     return this.hyper.magicAtt * 3;
   }
   applyHyperWeaponMagicAtt() {
-    this.modified.weaponAtt = this.stats.weaponAtt + this._calcHyperWeaponAtt();
-    this.modified.magicAtt = this.stats.magicAtt + this._calcHyperMagicAtt();
+    this.modified.weaponAtt = this.base.weaponAtt + this._calcHyperWeaponAtt();
+    this.modified.magicAtt = this.base.magicAtt + this._calcHyperMagicAtt();
     return this;
   }
   _calcHyperBonusExp() {
@@ -203,7 +203,7 @@ export class Stat {
   }
   applyHyperBonusExp() {
     /** TODO: Not sure how bonus EXP % is applied */
-    this.modifier.bonusExp = this.stats.bonusExp + this._calcHyperBonusExp();
+    this.modifier.bonusExp = this.base.bonusExp + this._calcHyperBonusExp();
     return this;
   }
   _calcHyperArcaneForce() {
@@ -211,8 +211,22 @@ export class Stat {
     else 50 + (this.hyper.arcaneForce - 10) * 10;
   }
   applyHyperArcaneForce() {
-    const newVal = this.stats.arcaneForce + this._calcHyperArcaneForce();
+    const newVal = this.base.arcaneForce + this._calcHyperArcaneForce();
     this.modifier.arcaneForce = newVal
+  }
+  applyHyperStats() {
+    this.applyHyperArcaneForce();
+    this.applyHyperBonusExp();
+    this.applyHyperCrit();
+    this.applyHyperCritDmg();
+    this.applyHyperDFTF();
+    this.applyHyperDmg();
+    this.applyHyperIgnoreDef();
+    this.applyHyperMaxHPMP();
+    this.applyHyperPureStats();
+    this.applyHyperStance();
+    this.applyHyperStatusResist();
+    this.applyHyperWeaponMagicAtt();
   }
 }
 
