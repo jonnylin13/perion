@@ -12,7 +12,7 @@ class Util {
    * @param {number} shift The amount to shift
    * @return {number} The shifted value
    */
-  static rollLeft(value, shift) {
+  static rol(value, shift) {
     const overflow = ((value >>> 0) << shift % 8) >>> 0;
     const ret = ((overflow & 0xff) | (overflow >>> 8) & 0xff);
     return ret;
@@ -25,7 +25,7 @@ class Util {
    * @param {number} shift The amount to shift
    * @return {number} The shifted value
    */
-  static rollRight(value, shift) {
+  static ror(value, shift) {
     const overflow = ((value >>> 0) << 8) >>> shift % 8;
     const ret = ((overflow & 0xff) | (overflow >>> 8)) & 0xff;
     return ret;
@@ -46,12 +46,12 @@ function encrypt(data) {
     a = 0;
     for (j = length; j > 0; j--) {
       c = data[length - j];
-      c = Util.rollLeft(c, 3);
+      c = Util.rol(c, 3);
       c += j;
       c &= 0xff; /** Addition */
       c ^= a;
       a = c;
-      c = Util.rollRight(a, j);
+      c = Util.ror(a, j);
       c ^= 0xff;
       c += 0x48;
       c &= 0xff; /** Addition */
@@ -60,13 +60,13 @@ function encrypt(data) {
     a = 0;
     for (j = length; j > 0; j--) {
       c = data[j - 1];
-      c = Util.rollLeft(c, 4);
+      c = Util.rol(c, 4);
       c += j;
       c &= 0xff; /** Addition */
       c ^= a;
       a = c;
       c ^= 0x13;
-      c = Util.rollRight(c, 3);
+      c = Util.ror(c, 3);
       data[j - 1] = c;
     }
   }
@@ -87,12 +87,12 @@ function decrypt(data) {
     a = 0;
     for (j = length; j > 0; j--) {
       c = data[length - j];
-      c = Util.rollLeft(c, 3);
+      c = Util.rol(c, 3);
       c += j;
       c &= 0xff; /** Addition */
       c ^= a;
       a = c;
-      c = Util.rollRight(a, j);
+      c = Util.ror(a, j);
       c ^= 0xff;
       c += 0x48;
       c &= 0xff; /** Addition */
@@ -101,16 +101,16 @@ function decrypt(data) {
     a = 0;
     for (j = length; j > 0; j--) {
       c = data[j - 1];
-      c = Util.rollLeft(c, 4);
+      c = Util.rol(c, 4);
       c += j;
       c &= 0xff; /** Addition */
       c ^= a;
       a = c;
       c ^= 0x13;
-      c = Util.rollRight(c, 3);
+      c = Util.ror(c, 3);
       data[j - 1] = c;
     }
   }
   return data;
 }
-module.exports = {encrypt, decrypt};
+module.exports = {encrypt, decrypt, Util};

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha '**/*.test.js'",
     "lint": "eslint packages/**/*.js --fix",
-    "doc": "./node_modules/.bin/jsdoc -r packages/**/*.js -d docs"
+    "doc": "rm -rf docs && ./node_modules/.bin/jsdoc -r packages/**/*.js -d docs"
   },
   "keywords": [
     "maplestory",

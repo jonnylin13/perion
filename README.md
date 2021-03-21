@@ -24,6 +24,7 @@ A WZ library that can read and write to the WZ file format.
 const packet = new Packet.Parser(<input buffer>);
 const fields = ['id', 'name', 'hp'];
 const unpacked = packet.int().mapleascii().int().collect(fields);
+/** Returns {id: <number value>, name: <ascii string value>, hp: <number value>} */
 ```
 
 * Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
