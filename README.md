@@ -1,10 +1,10 @@
 # `titan`
 
-Named after the first private server I've ever played, `titan` is a library of Node.js modules that helps bring MapleStory private server development to a larger audience. Everything is tested to a certain spec (I call it the `OdinMS` spec), and everything is modular so only use the packages you need!
+Named after the first private server I've ever played, `titan` is a library of Node.js modules that helps bring MapleStory private server development to the `npm` ecosystem.
 
 # Overview
 
-## Packages
+## Core Packages
 * calc
 
 A calculator library that implements standard MapleStory specific calculations such as damage, stat modifiers, experience, and levels.
@@ -45,8 +45,9 @@ const unpacked = packet.int().mapleascii().int().collect(fields);
 
 A WZ library that can read and write to the WZ file format.
 
-## More Features
+## Neat Features
 * Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
+* Everything is modular, so only use the modules that you want!
 
 # Project Goals
 
