@@ -4,7 +4,7 @@
  */
 class Util {
   /**
-   * Equivalent to rol operation
+   * Rotate right operation
    * @function
    * @static
    * @param {number} value The input value
@@ -17,7 +17,7 @@ class Util {
     return ret;
   }
   /**
-   * Equivalent to ror operation
+   * Rotate left operation
    * @function
    * @static
    * @param {number} value The input value

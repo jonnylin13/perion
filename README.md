@@ -96,14 +96,13 @@ A WZ library that can read and write to the WZ file format.
 
 # Project Goals
 
-## MapleStory-related Packages
-* Cryptography
+## In Progress
 * Networking protocol
 * Damage calculations
 * Event timers
 * NPC script manager
 * Event script manager
-* Support WZ and NX file formats
+* WZ and NX file format
 * Generic MapleStory abstractions
 * Multiple MapleStory versions
 

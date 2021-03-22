@@ -215,6 +215,7 @@
   }
   /**
    * Collects the parsed values and maps them to the input array strings
+   * Will clear the parsed values
    * @method
    * @param {Array<string>} fieldNames
    * @return {Map<string, ?>}
@@ -226,6 +227,7 @@
     for (let i = 0; i < length; i++) {
       ret[fieldNames[i]] = this.parsed[i];
     }
+    this.parsed = [];
     return ret;
   }
 }
