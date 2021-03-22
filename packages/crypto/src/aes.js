@@ -123,7 +123,6 @@ class AES {
   }
   /**
    * Generates the packet header using the current IV
-   * @method
    * @param {number} length
    * @return {Buffer} The packet header Buffer
    */
@@ -153,7 +152,6 @@ class AES {
   /**
    * Transforms the data payload using the current IV
    * Will morph the IV after use.
-   * @method
    * @param {Buffer} data
    * @return {Buffer} Returns the transformed data
    */
@@ -185,7 +183,6 @@ class AES {
    * Old implementation of transform(data)
    * Will morph the IV after use.
    * Use transform(data) instead.
-   * @method
    * @deprecated
    * @param {Buffer} data
    * @return {Buffer} Returns the transformed data

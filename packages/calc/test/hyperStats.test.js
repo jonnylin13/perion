@@ -5,7 +5,7 @@ describe('@perion/calc.HyperStats', function() {
     const base = {str: 4, dex: 4, luk: 4, int: 4};
     const hyper = {str: 1, dex: 2, luk: 10, int: 10};
     const playerStats = {base, hyper};
-    const calculated = HyperStats(playerStats).applyPureStats().get();
+    const calculated = HyperStats.from(playerStats).applyPureStats().get();
     assert(calculated.str, 34);
     assert(calculated.dex, 64);
     assert(calculated.luk, 304);
@@ -15,7 +15,7 @@ describe('@perion/calc.HyperStats', function() {
     const base = {maxHp: 1000000, maxMp: 1000000};
     const hyper = {maxHp: 1, maxMp: 3};
     const player = {stats: {base, hyper}};
-    const calculated = HyperStats(player.stats).applyMaxHp().applyMaxMp().get();
+    const calculated = HyperStats.from(player.stats).applyMaxHp().applyMaxMp().get();
     base.maxHp += 20000;
     base.maxMp += 60000;
     assert.deepEqual(base, calculated);
@@ -24,7 +24,7 @@ describe('@perion/calc.HyperStats', function() {
     const base = {maxDF: 100, maxTF: 100};
     const hyper = {maxDF: 1, maxTF: 10};
     const player = {stats: {base, hyper}};
-    const calculated = HyperStats(player.stats).applyMaxDF().applyMaxTF().get();
+    const calculated = HyperStats.from(player.stats).applyMaxDF().applyMaxTF().get();
     const expected = {maxDF: 110, maxTF: 200};
     assert.deepEqual(expected, calculated);
   });

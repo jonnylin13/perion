@@ -13,7 +13,6 @@
   }
   /**
    * Used to allocated more bytes to the Buffer dynamically
-   * @method
    * @param {number} byteSize Total byte length required
    */
   dynamicAlloc(byteSize) {
@@ -25,7 +24,6 @@
   }
   /**
    * Writes a byte
-   * @method
    * @param {number} byte
    * @return {Writer}
    */
@@ -37,7 +35,6 @@
   }
   /**
    * Writes an unsigned byte
-   * @method
    * @param {number} uByte
    * @return {Writer}
    */
@@ -49,7 +46,6 @@
   }
   /**
    * Writes a short
-   * @method
    * @param {number} short
    * @return {Writer}
    */
@@ -61,7 +57,6 @@
   }
   /**
    * Writes an unsigned short
-   * @method
    * @param {number} uShort
    * @return {Writer}
    */
@@ -74,7 +69,6 @@
   }
   /**
    * Writes an integer
-   * @method
    * @param {number} int
    * @return {Writer}
    */
@@ -86,7 +80,6 @@
   }
   /**
    * Writes an unsigned integer
-   * @method
    * @param {number} uInt
    * @return {Writer}
    */
@@ -98,7 +91,6 @@
   }
   /**
    * Writes a long
-   * @method
    * @param {bigint} long
    * @return {Writer}
    */
@@ -110,7 +102,6 @@
   }
   /**
    * Writes an unsigned long
-   * @method
    * @param {bigint} uLong
    * @return {Writer}
    */
@@ -122,7 +113,6 @@
   }
   /**
    * Writes a Buffer
-   * @method
    * @param {Buffer} buf
    * @return {Writer}
    */
@@ -132,7 +122,6 @@
   }
   /**
    * Writes an ASCII string
-   * @method
    * @param {string} str
    * @return {Writer}
    */
@@ -142,7 +131,6 @@
   }
   /**
    * Writes a null-terminated ASCII string
-   * @method
    * @param {string} str
    * @return {Writer}
    */
@@ -153,7 +141,6 @@
   }
   /**
    * Writes a MapleStory ASCII string
-   * @method
    * @param {string} str
    * @return {Writer}
    */
@@ -164,7 +151,6 @@
   }
   /**
    * Writes a position (x, y)
-   * @method
    * @param {Point} pos
    * @return {Writer}
    */
@@ -175,7 +161,6 @@
   }
   /**
    * Writes a boolean value
-   * @method
    * @param {boolean} bool
    * @return {Writer}
    */
@@ -185,7 +170,6 @@
   }
   /**
    * Returns the packet Buffer
-   * @method
    * @return {Buffer}
    */
   buffer() {

@@ -3,7 +3,6 @@ const {ADDED_STATS, PURE_STATS} = require('./constants.js');
 class Util {
   /**
    * Calculates hyper pure stat modifier
-   * @function calcPureStat
    * @static
    * @param {HyperStats} scope
    * @param {string} stat
@@ -14,7 +13,6 @@ class Util {
   }
   /**
    * Calculates the Max HP hyper stat modifier
-   * @function calcMaxHp
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -24,7 +22,6 @@ class Util {
   }
   /**
    * Calculates the Max MP hyper stat modifier
-   * @function calcMaxMp
    * @static
    * @param {HyperStats} scope 
    * @return {number}
@@ -34,7 +31,6 @@ class Util {
   }
   /**
    * Calculates the demon force hyper stat modifier
-   * @function calcMaxDF
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -44,7 +40,6 @@ class Util {
   }
   /**
    * Calculates the time force hyper stat modifier
-   * @function calcMaxTF
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -54,7 +49,6 @@ class Util {
   }
   /**
    * Calculates the hyper critical rate % stat modifier
-   * @function calcCrit
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -65,7 +59,6 @@ class Util {
   }
   /**
    * Calculates the critical damage % hyper stat modifier
-   * @function calcCritDmg
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -75,7 +68,6 @@ class Util {
   }
   /**
    * Calculates the ignore defense % hyper stat modifier
-   * @function calcIgnoreDef
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -85,7 +77,6 @@ class Util {
   }
   /**
    * Calculates the boss dmg % hyper stat modifier
-   * @function calcBossDmg
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -96,7 +87,6 @@ class Util {
   }
   /**
    * Calculates the dmg % hyper stat modifier
-   * @function calcDmg
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -106,7 +96,6 @@ class Util {
   }
   /**
    * Calculates the status resistance hyper stat modifier
-   * @function calcStatusResist
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -117,7 +106,6 @@ class Util {
   }
   /**
    * Calculates the stance hyper stat modifier
-   * @function calcStance
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -127,7 +115,6 @@ class Util {
   }
   /**
    * Calculates the weapon ATT hyper stat modifier
-   * @function calcWeaponAtt
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -137,7 +124,6 @@ class Util {
   }
   /**
    * Calculates the magic ATT hyper stat modifier
-   * @function calcMagicAtt
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -147,7 +133,6 @@ class Util {
   }
   /**
    * Calculates the bonus EXP % hyper stat modifier
-   * @function calcBonusExp
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -158,7 +143,6 @@ class Util {
   }
   /**
    * Calculates the arcane force hyper stat modifier
-   * @function calcArcaneForce
    * @static
    * @param {HyperStats} scope
    * @return {number}
@@ -170,202 +154,198 @@ class Util {
 }
 /**
  * Provides hyper stat calculations for MapleStory characters
- * @function
- * @param {Object} playerStats
+ * @class HyperStats
  */
-function HyperStats({base, hyper}) {
-  const scope = Object.assign({}, {base, hyper});
-  scope.modified = {};
+class HyperStats {
   /**
-   * Applies the hyper pure stat modifiers
-   * @method applyPureStats
+   * Use HyperStats.from()
+   * @param {Object} playerStats 
+   */
+  constructor({base, hyper}) {
+    const cloned = Object.assign({}, {base, hyper});
+    this.base = cloned.base;
+    this.hyper = cloned.hyper;
+    this.modified = {};
+  }
+  /**
+   * Creates a HyperStats object
+   * @param {Object} playerStats 
    * @return {HyperStats}
    */
-  scope.applyPureStats = () => {
+  static from({base, hyper}) {
+    return new HyperStats({base, hyper});
+  }
+  /**
+   * Applies the hyper pure stat modifiers
+   * @return {HyperStats}
+   */
+  applyPureStats() {
     for (const name of PURE_STATS) {
-      const addition = Util.calcPureStat(scope, name);
-      scope.modified[name] = scope.base[name] + addition;
+      const addition = Util.calcPureStat(this, name);
+      this.modified[name] = this.base[name] + addition;
     }
-    return scope;
+    return this;
   };
   /**
    * Applies the Max HP hyper stat modifier
-   * @method applyMaxHp
    * @return {HyperStats}
    */
-  scope.applyMaxHp = () => {
-    const addition = Util.calcMaxHp(scope);
-    scope.modified.maxHp = scope.base.maxHp + addition;
-    return scope;
+  applyMaxHp() {
+    const addition = Util.calcMaxHp(this);
+    this.modified.maxHp = this.base.maxHp + addition;
+    return this;
   };
   /**
    * Applies the Max MP hyper stat modifier
-   * @method applyMaxMp
    * @return {HyperStats}
    */
-  scope.applyMaxMp = () => {
-    const addition = Util.calcMaxMp(scope);
-    scope.modified.maxMp = scope.base.maxMp + addition;
-    return scope;
+  applyMaxMp() {
+    const addition = Util.calcMaxMp(this);
+    this.modified.maxMp = this.base.maxMp + addition;
+    return this;
   };
   /**
    * Applies the demon force hyper stat modifier
-   * @method applyMaxDF
    * @return {HyperStats}
    */
-  scope.applyMaxDF = () => {
-    const addition = Util.calcMaxDF(scope);
-    scope.modified.maxDF = scope.base.maxDF + addition;
-    return scope;
+  applyMaxDF() {
+    const addition = Util.calcMaxDF(this);
+    this.modified.maxDF = this.base.maxDF + addition;
+    return this;
   };
   /**
    * Applies the time force hyper stat modifiers
-   * @method applyMaxTF
    * @return {HyperStats}
    */
-  scope.applyMaxTF = () => {
-    const addition = Util.calcMaxTF(scope);
-    scope.modified.maxTF = scope.base.maxTF + addition;
-    return scope;
+  applyMaxTF() {
+    const addition = Util.calcMaxTF(this);
+    this.modified.maxTF = this.base.maxTF + addition;
+    return this;
   };
   /**
    * Applies the hyper critical rate % hyper stat modifier
-   * @method applyCrit
    * @return {HyperStats}
    */
-  scope.applyCrit = () => {
-    const addition = Util.calcCrit(scope);
-    scope.modified.crit = scope.base.crit + addition;
-    return scope
+  applyCrit() {
+    const addition = Util.calcCrit(this);
+    this.modified.crit = this.base.crit + addition;
+    return this;
   };
   /**
    * Applies the critical damage % hyper stat modifier
-   * @method applyCritDmg
    * @return {HyperStats}
    */
-  scope.applyCritDmg = () => {
-    const addition = Util.calcCritDmg(scope);
-    scope.modified.crit = scope.base.crit + addition;
-    return scope;
+  applyCritDmg() {
+    const addition = Util.calcCritDmg(this);
+    this.modified.crit = this.base.crit + addition;
+    return this;
   };
   /**
    * Applies the ignore defense % hyper stat modifier
-   * @method applyIgnoreDef
    * @return {HyperStats}
    */
-  scope.applyIgnoreDef = () => {
-    const addition = Util.calcIgnoreDef(scope);
-    scope.modified.ignoreDef = scope.base.ignoreDef + addition;
-    return scope;
+  applyIgnoreDef() {
+    const addition = Util.calcIgnoreDef(this);
+    this.modified.ignoreDef = this.base.ignoreDef + addition;
+    return this;
   };
   /**
    * Applies the boss dmg % hyper stat modifier
-   * @method applyBossDmg
    * @return {HyperStats}
    */
-  scope.applyBossDmg = () => {
-    scope.modified.bossDmg = scope.base.bossDmg + Util.calcBossDmg(scope);
-    return scope;
+  applyBossDmg() {
+    this.modified.bossDmg = this.base.bossDmg + Util.calcBossDmg(this);
+    return this;
   };
   /**
    * Applies the dmg % hyper stat modifier
-   * @method applyDmg
    * @return {HyperStats}
    */
-  scope.applyDmg = () => {
-    scope.modified.dmg = scope.base.dmg + Util.calcDmg(scope);
-    return scope;
+  applyDmg() {
+    this.modified.dmg = this.base.dmg + Util.calcDmg(this);
+    return this;
   };
   /**
    * Applies the status resistance hyper stat modifier
-   * @method applyStatusResist
    * @return {HyperStats}
    */
-  scope.applyStatusResist = () => {
+  applyStatusResist() {
     const addition = Util.calcStatusResist();
-    scope.modified.statusResist = scope.base.statusResist + addition;
-    return scope;
+    this.modified.statusResist = this.base.statusResist + addition;
+    return this;
   };
   /**
    * Applies the stance hyper stat modifier
-   * @method applyStance
    * @return {HyperStats}
    */
-  scope.applyStance = () => {
-    const addition = Util.calcStance(scope);
-    scope.modified.stance = scope.base.stance + addition;
-    return scope;
+  applyStance() {
+    const addition = Util.calcStance(this);
+    this.modified.stance = this.base.stance + addition;
+    return this;
   };
   /**
    * Applies the weapon ATT hyper stat modifier
-   * @method applyWeaponAtt
    * @return {HyperStats}
    */
-  scope.applyWeaponAtt = () => {
-    const addition = Util.calcWeaponAtt(scope);
-    scope.modified.weaponAtt = scope.base.weaponAtt + addition;
-    return scope;
+  applyWeaponAtt() {
+    const addition = Util.calcWeaponAtt(this);
+    this.modified.weaponAtt = this.base.weaponAtt + addition;
+    return this;
   };
   /**
    * Applies the magic ATT hyper stat modifier
-   * @method applyMagicAtt
    * @return {HyperStats}
    */
-  scope.applyMagicAtt = () => {
-    const addition = Util.calcMagicAtt(scope);
-    scope.modified.magicAtt = scope.base.magicAtt + addition;
-    return scope;
+  applyMagicAtt() {
+    const addition = Util.calcMagicAtt(this);
+    this.modified.magicAtt = this.base.magicAtt + addition;
+    return this;
   };
   /**
    * Applies the bonus EXP % hyper stat modifier
-   * @method applyBonusExp
    * @return {HyperStats}
    */
-  scope.applyBonusExp = () => {
-    const addition = Util.calcBonuxExp(scope);
-    scope.modified.bonusExp = scope.base.bonusExp + addition;
-    return scope;
+  applyBonusExp() {
+    const addition = Util.calcBonuxExp(this);
+    this.modified.bonusExp = this.base.bonusExp + addition;
+    return this;
   };
   /**
    * Applies the arcane force hyper stat modifier
-   * @method applyArcaneForce
    * @return {HyperStats}
    */
-  scope.applyArcaneForce = () => {
-    const addition = Util.calcArcaneForce(scope);
-    scope.modified.arcaneForce = scope.base.arcaneForce + addition;
+  applyArcaneForce() {
+    const addition = Util.calcArcaneForce(this);
+    this.modified.arcaneForce = this.base.arcaneForce + addition;
   };
   /**
    * Applies all the hyper stat modifiers
-   * @method applyAll
    * @return {HyperStats}
    */
-  scope.applyAll = () => {
-    scope.applyArcaneForce();
-    scope.applyBonusExp();
-    scope.applyCrit();
-    scope.applyCritDmg();
-    scope.applyDF();
-    scope.applyTF();
-    scope.applyDmg();
-    scope.applyIgnoreDef();
-    scope.applyMaxHp();
-    scope.applyMaxMp();
-    scope.applyPureStats();
-    scope.applyStance();
-    scope.applyStatusResist();
-    scope.applyWeaponAtt();
-    scope.applyMagicAtt();
-    return scope;
+  applyAll() {
+    this.applyArcaneForce();
+    this.applyBonusExp();
+    this.applyCrit();
+    this.applyCritDmg();
+    this.applyDF();
+    this.applyTF();
+    this.applyDmg();
+    this.applyIgnoreDef();
+    this.applyMaxHp();
+    this.applyMaxMp();
+    this.applyPureStats();
+    this.applyStance();
+    this.applyStatusResist();
+    this.applyWeaponAtt();
+    this.applyMagicAtt();
+    return this;
   };
   /**
    * Gets the modified stat values
-   * @method get
    * @return {Object}
    */
-  scope.get = () => {
-    return scope.modified;
+   get() {
+    return this.modified;
   }
-  return scope;
 }
 module.exports = {HyperStats};

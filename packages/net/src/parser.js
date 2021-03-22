@@ -14,7 +14,6 @@
   }
   /**
    * Reads a byte
-   * @method
    * @return {Parser}
    */
   byte() {
@@ -25,7 +24,6 @@
   }
   /**
    * Reads a boolean
-   * @method
    * @return {Parser}
    */
   bool() {
@@ -35,7 +33,6 @@
   }
   /**
    * Reads an unsigned byte
-   * @method
    * @return {Parser}
    */
   ubyte() {
@@ -46,7 +43,6 @@
   }
   /**
    * Reads a short
-   * @method
    * @return {Parser}
    */
   short() {
@@ -57,7 +53,6 @@
   }
   /**
    * Reads an unsigned short
-   * @method
    * @return {Parser}
    */
   ushort() {
@@ -68,7 +63,6 @@
   }
   /**
    * Reads a character
-   * @method
    * @return {Parser}
    */
   char() {
@@ -77,7 +71,6 @@
   }
   /**
    * Reads an integer
-   * @method
    * @return {Parser}
    */
   int() {
@@ -88,7 +81,6 @@
   }
   /**
    * Reads an unsigned integer
-   * @method
    * @return {Parser}
    */
   uint() {
@@ -99,7 +91,6 @@
   }
   /**
    * Reads a long
-   * @method
    * @return {Parser}
    */
   long() {
@@ -110,7 +101,6 @@
   }
   /**
    * Reads an unsigned long
-   * @method
    * @return {Parser}
    */
   ulong() {
@@ -121,7 +111,6 @@
   }
   /**
    * Reads a double
-   * @method
    * @return {Parser}
    */
   double() {
@@ -132,7 +121,6 @@
   }
   /**
    * Reads an ASCII string
-   * @method
    * @param {number} length Length of the string
    * @return {Parser}
    */
@@ -146,7 +134,6 @@
   }
   /**
    * Reads a null terminated ASCII string
-   * @method
    * @return {Parser}
    */
   nullascii() {
@@ -161,7 +148,6 @@
   }
   /**
    * Reads a MapleStory ASCII string
-   * @method
    * @return {Parser}
    */
   mapleascii() {
@@ -171,7 +157,6 @@
   }
   /**
    * Reads a position (x, y)
-   * @method
    * @return {Parser}
    */
   pos() {
@@ -181,7 +166,6 @@
   }
   /**
    * Reads a specified length
-   * @method
    * @param {number} length
    * @return {Parser}
    */
@@ -195,7 +179,6 @@
   }
   /**
    * Skips the cursor a specified length
-   * @method
    * @param {number} length
    * @return {Parser}
    */
@@ -205,7 +188,6 @@
   }
   /**
    * Moves the cursor to a specified byte offset
-   * @method
    * @param {number} offset
    * @return {Parser}
    */
@@ -216,7 +198,6 @@
   /**
    * Collects the parsed values and maps them to the input array strings
    * Will clear the parsed values
-   * @method
    * @param {Array<string>} fieldNames
    * @return {Map<string, ?>}
    */
