@@ -40,4 +40,11 @@ describe('@perion/calc.HyperStats', function() {
     assert.deepEqual(calc1, {crit: 6, critDmg: 20});
     assert.deepEqual(calc2, {crit: 8, critDmg: 11});
   });
+  it('should apply ignore def % modifier', function() {
+    let base = {ignoreDef: 10};
+    let hyper = {ignoreDef: 10};
+    const player = {stats: {base, hyper}};
+    const calc = HyperStats.from(player.stats).applyIgnoreDef().get();
+    assert.deepEqual(calc, {ignoreDef: 40});
+  });
 });

@@ -16,6 +16,38 @@ describe('@perion/net.Packet.Parser', function() {
     assert.strictEqual(res['test2'], 2);
     assert.strictEqual(res['test3'], 3);
   });
+  it('should read a short, ushort', function() {
+    const packet = Buffer.from([0xff, 0,  0xff, 0]);
+    const parser = new net.Packet.Parser(packet);
+    const result = parser.short().ushort().collect([0, 1]);
+    assert.strictEqual(result[0], 255);
+    assert.strictEqual(result[1], 65280);
+  });
+  it('should read an int, uint', function() {
+    const packet = Buffer.from([0, 0, 0, 0x80, 0xff, 0xff, 0xff, 0x7f]);
+    const parser = new net.Packet.Parser(packet);
+    const result = parser.int().uint().collect([0, 1]);
+    assert.strictEqual(-2147483648, result[0]);
+    assert.strictEqual(2147483647, result[1]);
+  });
+  it('should read a long, ulong', function() {
+    const packet = Buffer.from([
+      0x2, 0, 0, 0, 0, 0, 0, 0,
+      0x2, 0, 0, 0, 0, 0, 0, 0
+    ]);
+    const parser = new net.Packet.Parser(packet);
+    const result = parser.long().ulong().collect(['x', 'y']);
+    assert.strictEqual(result.x, result.y);
+    assert.strictEqual(result.x, BigInt(2));
+  });
+  it('should read an ascii string', function() {
+    const packet = Buffer.from([
+      0x74, 0x65, 0x73, 0x74
+    ]);
+    const parser = new net.Packet.Parser(packet);
+    const result = parser.ascii(4).get();
+    assert.strictEqual(result, 'test');
+  });
 });
 describe('@perion/net.Packet.Writer', function() {
   it('should write a byte, ubyte', function() {
@@ -42,6 +74,31 @@ describe('@perion/net.Packet.Writer', function() {
       0x2, 0, 0, 0, 0, 0, 0, 0
     ]);
     assert.strictEqual(buf.compare(answer), 0);
+  });
+  it('should write an ascii string', function() {
+    const packet = new net.Packet.Writer(4);
+    packet.ascii('test');
+    const answer = Buffer.from([
+      0x74, 0x65, 0x73, 0x74
+    ]);
+    assert.deepEqual(answer, packet.buffer());
+  });
+  it('should write a null terminated string', function() {
+    const packet = new net.Packet.Writer(5);
+    packet.nullascii('test');
+    const answer = Buffer.from([
+      0x74, 0x65, 0x73, 0x74, 0x00
+    ]);
+    assert.deepEqual(answer, packet.buffer());
+  });
+  it('should write a maple ascii string', function() {
+    const packet = new net.Packet.Writer(6);
+    packet.mapleascii('test');
+    const answer = Buffer.from([
+      0x04, 0x00, // Length
+      0x74, 0x65, 0x73, 0x74 // String
+    ]);
+    assert.deepEqual(answer, packet.buffer());
   });
 });
 describe('@perion/net.Packet.encode', () => {

@@ -67,7 +67,7 @@
    * @return {Parser} Returns a reference to the current Parser
    */
   char() {
-    this.parsed.push(String.fromCharCode(97 + this.readShort()));
+    this.parsed.push(String.fromCharCode(97 + this.short().get()));
     return this;
   }
   /**
@@ -128,7 +128,7 @@
   ascii(length) {
     const stringBuffer = Buffer.alloc(length);
     for (let i = 0; i < length; i++) {
-      stringBuffer[i] = this.readByte();
+      stringBuffer[i] = this.byte().get();
     }
     this.parsed.push(stringBuffer.toString('ascii'));
     return this;
@@ -141,7 +141,7 @@
     const stringArr = [];
     const done = false; /** eslint */
     while (!done) {
-      const byte = this.readByte(); /** Read until 0 */
+      const byte = this.byte().get(); /** Read until 0 */
       if (byte === 0) break;
       stringArr.push(byte);
     }
@@ -152,8 +152,8 @@
    * @return {Parser} Returns a reference to the current Parser
    */
   mapleascii() {
-    const length = this.readShort();
-    this.parsed.push(this.readAsciiString(length));
+    const length = this.short().get();
+    this.parsed.push(this.ascii(length));
     return this;
   }
   /**
@@ -161,8 +161,8 @@
    * @return {Parser} Returns a reference to the current Parser
    */
   pos() {
-    const x = this.readShort();
-    const y = this.readShort();
+    const x = this.short().get();
+    const y = this.short().get();
     return {x, y};
   }
   /**
@@ -173,7 +173,7 @@
   read(length) {
     const ret = Buffer.alloc(length);
     for (let i = 0; i < length; i++) {
-      ret[i] = this.readByte();
+      ret[i] = this.byte().get();
     }
     this.parsed.push(ret);
     return this;
@@ -211,6 +211,17 @@
     }
     this.parsed = [];
     return ret;
+  }
+  /**
+   * Gets the last parsed value, removes it from the parsed list.
+   * Set the option flag removeParsed=false to override
+   * @param {Object} options {removeParsed}
+   * @return {any} Any piece of data
+   */
+  get(removeParsed=true) {
+    if (!removeParsed) return this.parsed[this.parsed.length - 1];
+    const latest = this.parsed.pop();
+    return latest;
   }
 }
 module.exports = Parser;

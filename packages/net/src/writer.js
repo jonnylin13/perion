@@ -118,7 +118,7 @@
    * @return {Writer} A reference to the current Writer
    */
   write(buf) {
-    for (const byte of buf) this.writeByte(byte);
+    for (const byte of buf) this.byte(byte);
     return this;
   }
   /**
