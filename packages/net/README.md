@@ -16,14 +16,14 @@ const net = require('@perion/net');
 /** Example buffer */
 const data = Buffer.from([1, 2]);
 
-/** crypto.Packet example */
+/** net.Packet.Parser example */
 const packet = new net.Packet.Parser(data);
 const fields = ['id', 'name', 'hp'];
 const unpacked = packet.int().mapleascii().int().collect(fields);
 
 /** Returns {id: <number>, name: <string>, hp: <number>} */
 
-/** crypto.Writer example */
+/** net.Packet.Writer example */
 
 /** Initialize with length */
 let packet = new net.Packet.Writer(5);
