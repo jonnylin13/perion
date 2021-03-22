@@ -1,7 +1,7 @@
-const crypto = require('./packages/crypto/index.js');
-const net = require('./packages/net/index.js');
-const wz = require('./packages/wz/index.js');
-const calc = require('./packages/calc/index.js');
+const crypto = require('@perion/crypto');
+const net = require('@perion/net');
+const wz = require('@perion/wz');
+const calc = require('@perion/calc');
 /**
  * A module that exports all perion packages
  * @module @perion/perion
