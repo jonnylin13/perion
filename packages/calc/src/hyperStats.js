@@ -21,8 +21,8 @@ class Util {
    * @param {HyperStats} scope
    * @return {number}
    */
-  static calcMaxHp(scope) {
-    return scope.base.maxHp * scope.hyper.maxHp * 0.02;
+  static calcMaxHP(scope) {
+    return scope.base.maxHP * scope.hyper.maxHP * 0.02;
   }
   /**
    * Calculates the Max MP hyper stat modifier
@@ -30,8 +30,8 @@ class Util {
    * @param {HyperStats} scope 
    * @return {number}
    */
-  static calcMaxMp(scope) {
-    return scope.base.maxMp * scope.hyper.maxMp * 0.02;
+  static calcMaxMP(scope) {
+    return scope.base.maxMP * scope.hyper.maxMP * 0.02;
   }
   /**
    * Calculates the demon force hyper stat modifier
@@ -195,18 +195,18 @@ class HyperStats {
    * Applies the Max HP hyper stat modifier
    * @return {HyperStats} A reference to the current HyperStats object
    */
-  applyMaxHp() {
-    const addition = Util.calcMaxHp(this);
-    this.modified.maxHp = this.base.maxHp + addition;
+  applyMaxHP() {
+    const addition = Util.calcMaxHP(this);
+    this.modified.maxHP = this.base.maxHP + addition;
     return this;
   };
   /**
    * Applies the Max MP hyper stat modifier
    * @return {HyperStats} A reference to the current HyperStats object
    */
-  applyMaxMp() {
-    const addition = Util.calcMaxMp(this);
-    this.modified.maxMp = this.base.maxMp + addition;
+  applyMaxMP() {
+    const addition = Util.calcMaxMP(this);
+    this.modified.maxMP = this.base.maxMP + addition;
     return this;
   };
   /**
@@ -336,8 +336,8 @@ class HyperStats {
     this.applyTF();
     this.applyDmg();
     this.applyIgnoreDef();
-    this.applyMaxHp();
-    this.applyMaxMp();
+    this.applyMaxHP();
+    this.applyMaxMP();
     this.applyPureStats();
     this.applyStance();
     this.applyStatusResist();

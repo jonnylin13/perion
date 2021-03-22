@@ -12,12 +12,12 @@ describe('@perion/calc.HyperStats', function() {
     assert(calculated.int, 304);
   });
   it('should apply hp and mp stat modifiers', function() {
-    const base = {maxHp: 1000000, maxMp: 1000000};
-    const hyper = {maxHp: 1, maxMp: 3};
+    const base = {maxHP: 1000000, maxMP: 1000000};
+    const hyper = {maxHP: 1, maxMP: 3};
     const player = {stats: {base, hyper}};
-    const calculated = HyperStats.from(player.stats).applyMaxHp().applyMaxMp().get();
-    base.maxHp += 20000;
-    base.maxMp += 60000;
+    const calculated = HyperStats.from(player.stats).applyMaxHP().applyMaxMP().get();
+    base.maxHP += 20000;
+    base.maxMP += 60000;
     assert.deepEqual(base, calculated);
   });
   it('should apply demon force and time force stat modifiers', function() {
