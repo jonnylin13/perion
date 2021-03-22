@@ -1,8 +1,10 @@
-# `@perion/perion`
+# `@perion/perion` [![Travis CI Build Status](https://travis-ci.org/jonnylin13/perion.svg?branch=master)](https://github.com/jonnylin13)
 
-[![Travis CI Build Status](https://travis-ci.org/jonnylin13/perion.svg?branch=master)](https://github.com/jonnylin13)
+`perion` is a library of Node.js modules that help bring MapleStory private server development to the `npm` ecosystem.
 
-`perion` is a library of Node.js modules that helps bring MapleStory private server development to the `npm` ecosystem.
+```
+npm i --save @perion/perion
+```
 
 * Note this project is in early development, use with caution
 
