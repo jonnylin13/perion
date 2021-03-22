@@ -24,8 +24,12 @@ A cryptography library that exposes everything you need to encrypt/decrypt data 
 ```node
 const crypto = require('@titan/crypto);
 
+/** Input buffer */
+const payload = Buffer.from([1, 2]);
+
+/** API */
 const encrypted = crypto.Shanda.encrypt(payload);
-const decrypted = crypto.Shanda.decrypt(encrypted);
+const decrypted = crypto.Shanda.decrypt(payload);
 ```
 
 * net
