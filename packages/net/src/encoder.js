@@ -1,10 +1,10 @@
-const Shanda = require('../../crypto/src/shanda.js');
+const Shanda = require('@perion/crypto').Shanda;
 // const {Parser} = require('./parser.js');
 /**
  * Encodes a packet using MapleStory encoding
  * @function encode
  * @param {Buffer} data 
- * @param {@titan/crypto.AES} aes 
+ * @param {@perion/crypto.AES} aes 
  * @return {Buffer}
  */
 function encode(data, aes) {
@@ -18,7 +18,7 @@ function encode(data, aes) {
  * Decodes a packet using MapleStory decoding
  * @function decode
  * @param {Buffer} data 
- * @param {@titan/crypto.AES} aes 
+ * @param {@perion/crypto.AES} aes 
  * @return {Object} Returns an object with {header, data}
  */
 function decode(data, aes) {

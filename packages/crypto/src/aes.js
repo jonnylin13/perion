@@ -1,7 +1,5 @@
 const crypto = require('crypto');
 const {KEYS, SHIFT_KEYS} = require('./constants.js');
-const net = require('../../net/index.js');
-const cast = net.Packet.cast;
 /**
  * An internal class that provides utility functions for AES
  * @class
@@ -120,7 +118,7 @@ class AES {
     this.iv = iv;
     const left = (mapleVersion >> 8) & 0xff;
     const right = (mapleVersion << 8) & 0xff00;
-    this.maskedVersion = cast(left | right).int16();
+    this.maskedVersion = left | right;
     this.mapleVersion = mapleVersion;
   }
   /**

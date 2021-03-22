@@ -1,5 +1,5 @@
 {
-  "name": "@titan/titan",
+  "name": "@perion/perion",
   "version": "0.0.2",
   "description": "A library that contains all the utilities for creating a MapleStory server emulator.",
   "main": "index.js",
@@ -7,7 +7,8 @@
     "test": "mocha '**/*.test.js'",
     "lint": "eslint packages/**/*.js --fix",
     "doc": "rm -rf docs && ./node_modules/.bin/jsdoc -r packages/**/*.js -d docs",
-    "deps": "node scripts/deps.js"
+    "deps": "node scripts/deps.js",
+    "publish": "npm publish . --access=public"
   },
   "keywords": [
     "maplestory",

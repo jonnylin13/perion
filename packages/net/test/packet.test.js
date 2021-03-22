@@ -1,7 +1,7 @@
 const assert = require('assert');
 const net = require('../index.js');
 const crypto = require('../../crypto/index.js');
-describe('@titan/net.Packet.Parser', function() {
+describe('@perion/net.Packet.Parser', function() {
   it('should read a byte, ubyte', function() {
     const packet = new net.Packet.Parser(Buffer.from([0x2, 0x2]));
     const data = packet.byte().ubyte().collect(['val1', 'val2']);
@@ -17,7 +17,7 @@ describe('@titan/net.Packet.Parser', function() {
     assert.strictEqual(res['test3'], 3);
   });
 });
-describe('@titan/net.Packet.Writer', function() {
+describe('@perion/net.Packet.Writer', function() {
   it('should write a byte, ubyte', function() {
     const packet = new net.Packet.Writer(2);
     const buf = packet.byte(2).ubyte(1).buffer();
@@ -51,7 +51,7 @@ const op = (num) => {
 }
 const version = 83;
 const cast = net.Packet.cast;
-describe('@titan/net.Packet.cast', function() {
+describe('@perion/net.Packet.cast', function() {
   it('should perform op to get header mask', function() {
     number = version;
     assert.strictEqual(op(number), 21248);
@@ -87,7 +87,7 @@ describe('@titan/net.Packet.cast', function() {
     assert.strictEqual(op(float32), 21248);
   });
 });
-describe('@titan/net.Packet.encode', () => {
+describe('@perion/net.Packet.encode', () => {
   it('should encode and decode a packet', function() {
     const iv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
     let packet = new net.Packet.Writer(2);

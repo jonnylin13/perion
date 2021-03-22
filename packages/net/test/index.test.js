@@ -1,6 +1,6 @@
 const assert = require('assert');
 const net = require('../index.js');
-describe('@titan/net module exports', function() {
+describe('@perion/net module exports', function() {
   it('should export net.Packet', function() {
     assert.strictEqual('Packet' in net, true);
   });

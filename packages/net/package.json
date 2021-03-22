@@ -1,5 +1,5 @@
 {
-  "name": "@titan/net",
+  "name": "@perion/net",
   "version": "0.0.2",
   "description": "A few networking utilities for MapleStory server development",
   "main": "index.js",
@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
-    "lint": "eslint ./*.js --fix"
+    "test": "mocha '**/*.test.js'",
+    "lint": "eslint packages/**/*.js --fix"
   },
   "keywords": [
     "maplestory",
@@ -39,5 +39,8 @@
       "es2015": true,
       "node": true
     }
+  },
+  "dependencies": {
+    "@perion/crypto": "file:../crypto"
   }
 }

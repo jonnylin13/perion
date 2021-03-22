@@ -1,11 +1,11 @@
 {
-  "name": "@titan/crypto",
+  "name": "@perion/crypto",
   "version": "1.0.0",
   "description": "Exports the cryptography functions needed for MapleStory",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "lint": "eslint ./*.js --fix"
+    "test": "mocha '**/*.test.js'",
+    "lint": "eslint packages/**/*.js --fix"
   },
   "keywords": [
     "cryptography",

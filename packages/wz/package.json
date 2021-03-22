@@ -1,11 +1,11 @@
 {
-  "name": "@titan/wz",
+  "name": "@perion/wz",
   "version": "0.0.1",
   "description": "A library for reading/writing the WZ file format",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "lint": "eslint ./*.js --fix"
+    "test": "mocha '**/*.test.js'",
+    "lint": "eslint packages/**/*.js --fix"
   },
   "keywords": [
     "wz",

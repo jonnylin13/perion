@@ -5,6 +5,6 @@ const {cast} = require('./src/cast.js');
 const {encode, decode} = require('./src/encoder');
 /**
  * Exports the packet parser and writer, cast
- * @module @titan/net
+ * @module @perion/net
  */
 module.exports = {Packet: {Parser, Writer, cast, encode, decode}};

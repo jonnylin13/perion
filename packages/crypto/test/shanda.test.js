@@ -1,6 +1,6 @@
 const assert = require('assert');
 const crypto = require('../index.js');
-describe('@titan/crypto.Shanda', function() {
+describe('@perion/crypto.Shanda', function() {
   it('should rotate a byte left', function() {
     const r1 = crypto.Shanda.Util.rol(12, 1);
     const r2 = crypto.Shanda.Util.rol(9, 9);

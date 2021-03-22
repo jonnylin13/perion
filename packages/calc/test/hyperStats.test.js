@@ -1,6 +1,6 @@
 const assert = require('assert');
 const HyperStats = require('../index.js').HyperStats;
-describe('@titan/calc.HyperStats', function() {
+describe('@perion/calc.HyperStats', function() {
   it('should apply pure stat modifiers', function() {
     const base = {str: 4, dex: 4, luk: 4, int: 4};
     const hyper = {str: 1, dex: 2, luk: 10, int: 10};

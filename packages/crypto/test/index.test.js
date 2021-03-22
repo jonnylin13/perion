@@ -1,6 +1,6 @@
 const assert = require('assert');
 const crypto = require('../index.js');
-describe('@titan/crypto module exports', function() {
+describe('@perion/crypto module exports', function() {
   it('should export crypto.AES', function() {
     assert.strictEqual('AES' in crypto, true);
   });

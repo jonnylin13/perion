@@ -1,6 +1,6 @@
-# `titan`
+# `@perion/perion`
 
-Named after the first private server I've ever played, `titan` is a library of Node.js modules that helps bring MapleStory private server development to the `npm` ecosystem.
+`perion` is a library of Node.js modules that helps bring MapleStory private server development to the `npm` ecosystem.
 
 * Note this project is in early development, use with caution
 
@@ -12,7 +12,7 @@ Named after the first private server I've ever played, `titan` is a library of N
 A calculator library that implements standard MapleStory specific calculations such as damage, stat modifiers, experience, and levels.
 
 ```node
-const calc = require('@titan/calc');
+const calc = require('@perion/calc');
 
 /** Example player stats object */
 const playerStats = {base: {str: 4, ...}, hyper: {str: 1, ...}};
@@ -28,7 +28,7 @@ const modifiedStats = calc.HyperStats(playerStats).applyAll().get();
 A cryptography library that exposes everything you need to encrypt/decrypt data for MapleStory.
 
 ```node
-const crypto = require('@titan/crypto');
+const crypto = require('@perion/crypto');
 
 /** Example data */
 const payload = Buffer.from([0x1]);
@@ -64,7 +64,7 @@ const decryptedIn = recvAES.transform(payload);
 A packet parser using method-chaining syntax for compact and efficient parsing/writing of packet structures.
 
 ```node
-const net = require('@titan/net');
+const net = require('@perion/net');
 
 /** Example buffer */
 const data = Buffer.from([1, 2]);
