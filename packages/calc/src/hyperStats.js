@@ -242,7 +242,7 @@ class HyperStats {
    */
   applyCritDmg() {
     const addition = Util.calcCritDmg(this);
-    this.modified.crit = this.base.crit + addition;
+    this.modified.critDmg = this.base.critDmg + addition;
     return this;
   };
   /**

@@ -28,4 +28,16 @@ describe('@perion/calc.HyperStats', function() {
     const expected = {maxDF: 110, maxTF: 200};
     assert.deepEqual(expected, calculated);
   });
+  it('should apply crit and crit dmg modifiers', function() {
+    const base1 = {crit: 5, critDmg: 5};
+    const base2 = {crit: 5, critDmg: 5};
+    const hyper1 = {crit: 1, critDmg: 15};
+    const hyper2 = {crit: 3, critDmg: 6};
+    const player1 = {stats: {hyper: hyper1, base: base1}};
+    const player2 = {stats: {hyper: hyper2, base: base2}};
+    const calc1 = HyperStats.from(player1.stats).applyCrit().applyCritDmg().get();
+    const calc2 = HyperStats.from(player2.stats).applyCrit().applyCritDmg().get();
+    assert.deepEqual(calc1, {crit: 6, critDmg: 20});
+    assert.deepEqual(calc2, {crit: 8, critDmg: 11});
+  });
 });
