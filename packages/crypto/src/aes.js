@@ -1,20 +1,122 @@
 const crypto = require('crypto');
 const {KEYS, SHIFT_KEYS} = require('./constants.js');
 /**
- * An internal class that provides utility functions for AES
+ * A MapleStory implementation of AES-256-ECB
  * @class
  */
-class AESUtil {
+class AES {
+  /**
+   * AES class constructor
+   * @constructor
+   * @param {Buffer} iv The initialization vector
+   * @param {number} mapleVersion MapleStory version
+   */
+  constructor(iv, mapleVersion) {
+    this.iv = iv;
+    const left = (mapleVersion >> 8) & 0xff;
+    const right = (mapleVersion << 8) & 0xff00;
+    this.maskedVersion = left | right;
+    this.mapleVersion = mapleVersion;
+  }
+  /**
+   * Generates the packet header using the current IV
+   * @param {number} length The length of the packet data
+   * @return {Buffer} The packet header Buffer
+   */
+  getPacketHeader(length) {
+    let a = (this.iv[3] & 0xff);
+    a |= (this.iv[2] << 8) & 0xff00;
+    a ^= this.maskedVersion;
+    const b = a ^ (((length << 8) & 0xff00) | length >>> 8);
+    const header = Buffer.from([
+      (a >>> 8) & 0xff,
+      a & 0xff,
+      (b >>> 8) & 0xff,
+      b & 0xff,
+    ]);
+    return header;
+  }
+  /**
+   * Gets the packet length using the header
+   * @param {number} header The packet header as an int32
+   * @return {number} The packet length
+   */
+  _getPacketLength(header) {
+    let packetLength = ((header >>> 16) ^ (header & 0xffff));
+    packetLength = ((header << 8) & 0xff00) | ((packetLength >>> 8) & 0xff);
+    return packetLength;
+  }
+  /**
+   * Transforms the data payload using the current IV
+   * Will morph the IV after use.
+   * @param {Buffer} data The input data Buffer
+   * @return {Buffer} Returns the transformed data
+   */
+  transform(data) {
+    const {length} = data;
+    const key = KEYS[this.mapleVersion];
+    /** MapleStory's 1460 byte block */
+    const blockLength = 1460;
+    /** Subtract 4 bytes for the packet header */
+    let currentBlockLength = 1456;
+    const ivScaled = AES.scaleIV(this.iv, 4, 4);
+    const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
+    for (let i = 0; i < length;) {
+      const block = Math.min(length - i, currentBlockLength);
+      let xorKey = ivScaled.slice();
+      for (let j = 0; j < block; j++) {
+        if (j % 16 === 0) {
+          xorKey = Buffer.concat([cipher.update(xorKey), cipher.final()]);
+        }
+        data[i + j] ^= xorKey[j % 16];
+      }
+      i += block;
+      currentBlockLength = blockLength;
+    }
+    this.iv = AES.morphIV(this.iv, this.mapleVersion);
+    return data;
+  }
+  /**
+   * Old implementation of transform(data)
+   * Will morph the IV after use.
+   * Use transform(data) instead.
+   * @deprecated
+   * @param {Buffer} data The input data buffer
+   * @return {Buffer} Returns the transformed data
+   */
+  _transform(data) {
+    const key = KEYS[this.mapleVersion];
+    let remaining = data.length;
+    let chunkLength = 0x5B0;
+    let start = 0;
+    while (remaining > 0) {
+      let scaledIV = AES.scaleIV(this.iv, 4, 4);
+      if (remaining < chunkLength) {
+        chunkLength = remaining;
+      }
+      for (let x = start; x < (start + chunkLength); x++) {
+        if ((x - start) % scaledIV.length === 0) {
+          const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
+          scaledIV = Buffer.concat([cipher.update(scaledIV), cipher.final()]);
+        }
+        data[x] ^= scaledIV[(x - start) % scaledIV.length];
+      }
+      start += chunkLength;
+      remaining -= chunkLength;
+      chunkLength = 0x5B4;
+    }
+    this.iv = AES.morphIV(this.iv, this.mapleVersion);
+    return data;
+  }
   /**
    * Scales the IV byte length by a multiplier
-   * @function
    * @static
-   * @param {Buffer} iv
-   * @param {number} count
-   * @param {number} multiply
+   * @param {Buffer} iv The initialization vector
+   * @param {number} count The byte count
+   * @param {number} multiply The amount to multiply
    * @return {Buffer} Returns the scaled IV
    */
-  static scaleIV(iv, count, multiply) {
+   static scaleIV(iv, count, multiply) {
     const length = count * multiply;
     const ret = Buffer.alloc(length);
     for (let i = 0; i < length; i++) {
@@ -24,10 +126,9 @@ class AESUtil {
   }
   /**
    * Morphs the IV, called after the IV is used
-   * @function
    * @static
-   * @param {Buffer} iv
-   * @param {number} mapleVersion
+   * @param {Buffer} iv The initialization vector
+   * @param {number} mapleVersion MapleStory version
    * @return {Buffer} The new IV sequence
    */
   static morphIV(iv, mapleVersion) {
@@ -61,12 +162,10 @@ class AESUtil {
   }
   /**
    * Morphs the input byte
-   * @function
    * @static
-   * @private
-   * @param {number} inputByte
-   * @param {Buffer} newSequence
-   * @param {Buffer} shiftKey
+   * @param {number} inputByte The input byte
+   * @param {Buffer} newSequence The new sequence
+   * @param {Buffer} shiftKey The shift key
    * @return {Buffer} The modfied Buffer
    */
   static _morph(inputByte, newSequence, shiftKey) {
@@ -103,113 +202,4 @@ class AESUtil {
     return newSequence;
   }
 }
-/**
- * A MapleStory implementation of AES-256-ECB
- * @class
- */
-class AES {
-  /**
-   * AES class constructor
-   * @constructor
-   * @param {Buffer} iv
-   * @param {number} mapleVersion
-   */
-  constructor(iv, mapleVersion) {
-    this.iv = iv;
-    const left = (mapleVersion >> 8) & 0xff;
-    const right = (mapleVersion << 8) & 0xff00;
-    this.maskedVersion = left | right;
-    this.mapleVersion = mapleVersion;
-  }
-  /**
-   * Generates the packet header using the current IV
-   * @param {number} length
-   * @return {Buffer} The packet header Buffer
-   */
-  getPacketHeader(length) {
-    let a = (this.iv[3] & 0xff);
-    a |= (this.iv[2] << 8) & 0xff00;
-    a ^= this.maskedVersion;
-    const b = a ^ (((length << 8) & 0xff00) | length >>> 8);
-    const header = Buffer.from([
-      (a >>> 8) & 0xff,
-      a & 0xff,
-      (b >>> 8) & 0xff,
-      b & 0xff,
-    ]);
-    return header;
-  }
-  /**
-   * Gets the packet length using the header
-   * @param {number} header
-   * @return {number} The packet length
-   */
-  _getPacketLength(header) {
-    let packetLength = ((header >>> 16) ^ (header & 0xffff));
-    packetLength = ((header << 8) & 0xff00) | ((packetLength >>> 8) & 0xff);
-    return packetLength;
-  }
-  /**
-   * Transforms the data payload using the current IV
-   * Will morph the IV after use.
-   * @param {Buffer} data
-   * @return {Buffer} Returns the transformed data
-   */
-  transform(data) {
-    const {length} = data;
-    const key = KEYS[this.mapleVersion];
-    /** MapleStory's 1460 byte block */
-    const blockLength = 1460;
-    /** Subtract 4 bytes for the packet header */
-    let currentBlockLength = 1456;
-    const ivScaled = AESUtil.scaleIV(this.iv, 4, 4);
-    const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
-    for (let i = 0; i < length;) {
-      const block = Math.min(length - i, currentBlockLength);
-      let xorKey = ivScaled.slice();
-      for (let j = 0; j < block; j++) {
-        if (j % 16 === 0) {
-          xorKey = Buffer.concat([cipher.update(xorKey), cipher.final()]);
-        }
-        data[i + j] ^= xorKey[j % 16];
-      }
-      i += block;
-      currentBlockLength = blockLength;
-    }
-    this.iv = AESUtil.morphIV(this.iv, this.mapleVersion);
-    return data;
-  }
-  /**
-   * Old implementation of transform(data)
-   * Will morph the IV after use.
-   * Use transform(data) instead.
-   * @deprecated
-   * @param {Buffer} data
-   * @return {Buffer} Returns the transformed data
-   */
-  _transform(data) {
-    const key = KEYS[this.mapleVersion];
-    let remaining = data.length;
-    let chunkLength = 0x5B0;
-    let start = 0;
-    while (remaining > 0) {
-      let scaledIV = AESUtil.scaleIV(this.iv, 4, 4);
-      if (remaining < chunkLength) {
-        chunkLength = remaining;
-      }
-      for (let x = start; x < (start + chunkLength); x++) {
-        if ((x - start) % scaledIV.length === 0) {
-          const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
-          scaledIV = Buffer.concat([cipher.update(scaledIV), cipher.final()]);
-        }
-        data[x] ^= scaledIV[(x - start) % scaledIV.length];
-      }
-      start += chunkLength;
-      remaining -= chunkLength;
-      chunkLength = 0x5B4;
-    }
-    this.iv = AESUtil.morphIV(this.iv, this.mapleVersion);
-    return data;
-  }
-}
-module.exports = {AES, AESUtil};
+module.exports = AES;

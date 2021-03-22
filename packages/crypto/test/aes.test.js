@@ -1,8 +1,8 @@
 const assert = require('assert');
-const {AES, AESUtil} = require('../index.js');
+const {AES} = require('../index.js');
 describe('@perion/crypto.AES', function() {
   it('should scale the IV', function() {
-    const scaled = AESUtil.scaleIV(Buffer.from([0x1, 0x2, 0x3, 0x4]), 4, 4);
+    const scaled = AES.scaleIV(Buffer.from([0x1, 0x2, 0x3, 0x4]), 4, 4);
     assert.ok(scaled.length == 16);
     const expected = Buffer.from([
       0x1, 0x2, 0x3, 0x4,

@@ -1,12 +1,12 @@
 /**
  * Allows you to cast integers to ensure their type
- * @class Cast
+ * @class
  */
 class Cast {
   /**
-   * Cast constructor
+   * Cast class constructor
    * @constructor
-   * @param {number} val 
+   * @param {number} val The value to cast
    */
   constructor(val) {
     this.val = val;

@@ -1,7 +1,7 @@
 
 const {WZAES} = require('./src/crypto/aes.js');
 /**
- * Exports the WZAES class
+ * A module that exports the WZ file library
  * @module @perion/wz
  */
 module.exports = {WZAES};

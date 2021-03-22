@@ -1,5 +1,9 @@
 const {ADDED_STATS, PURE_STATS} = require('./constants.js');
-/** Should we be using pre-computed tables? */
+/**
+ * Internal class for calculating hyper stat modifiers
+ * @class
+ * @ignore
+ */
 class Util {
   /**
    * Calculates hyper pure stat modifier
@@ -154,12 +158,12 @@ class Util {
 }
 /**
  * Provides hyper stat calculations for MapleStory characters
- * @class HyperStats
+ * @class
  */
 class HyperStats {
   /**
    * Use HyperStats.from()
-   * @param {Object} playerStats 
+   * @param {Object} playerStats An object containing the player stats
    */
   constructor({base, hyper}) {
     const cloned = Object.assign({}, {base, hyper});
@@ -169,15 +173,15 @@ class HyperStats {
   }
   /**
    * Creates a HyperStats object
-   * @param {Object} playerStats 
-   * @return {HyperStats}
+   * @param {Object} playerStats An object containing the player stats
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   static from({base, hyper}) {
     return new HyperStats({base, hyper});
   }
   /**
    * Applies the hyper pure stat modifiers
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyPureStats() {
     for (const name of PURE_STATS) {
@@ -188,7 +192,7 @@ class HyperStats {
   };
   /**
    * Applies the Max HP hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyMaxHp() {
     const addition = Util.calcMaxHp(this);
@@ -197,7 +201,7 @@ class HyperStats {
   };
   /**
    * Applies the Max MP hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyMaxMp() {
     const addition = Util.calcMaxMp(this);
@@ -206,7 +210,7 @@ class HyperStats {
   };
   /**
    * Applies the demon force hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyMaxDF() {
     const addition = Util.calcMaxDF(this);
@@ -215,7 +219,7 @@ class HyperStats {
   };
   /**
    * Applies the time force hyper stat modifiers
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyMaxTF() {
     const addition = Util.calcMaxTF(this);
@@ -224,7 +228,7 @@ class HyperStats {
   };
   /**
    * Applies the hyper critical rate % hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyCrit() {
     const addition = Util.calcCrit(this);
@@ -233,7 +237,7 @@ class HyperStats {
   };
   /**
    * Applies the critical damage % hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyCritDmg() {
     const addition = Util.calcCritDmg(this);
@@ -242,7 +246,7 @@ class HyperStats {
   };
   /**
    * Applies the ignore defense % hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyIgnoreDef() {
     const addition = Util.calcIgnoreDef(this);
@@ -251,7 +255,7 @@ class HyperStats {
   };
   /**
    * Applies the boss dmg % hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyBossDmg() {
     this.modified.bossDmg = this.base.bossDmg + Util.calcBossDmg(this);
@@ -259,7 +263,7 @@ class HyperStats {
   };
   /**
    * Applies the dmg % hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyDmg() {
     this.modified.dmg = this.base.dmg + Util.calcDmg(this);
@@ -267,7 +271,7 @@ class HyperStats {
   };
   /**
    * Applies the status resistance hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyStatusResist() {
     const addition = Util.calcStatusResist();
@@ -276,7 +280,7 @@ class HyperStats {
   };
   /**
    * Applies the stance hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyStance() {
     const addition = Util.calcStance(this);
@@ -285,7 +289,7 @@ class HyperStats {
   };
   /**
    * Applies the weapon ATT hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyWeaponAtt() {
     const addition = Util.calcWeaponAtt(this);
@@ -294,7 +298,7 @@ class HyperStats {
   };
   /**
    * Applies the magic ATT hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyMagicAtt() {
     const addition = Util.calcMagicAtt(this);
@@ -303,7 +307,7 @@ class HyperStats {
   };
   /**
    * Applies the bonus EXP % hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyBonusExp() {
     const addition = Util.calcBonuxExp(this);
@@ -312,7 +316,7 @@ class HyperStats {
   };
   /**
    * Applies the arcane force hyper stat modifier
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyArcaneForce() {
     const addition = Util.calcArcaneForce(this);
@@ -320,7 +324,7 @@ class HyperStats {
   };
   /**
    * Applies all the hyper stat modifiers
-   * @return {HyperStats}
+   * @return {HyperStats} A reference to the current HyperStats object
    */
   applyAll() {
     this.applyArcaneForce();
@@ -342,7 +346,7 @@ class HyperStats {
   };
   /**
    * Gets the modified stat values
-   * @return {Object}
+   * @return {Object} The modified player stats Object
    */
    get() {
     return this.modified;

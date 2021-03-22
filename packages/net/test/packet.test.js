@@ -50,11 +50,11 @@ describe('@perion/net.Packet.encode', () => {
     let packet = new net.Packet.Writer(2);
     packet = packet.byte(0).byte(0).buffer();
     const aes = new crypto.AES(iv, 83);
-    const encoded = net.Packet.encode(packet, aes);
+    const encoded = net.Packet.Encoder.encode(packet, aes);
     assert.deepEqual(encoded, Buffer.from([
       0x50, 0x04, 0x52, 0x04, 0xf1, 0xde
     ]));
-    const decoded = net.Packet.decode(encoded, aes);
+    const decoded = net.Packet.Encoder.decode(encoded, aes);
     assert.deepEqual(decoded.data, Buffer.from([0x0c, 0x1e]));
   });
 });

@@ -1,6 +1,6 @@
 const {Cast} = require('./src/cast');
 /**
- * Exports the cast function
+ * A module that exports the core package of perion
  * @module @perion/core
  */
 module.exports = {Cast};

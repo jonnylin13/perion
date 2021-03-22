@@ -5,7 +5,7 @@
  class Parser {
   /**
    * @constructor
-   * @param {Buffer} data
+   * @param {Buffer} data The input data Buffer
    */
   constructor(data) {
     this.data = data;
@@ -14,7 +14,7 @@
   }
   /**
    * Reads a byte
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   byte() {
     const byte = this.data.readIntLE(this.offset, 1);
@@ -24,7 +24,7 @@
   }
   /**
    * Reads a boolean
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   bool() {
     const bool = this.readByte();
@@ -33,7 +33,7 @@
   }
   /**
    * Reads an unsigned byte
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   ubyte() {
     const uByte = this.data.readUIntLE(this.offset, 1);
@@ -43,7 +43,7 @@
   }
   /**
    * Reads a short
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   short() {
     const uByte = this.data.readUIntLE(this.offset, 1);
@@ -53,7 +53,7 @@
   }
   /**
    * Reads an unsigned short
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   ushort() {
     const uShort = this.data.readUInt16LE(this.offset);
@@ -63,7 +63,7 @@
   }
   /**
    * Reads a character
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   char() {
     this.parsed.push(String.fromCharCode(97 + this.readShort()));
@@ -71,7 +71,7 @@
   }
   /**
    * Reads an integer
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   int() {
     const int = this.data.readInt32LE(this.offset);
@@ -81,7 +81,7 @@
   }
   /**
    * Reads an unsigned integer
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   uint() {
     const uInt = this.data.readUInt32LE(this.offset);
@@ -91,7 +91,7 @@
   }
   /**
    * Reads a long
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   long() {
     const long = this.data.readBigInt64LE(this.offset);
@@ -101,7 +101,7 @@
   }
   /**
    * Reads an unsigned long
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   ulong() {
     const uLong = this.data.readBigUInt64LE(this.offset);
@@ -111,7 +111,7 @@
   }
   /**
    * Reads a double
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   double() {
     const double = this.data.readDoubleLE(this.offset);
@@ -122,7 +122,7 @@
   /**
    * Reads an ASCII string
    * @param {number} length Length of the string
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   ascii(length) {
     const stringBuffer = Buffer.alloc(length);
@@ -134,7 +134,7 @@
   }
   /**
    * Reads a null terminated ASCII string
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   nullascii() {
     const stringArr = [];
@@ -148,7 +148,7 @@
   }
   /**
    * Reads a MapleStory ASCII string
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   mapleascii() {
     const length = this.readShort();
@@ -157,7 +157,7 @@
   }
   /**
    * Reads a position (x, y)
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   pos() {
     const x = this.readShort();
@@ -167,7 +167,7 @@
   /**
    * Reads a specified length
    * @param {number} length
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   read(length) {
     const ret = Buffer.alloc(length);
@@ -180,7 +180,7 @@
   /**
    * Skips the cursor a specified length
    * @param {number} length
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   skip(length) {
     this.offset += length;
@@ -189,7 +189,7 @@
   /**
    * Moves the cursor to a specified byte offset
    * @param {number} offset
-   * @return {Parser}
+   * @return {Parser} Returns a reference to the current Parser
    */
   seek(offset) {
     this.offset = offset;
@@ -198,8 +198,8 @@
   /**
    * Collects the parsed values and maps them to the input array strings
    * Will clear the parsed values
-   * @param {Array<string>} fieldNames
-   * @return {Map<string, ?>}
+   * @param {Array<string>} fieldNames Names mapped to values
+   * @return {Map<string, any>} The object with {name:value}
    */
   collect(fieldNames) {
     if (fieldNames.length !== this.parsed.length) return false;

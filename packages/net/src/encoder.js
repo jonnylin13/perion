@@ -1,35 +1,39 @@
 const Shanda = require('@perion/crypto').Shanda;
-// const {Parser} = require('./parser.js');
 /**
- * Encodes a packet using MapleStory encoding
- * @function encode
- * @param {Buffer} data 
- * @param {@perion/crypto.AES} aes 
- * @return {Buffer}
+ * Provides encode and decode functions for MapleStory packets
+ * @class
+ * @link module:@perion/net
  */
-function encode(data, aes) {
-  const header = aes.getPacketHeader(data.length);
-  data = Shanda.encrypt(data);
-  data = aes.transform(data);
-  const encPacket = Buffer.concat([header, data]);
-  return encPacket;
+class Encoder {
+  /**
+   * Encodes a packet using MapleStory encoding
+   * @param {Buffer} data The output data buffer
+   * @param {AES} aes The send AES instance
+   * @return {Buffer} Returns the encrypted Buffer
+   */
+  static encode(data, aes) {
+    const header = aes.getPacketHeader(data.length);
+    data = Shanda.encrypt(data);
+    data = aes.transform(data);
+    const encPacket = Buffer.concat([header, data]);
+    return encPacket;
+  }
+  /**
+   * Decodes a packet using MapleStory decoding
+   * @param {Buffer} data The input data Buffer
+   * @param {AES} aes The receive AES instance
+   * @return {Object} Returns an object with {header, data}
+   */
+  static decode(data, aes) {
+    let dataNoHeader = data.slice(4);
+    let header = data.slice(0, 4);
+    // TODO: Debug getPacketLength
+    // const parsed = new Parser(header).int().collect(['header']);
+    // console.log(parsed);
+    // console.log(aes._getPacketLength(parsed.header));
+    dataNoHeader = aes.transform(dataNoHeader);
+    dataNoHeader = Shanda.decrypt(dataNoHeader);
+    return {header: header, data: dataNoHeader};
+  }
 }
-/**
- * Decodes a packet using MapleStory decoding
- * @function decode
- * @param {Buffer} data 
- * @param {@perion/crypto.AES} aes 
- * @return {Object} Returns an object with {header, data}
- */
-function decode(data, aes) {
-  let dataNoHeader = data.slice(4);
-  let header = data.slice(0, 4);
-  /** TODO: Debug getPacketLength */
-  // const parsed = new Parser(header).int().collect(['header']);
-  // console.log(parsed);
-  // console.log(aes._getPacketLength(parsed.header));
-  dataNoHeader = aes.transform(dataNoHeader);
-  dataNoHeader = Shanda.decrypt(dataNoHeader);
-  return {header: header, data: dataNoHeader};
-}
-module.exports = {encode, decode};
+module.exports = Encoder;

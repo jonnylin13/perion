@@ -5,7 +5,7 @@
  class Writer {
   /**
    * @constructor
-   * @param {number} length
+   * @param {number} length The length of the packet in bytes
    */
   constructor(length = 32) {
     this.data = Buffer.alloc(length);
@@ -24,8 +24,8 @@
   }
   /**
    * Writes a byte
-   * @param {number} byte
-   * @return {Writer}
+   * @param {number} byte The byte to write
+   * @return {Writer} A reference to the current Writer
    */
   byte(byte) {
     this.dynamicAlloc(1);
@@ -35,8 +35,8 @@
   }
   /**
    * Writes an unsigned byte
-   * @param {number} uByte
-   * @return {Writer}
+   * @param {number} uByte An unsigned byte
+   * @return {Writer} A reference to the current Writer
    */
   ubyte(uByte) {
     this.dynamicAlloc(1);
@@ -46,8 +46,8 @@
   }
   /**
    * Writes a short
-   * @param {number} short
-   * @return {Writer}
+   * @param {number} short A short
+   * @return {Writer} A reference to the current Writer
    */
   short(short) {
     this.dynamicAlloc(2);
@@ -57,8 +57,8 @@
   }
   /**
    * Writes an unsigned short
-   * @param {number} uShort
-   * @return {Writer}
+   * @param {number} uShort An unsigned short
+   * @return {Writer} A reference to the current Writer
    */
   ushort(uShort) {
     /* Lol u short */
@@ -69,8 +69,8 @@
   }
   /**
    * Writes an integer
-   * @param {number} int
-   * @return {Writer}
+   * @param {number} int An integer
+   * @return {Writer} A reference to the current Writer
    */
   int(int) {
     this.dynamicAlloc(4);
@@ -80,8 +80,8 @@
   }
   /**
    * Writes an unsigned integer
-   * @param {number} uInt
-   * @return {Writer}
+   * @param {number} uInt An unsigned integer
+   * @return {Writer} A reference to the current Writer
    */
   uint(uInt) {
     this.dynamicAlloc(4);
@@ -91,8 +91,8 @@
   }
   /**
    * Writes a long
-   * @param {bigint} long
-   * @return {Writer}
+   * @param {bigint} long A long
+   * @return {Writer} A reference to the current Writer
    */
   long(long) {
     this.dynamicAlloc(8);
@@ -102,8 +102,8 @@
   }
   /**
    * Writes an unsigned long
-   * @param {bigint} uLong
-   * @return {Writer}
+   * @param {bigint} uLong An unsigned long
+   * @return {Writer} A reference to the current Writer
    */
   ulong(uLong) {
     this.dynamicAlloc(8);
@@ -113,8 +113,8 @@
   }
   /**
    * Writes a Buffer
-   * @param {Buffer} buf
-   * @return {Writer}
+   * @param {Buffer} buf A buffer
+   * @return {Writer} A reference to the current Writer
    */
   write(buf) {
     for (const byte of buf) this.writeByte(byte);
@@ -122,8 +122,8 @@
   }
   /**
    * Writes an ASCII string
-   * @param {string} str
-   * @return {Writer}
+   * @param {string} str A string
+   * @return {Writer} A reference to the current Writer
    */
   ascii(str) {
     this.write(Buffer.from(str, 'utf-8'));
@@ -131,8 +131,8 @@
   }
   /**
    * Writes a null-terminated ASCII string
-   * @param {string} str
-   * @return {Writer}
+   * @param {string} str A string
+   * @return {Writer} A reference to the current Writer
    */
   nullascii(str) {
     this.ascii(str);
@@ -141,8 +141,8 @@
   }
   /**
    * Writes a MapleStory ASCII string
-   * @param {string} str
-   * @return {Writer}
+   * @param {string} str A string
+   * @return {Writer} A reference to the current Writer
    */
   mapleascii(str) {
     this.short(str.length);
@@ -150,9 +150,9 @@
     return this;
   }
   /**
-   * Writes a position (x, y)
-   * @param {Point} pos
-   * @return {Writer}
+   * Writes a position
+   * @param {Point} pos A position {x, y}
+   * @return {Writer} A reference to the current Writer
    */
   pos(pos) {
     this.short(pos.x);
@@ -161,8 +161,8 @@
   }
   /**
    * Writes a boolean value
-   * @param {boolean} bool
-   * @return {Writer}
+   * @param {boolean} bool A boolean
+   * @return {Writer} A reference to the current Writer
    */
   bool(bool) {
     this.byte(bool ? 1 : 0);
@@ -170,7 +170,7 @@
   }
   /**
    * Returns the packet Buffer
-   * @return {Buffer}
+   * @return {Buffer} The output Buffer
    */
   buffer() {
     return this.data;
