@@ -159,6 +159,7 @@ class Util {
 /**
  * Provides hyper stat calculations for MapleStory characters
  * @class
+ * @memberof module:@perion/calc
  */
 class HyperStats {
   /**

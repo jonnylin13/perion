@@ -1,6 +1,7 @@
 /**
  * Writes packets in little endian format
  * @class
+ * @memberof module:@perion/net
  */
  class Writer {
   /**
@@ -176,4 +177,4 @@
     return this.data;
   }
 }
-module.exports = {Writer};
+module.exports = Writer;

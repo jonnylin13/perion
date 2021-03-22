@@ -3,6 +3,7 @@ const {KEYS, SHIFT_KEYS} = require('./constants.js');
 /**
  * A MapleStory implementation of AES-256-ECB
  * @class
+ * @memberof module:@perion/crypto
  */
 class AES {
   /**

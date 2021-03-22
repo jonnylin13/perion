@@ -2,7 +2,7 @@ const Shanda = require('@perion/crypto').Shanda;
 /**
  * Provides encode and decode functions for MapleStory packets
  * @class
- * @link module:@perion/net
+ * @memberof module:@perion/net
  */
 class Encoder {
   /**

@@ -1,6 +1,7 @@
 /**
  * Allows you to cast integers to ensure their type
  * @class
+ * @memberof module:@perion/core
  */
 class Cast {
   /**

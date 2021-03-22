@@ -1,6 +1,7 @@
 /**
  * Parses binary packet Buffers in little endian
  * @class
+ * @memberof module:@perion/net
  */
  class Parser {
   /**
@@ -212,4 +213,4 @@
     return ret;
   }
 }
-module.exports = {Parser};
+module.exports = Parser;

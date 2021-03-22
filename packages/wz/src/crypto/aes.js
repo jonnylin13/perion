@@ -105,6 +105,7 @@ function rotr(value, offset) {
 /**
  * AES utility for parsing wz files
  * @class
+ * @memberof module:@perion/wz
  */
 class WZAES {
   /**

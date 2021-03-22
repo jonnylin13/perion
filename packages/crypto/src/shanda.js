@@ -1,6 +1,7 @@
 /**
  * MapleStory custom Shanda encryption implementation
  * @class
+ * @memberof module:@perion/crypto
  */
 class Shanda {
   /**
@@ -44,14 +45,12 @@ class Shanda {
         c = data[length - j];
         c = Shanda.rol(c, 3);
         c += j;
-        /** Addition */
         c &= 0xff; 
         c ^= a;
         a = c;
         c = Shanda.ror(a, j);
         c ^= 0xff;
         c += 0x48;
-        /** Addition */
         c &= 0xff;
         data[length - j] = c;
       }
@@ -60,7 +59,6 @@ class Shanda {
         c = data[j - 1];
         c = Shanda.rol(c, 4);
         c += j;
-        /** Addition */
         c &= 0xff; 
         c ^= a;
         a = c;
@@ -112,39 +110,6 @@ class Shanda {
       }
     }
     return data;
-    // const {length} = data;
-    // let j;
-    // let a;
-    // let c;
-    // for (let i = 0; i < 3; i++) {
-    //   a = 0;
-    //   for (j = length; j > 0; j--) {
-    //     c = data[length - j];
-    //     c = Util.rol(c, 3);
-    //     c += j;
-    //     c &= 0xff; /** Addition */
-    //     c ^= a;
-    //     a = c;
-    //     c = Util.ror(a, j);
-    //     c ^= 0xff;
-    //     c += 0x48;
-    //     c &= 0xff; /** Addition */
-    //     data[length - j] = c;
-    //   }
-    //   a = 0;
-    //   for (j = length; j > 0; j--) {
-    //     c = data[j - 1];
-    //     c = Util.rol(c, 4);
-    //     c += j;
-    //     c &= 0xff; /** Addition */
-    //     c ^= a;
-    //     a = c;
-    //     c ^= 0x13;
-    //     c = Util.ror(c, 3);
-    //     data[j - 1] = c;
-    //   }
-    // }
-    // return data;
   }
 }
 module.exports = Shanda;
