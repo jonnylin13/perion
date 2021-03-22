@@ -24,7 +24,7 @@ A cryptography library that exposes everything you need to encrypt/decrypt data 
 ```node
 const crypto = require('@titan/crypto);
 
-const payload = new Buffer.from([...]);
+const payload = new Buffer.from([0x0, 0x1]);
 const encrypted = crypto.Shanda.encrypt(payload);
 const decrypted = crypto.Shanda.decrypt(encrypted);
 ```
@@ -36,7 +36,7 @@ A packet parser using method-chaining syntax for compact and efficient parsing/w
 ```node
 const net = require('@titan/net');
 
-const packet = new net.Packet.Parser(<input buffer>);
+const packet = new net.Packet.Parser(data);
 const fields = ['id', 'name', 'hp'];
 const unpacked = packet.int().mapleascii().int().collect(fields);
 /** Returns {id: <number>, name: <string>, hp: <number>} */
