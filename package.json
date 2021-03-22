@@ -1,6 +1,6 @@
 {
   "name": "@perion/perion",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A library that contains all the utilities for creating a MapleStory server emulator",
   "main": "index.js",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "https://github.com/jonnylin13/perion"
   },
   "scripts": {
-    "test": "mocha '**/*.test.js'",
+    "test": "mocha packages/**/*.test.js test/*.js",
     "lint": "eslint packages/**/*.js --fix",
     "doc": "rm -rf docs && ./node_modules/.bin/jsdoc -r packages/**/*.js -d docs",
     "deps": "node scripts/deps.js",
@@ -45,5 +45,12 @@
       "es2015": true,
       "node": true
     }
+  },
+  "dependencies": {
+    "@perion/calc": "0.0.1",
+    "@perion/core": "0.0.1",
+    "@perion/crypto": "1.0.1",
+    "@perion/net": "0.0.2",
+    "@perion/wz": "0.0.1"
   }
 }

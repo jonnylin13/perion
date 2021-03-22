@@ -7,7 +7,7 @@ for (const dir of fs.readdirSync('./packages')) {
     const pkgJson = fs.readFileSync(`./packages/${dir}/package.json`);
     const pkg = JSON.parse(pkgJson);
     pkg.devDependencies = Object.assign({}, devDeps);
-    pkg.scripts.test = mainPkg.scripts.test;
+    pkg.scripts.test = 'mocha test/*.js';
     pkg.scripts.lint = mainPkg.scripts.lint;
     fs.writeFileSync(`./packages/${dir}/package.json`, JSON.stringify(pkg, null, 2));
   } catch (err) {

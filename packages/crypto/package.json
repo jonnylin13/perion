@@ -4,7 +4,7 @@
   "description": "Exports the cryptography functions needed for MapleStory",
   "main": "index.js",
   "scripts": {
-    "test": "mocha '**/*.test.js'",
+    "test": "mocha test/*.js",
     "lint": "eslint packages/**/*.js --fix"
   },
   "repository": {
