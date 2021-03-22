@@ -47,7 +47,7 @@ A WZ library that can read and write to the WZ file format.
 
 ## Neat Features
 * Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
-* Everything is modular, so only use the modules that you want!
+* Everything is tested and modular, so only use the modules that you want!
 
 # Project Goals
 
@@ -61,10 +61,6 @@ A WZ library that can read and write to the WZ file format.
 * Support WZ and NX file formats
 * Generic MapleStory abstractions
 * Multiple MapleStory versions
-
-## Modern Features
-* Stateless server system with cache and message broker
-* Multi-threaded worker pool queue system using `worker_threads`
 
 # Project Overview
 
