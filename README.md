@@ -113,6 +113,9 @@ npm run lint
 ```
 npm run test
 ```
+## Documentation
+Click [here](https://jonnylin13.github.io/perion/) for the code documentation!
+
 # Contributing
 For now, there are no contribution guidelines. I only ask that you follow the `eslint` rules when contributing a pull request. Thanks!
 
