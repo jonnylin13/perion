@@ -1,20 +1,13 @@
 # `@perion/perion` [![Travis CI Build Status](https://travis-ci.org/jonnylin13/perion.svg?branch=master)](https://github.com/jonnylin13) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 `perion` is a library of Node.js modules that help bring MapleStory private server development to the `npm` ecosystem.
-
 ```
 npm i --save @perion/perion
 ```
-
 * Note this project is in early development, use with caution
-
 # Overview
-
 ## Core Packages
 * calc
-
 A calculator library that implements standard MapleStory specific calculations such as damage, stat modifiers, experience, and levels.
-
 ```node
 const calc = require('@perion/calc');
 
@@ -26,11 +19,8 @@ const modifiedStats = calc.HyperStats(playerStats).applyAll().get();
 
 /** Returns {str: 34, ...} */
 ```
-
 * crypto
-
 A cryptography library that exposes everything you need to encrypt/decrypt data for MapleStory.
-
 ```node
 const crypto = require('@perion/crypto');
 
@@ -62,11 +52,8 @@ const decryptedIn = recvAES.transform(payload);
 
 /** Returns the input buffer with the payload encrypted/decryped using Maple AES */
 ```
-
 * net
-
 A packet parser using method-chaining syntax for compact and efficient parsing/writing of packet structures.
-
 ```node
 const net = require('@perion/net');
 
@@ -89,18 +76,13 @@ packet = packet.byte(0x0).int(9).buffer();
 /** Returns the buffer with data */
 
 ```
-
 * wz
-
 A WZ library that can read and write to the WZ file format.
-
 ## Neat Features
 * Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
 * Everything is tested and modular, so only use the modules that you want
 * Zero dependencies
-
 # Project Goals
-
 ## In Progress
 * Networking protocol
 * Damage calculations
@@ -110,23 +92,15 @@ A WZ library that can read and write to the WZ file format.
 * WZ and NX file format
 * Generic MapleStory abstractions
 * Multiple MapleStory versions
-
 # Project Overview
-
 ## Linter
-
 ```
 npm run lint
 ```
-
 ## Test
-
 ```
 npm run test
 ```
-
 # Contributing
-
 For now, there are no contribution guidelines. I only ask that you follow the `eslint` rules when contributing a pull request. Thanks!
-
 [![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
