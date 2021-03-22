@@ -44,55 +44,12 @@ describe('@perion/net.Packet.Writer', function() {
     assert.strictEqual(buf.compare(answer), 0);
   });
 });
-const op = (num) => {
-  const left = (num >> 8) & 0xff;
-  const right = (num << 8) & 0xff00;
-  return left | right;
-}
-const version = 83;
-const cast = net.Packet.cast;
-describe('@perion/net.Packet.cast', function() {
-  it('should perform op to get header mask', function() {
-    number = version;
-    assert.strictEqual(op(number), 21248);
-  });
-  it('should cast uint8 then perform op to get header mask', function() {
-    let number = version;
-    const uint8 = cast(number).uint8();
-    assert.strictEqual(op(uint8), 21248);
-  });
-  it('should cast int8 then perform op to get header mask', function() {
-    let number = version;
-    const int8 = cast(number).int8();
-    assert.strictEqual(op(int8), 21248);
-  });
-  it('should cast int16 then perform op to get header mask', function() {
-    let number = version;
-    const int16 = cast(number).int16();
-    assert.strictEqual(op(int16), 21248);
-  });
-  it('should cast uint16 then perform op to get header mask', function() {
-    let number = version;
-    const uint16 = cast(number).uint16();
-    assert.strictEqual(op(uint16), 21248);
-  });
-  it('should cast int32 then perform op to get header mask', function() {
-    let number = version;
-    const int32 = cast(number).int32();
-    assert.strictEqual(op(int32), 21248);
-  });
-  it('should cast float32 then perform op to get header mask', function() {
-    let number = version;
-    const float32 = cast(number).float32();
-    assert.strictEqual(op(float32), 21248);
-  });
-});
 describe('@perion/net.Packet.encode', () => {
   it('should encode and decode a packet', function() {
     const iv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
     let packet = new net.Packet.Writer(2);
     packet = packet.byte(0).byte(0).buffer();
-    const aes = new crypto.AES(iv, net.Packet.cast(83).short());
+    const aes = new crypto.AES(iv, 83);
     const encoded = net.Packet.encode(packet, aes);
     assert.deepEqual(encoded, Buffer.from([
       0x50, 0x04, 0x52, 0x04, 0xf1, 0xde
