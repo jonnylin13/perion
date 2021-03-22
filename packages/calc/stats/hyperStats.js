@@ -1,10 +1,10 @@
 const {ADDED_STATS, PURE_STATS} = require('./constants.js');
 /** Should we be using pre-computed tables? */
 /**
- * Provides stat calculations for MapleStory characters
- * @class Stats
+ * Provides hyper stat calculations for MapleStory characters
+ * @class HyperStats
  */
-class Stats {
+class HyperStats {
   /**
    * @constructor
    * @param {Object} playerStats 
@@ -16,11 +16,11 @@ class Stats {
   }
   /**
    * Calculates hyper pure stat modifiers
-   * @method _calcHyperPureStat
+   * @method
    * @private
    * @param {string} stat
    */
-  _calcHyperPureStat(stat) {
+  _calcPureStat(stat) {
     return this.hyper[stat] * 30;
   }
   /**
@@ -28,9 +28,9 @@ class Stats {
    * @method
    * @return {Stats}
    */
-  applyHyperPureStats() {
+  applyPureStats() {
     for (const name of PURE_STATS) {
-      this.modified[name] = this.base[name] + this._calcHyperPureStat(name);
+      this.modified[name] = this.base[name] + this._calcPureStat(name);
     }
     return this;
   }
@@ -40,7 +40,7 @@ class Stats {
    * @private
    * @return {number}
    */
-  _calcHyperMaxHP() {
+  _calcMaxHP() {
     const modifier = (this.hyper.maxHp * 0.02);
     return this.base.maxHp * modifier;
   }
@@ -50,7 +50,7 @@ class Stats {
    * @private
    * @return {number}
    */
-  _calcHyperMaxMP() {
+  _calcMaxMP() {
     const modifier = (this.hyper.maxMp * 0x02);
     return this.base.maxMp * modifier;
   }
@@ -58,9 +58,9 @@ class Stats {
    * Applies the Max HP and Max MP hyper stat modifiers
    * @returns {Stats}
    */
-  applyHyperMaxHPMP() {
-    this.modified.maxMp = this.base.maxMp + this._calcHyperMaxHP();
-    this.modified.maxHp = this.base.maxHp + this._calcHyperMaxMP();
+  applyMaxHPMP() {
+    this.modified.maxMp = this.base.maxMp + this._calcMaxHP();
+    this.modified.maxHp = this.base.maxHp + this._calcMaxMP();
     return this;
   }
   /**
@@ -69,7 +69,7 @@ class Stats {
    * @private
    * @return {number}
    */
-  _calcHyperDF() {
+  _calcDF() {
     return this.hyper.df * 10;
   }
   /**
@@ -78,17 +78,24 @@ class Stats {
    * @private
    * @return {number}
    */
-  _calcHyperTF() {
+  _calcTF() {
     return this.hyper.tf * 10;
   }
   /**
-   * Applies the hyper demon force and time force stat modifiers
+   * Applies the hyper demon force stat modifiers
    * @method
    * @return {Stats}
    */
-  applyHyperDFTF() {
-    this.modified.df = this.base.df + this._calcHyperDF();
-    this.modified.tf = this.base.tf + this._calcHyperTF();
+  applyDF() {
+    this.modified.df = this.base.df + this._calcDF();
+    return this;
+  }
+  /**
+   * Applies the hyper time force stat modifiers
+   * @returns {HyperStats}
+   */
+  applyTF() {
+    this.modified.tf = this.base.tf + this._calcTF();
     return this;
   }
   /**
@@ -97,7 +104,7 @@ class Stats {
    * @private
    * @return {number}
    */
-  _calcHyperCrit() {
+  _calcCrit() {
     if (this.hyper.crit < 6) return this.hyper.crit;
     return 5 + (this.hyper.crit - 5) * 2;
   }
@@ -106,8 +113,8 @@ class Stats {
    * @method
    * @return {Stats}
    */
-  applyHyperCrit() {
-    this.modified.crit = this.base.crit + this._calcHyperCrit();
+  applyCrit() {
+    this.modified.crit = this.base.crit + this._calcCrit();
     return this;
   }
   /**
@@ -116,7 +123,7 @@ class Stats {
    * @private
    * @return {number}
    */
-  _calcHyperCritDmg() {
+  _calcCritDmg() {
     return this.hyper.critDmg;
   }
   /**
@@ -124,8 +131,8 @@ class Stats {
    * @method
    * @return {Stats}
    */
-  applyHyperCritDmg() {
-    this.modified.critDmg = this.base.critDmg + this._calcHyperCritDmg();
+  applyCritDmg() {
+    this.modified.critDmg = this.base.critDmg + this._calcHyperDmg();
     return this;
   }
   /**
@@ -134,7 +141,7 @@ class Stats {
    * @private
    * @return {number}
    */
-  _calcHyperIgnoreDef() {
+  _calcIgnoreDef() {
     return this.hyper.ignoreDef * 3;
   }
   /**
@@ -142,8 +149,8 @@ class Stats {
    * @method
    * @return {Stats}
    */
-  applyHyperIgnoreDef() {
-    this.modified.ignoreDef = this.base.ignoreDef + this._calcHyperIgnoreDef();
+  applyIgnoreDef() {
+    this.modified.ignoreDef = this.base.ignoreDef + this._calcIgnoreDef();
     return this;
   }
   /**
@@ -152,7 +159,7 @@ class Stats {
    * @private
    * @returns {number}
    */
-  _calcHyperBossDmg() {
+  _calcBossDmg() {
     if (this.hyper.bossDmg < 6) return this.hyper.bossDmg * 3;
     return 15 + ((this.hyper.bossDmg - 5) * 4);
   }
@@ -161,72 +168,76 @@ class Stats {
    * @method
    * @return {Stats}
    */
-  applyHyperBossDmg() {
-    this.modified.bossDmg = this.base.bossDmg + this._calcHyperBossDmg();
+  applyBossDmg() {
+    this.modified.bossDmg = this.base.bossDmg + this._calcBossDmg();
     return this;
   }
-  _calcHyperDmg() {
+  _calcDmg() {
     return this.hyper.dmg * 3;
   }
-  applyHyperDmg() {
-    this.modified.dmg = this.base.dmg + this._calcHyperDmg();
+  applyDmg() {
+    this.modified.dmg = this.base.dmg + this._calcDmg();
     return this;
   }
-  _calcHyperStatusResist() {
+  _calcStatusResist() {
     if (this.hyper.statusResist < 6) return this.hyper.statusResist;
     return 5 + ((this.hyper.statusResist - 5) * 2);
   }
-  applyHyperStatusResist() {
-    const newVal = this.base.statusResist + this._calcHyperStatusResist();
+  applyStatusResist() {
+    const newVal = this.base.statusResist + this._calcStatusResist();
     this.modified.statusResist = newVal;
   }
-  _calcHyperStance() {
+  _calcStance() {
     return this.hyper.stance * 2;
   }
-  applyHyperStance() {
-    this.modified.stance = this.base.stance + this._calcHyperStance();
+  applyStance() {
+    this.modified.stance = this.base.stance + this._calcStance();
   }
-  _calcHyperWeaponAtt() {
+  _calcWeaponAtt() {
     return this.hyper.weaponAtt * 3;
   }
-  _calcHyperMagicAtt() {
+  _calcMagicAtt() {
     return this.hyper.magicAtt * 3;
   }
-  applyHyperWeaponMagicAtt() {
-    this.modified.weaponAtt = this.base.weaponAtt + this._calcHyperWeaponAtt();
-    this.modified.magicAtt = this.base.magicAtt + this._calcHyperMagicAtt();
+  applyWeaponMagicAtt() {
+    this.modified.weaponAtt = this.base.weaponAtt + this._calcWeaponAtt();
+    this.modified.magicAtt = this.base.magicAtt + this._calcMagicAtt();
     return this;
   }
-  _calcHyperBonusExp() {
+  _calcBonusExp() {
     if (this.hyper.bonusExp < 11) return 0.5 * this.hyper.bonusExp;
     return this.hyper.bonusExp - 5;
   }
-  applyHyperBonusExp() {
+  applyBonusExp() {
     /** TODO: Not sure how bonus EXP % is applied */
-    this.modifier.bonusExp = this.base.bonusExp + this._calcHyperBonusExp();
+    this.modifier.bonusExp = this.base.bonusExp + this._calcBonusExp();
     return this;
   }
-  _calcHyperArcaneForce() {
+  _calcArcaneForce() {
     if (this.hyper.arcaneForce < 11) return this.hyper.arcaneForce * 5;
     else 50 + (this.hyper.arcaneForce - 10) * 10;
   }
-  applyHyperArcaneForce() {
-    const newVal = this.base.arcaneForce + this._calcHyperArcaneForce();
+  applyArcaneForce() {
+    const newVal = this.base.arcaneForce + this._calcArcaneForce();
     this.modifier.arcaneForce = newVal
   }
-  applyHyperStats() {
-    this.applyHyperArcaneForce();
-    this.applyHyperBonusExp();
-    this.applyHyperCrit();
-    this.applyHyperCritDmg();
-    this.applyHyperDFTF();
-    this.applyHyperDmg();
-    this.applyHyperIgnoreDef();
-    this.applyHyperMaxHPMP();
-    this.applyHyperPureStats();
-    this.applyHyperStance();
-    this.applyHyperStatusResist();
-    this.applyHyperWeaponMagicAtt();
+  applyAll() {
+    this.applyArcaneForce();
+    this.applyBonusExp();
+    this.applyCrit();
+    this.applyCritDmg();
+    this.applyDF();
+    this.applyDF();
+    this.applyDmg();
+    this.applyIgnoreDef();
+    this.applyMaxHPMP();
+    this.applyPureStats();
+    this.applyStance();
+    this.applyStatusResist();
+    this.applyWeaponMagicAtt();
+  }
+  get() {
+    return this.modified;
   }
 }
-module.exports = {Stats};
+module.exports = {HyperStats};

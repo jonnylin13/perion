@@ -1,2 +1,2 @@
-const {Stats} = require('./stat/stats');
-module.exports = {Stats};
+const {HyperStats} = require('./stats/hyperStats.js');
+module.exports = {HyperStats};
