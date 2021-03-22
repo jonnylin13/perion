@@ -9,6 +9,8 @@ for (const dir of fs.readdirSync('./packages')) {
     pkg.devDependencies = Object.assign({}, devDeps);
     pkg.scripts.test = 'mocha test/*.js';
     pkg.scripts.lint = mainPkg.scripts.lint;
+    pkg.bugs = mainPkg.bugs;
+    pkg.license = mainPkg.license;
     fs.writeFileSync(`./packages/${dir}/package.json`, JSON.stringify(pkg, null, 2));
   } catch (err) {
      /** Generate */
@@ -16,6 +18,9 @@ for (const dir of fs.readdirSync('./packages')) {
      clonedPkg.name = `@perion/${dir}`;
      clonedPkg.description = '';
      clonedPkg.version = '0.0.0';
+     clonedPkg.scripts = {};
+     clonedPkg.scripts.test = 'mocha test/*.js';
+     clonedPkg.scripts.lint = mainPkg.scripts.lint;
      fs.writeFileSync(`./packages/${dir}/package.json`, JSON.stringify(clonedPkg, null, 2));
   }
 }

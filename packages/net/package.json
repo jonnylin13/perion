@@ -19,7 +19,7 @@
     "parsing"
   ],
   "author": "jonnylin13",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-google": "^0.14.0",
@@ -42,5 +42,9 @@
   },
   "dependencies": {
     "@perion/crypto": "^1.0.1"
+  },
+  "bugs": {
+    "url": "https://github.com/jonnylin13/perion/issues",
+    "email": "jonnylin13@gmail.com"
   }
 }
