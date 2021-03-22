@@ -1,6 +1,6 @@
 const assert = require('assert');
 const net = require('../index.js');
-const crypto = require('../../crypto/index.js');
+const crypto = require('@perion/crypto');
 describe('@perion/net.Packet.Parser', function() {
   it('should read a byte, ubyte', function() {
     const packet = new net.Packet.Parser(Buffer.from([0x2, 0x2]));
