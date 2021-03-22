@@ -65,7 +65,7 @@ A packet parser using method-chaining syntax for compact and efficient parsing/w
 const net = require('@titan/net');
 
 /** Example buffer */
-const data  Buffer.from([1, 2]);
+const data = Buffer.from([1, 2]);
 
 /** crypto.Packet example */
 const packet = new net.Packet.Parser(data);

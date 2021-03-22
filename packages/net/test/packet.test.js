@@ -1,5 +1,6 @@
 const assert = require('assert');
 const net = require('../index.js');
+const crypto = require('../../crypto/index.js');
 describe('@titan/net.Packet.Parser', function() {
   it('should read a byte, ubyte', function() {
     const packet = new net.Packet.Parser(Buffer.from([0x2, 0x2]));
@@ -58,31 +59,42 @@ describe('@titan/net.Packet.cast', function() {
   it('should cast uint8 then perform op to get header mask', function() {
     let number = version;
     const uint8 = cast(number).uint8();
-    assert.strictEqual(op(number), 21248);
+    assert.strictEqual(op(uint8), 21248);
   });
   it('should cast int8 then perform op to get header mask', function() {
     let number = version;
     const int8 = cast(number).int8();
-    assert.strictEqual(op(number), 21248);
+    assert.strictEqual(op(int8), 21248);
   });
   it('should cast int16 then perform op to get header mask', function() {
     let number = version;
     const int16 = cast(number).int16();
-    assert.strictEqual(op(number), 21248);
+    assert.strictEqual(op(int16), 21248);
   });
   it('should cast uint16 then perform op to get header mask', function() {
     let number = version;
     const uint16 = cast(number).uint16();
-    assert.strictEqual(op(number), 21248);
+    assert.strictEqual(op(uint16), 21248);
   });
   it('should cast int32 then perform op to get header mask', function() {
     let number = version;
     const int32 = cast(number).int32();
-    assert.strictEqual(op(number), 21248);
+    assert.strictEqual(op(int32), 21248);
   });
   it('should cast float32 then perform op to get header mask', function() {
     let number = version;
     const float32 = cast(number).float32();
-    assert.strictEqual(op(number), 21248);
+    assert.strictEqual(op(float32), 21248);
+  });
+});
+describe('@titan/net.Packet.encode', () => {
+  it('should encode a packet', function() {
+    const iv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
+    let packet = new net.Packet.Writer(1);
+    packet = packet.byte(0).buffer();
+    const aes = new crypto.AES(iv, 83);
+    const result = net.Packet.encode(packet, aes);
+    const expected = Buffer.from([0x50, 0x04, 0x51, 0x04, 0x06]);
+    assert.strictEqual(result.compare(expected), 0);
   });
 });
