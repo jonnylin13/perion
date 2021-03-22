@@ -12,8 +12,9 @@ A calculator library that implements standard MapleStory specific calculations s
 ```node
 const calc = require('@titan/calc');
 
-const playerStats = {base: ..., hyper: ...};
-const modifiedStats = (new calc.Stats(playerStats)).applyHyperStats();
+const playerStats = {base: {str: 4, ...}, hyper: {str: 1, ...}};
+const modifiedStats = calc.HyperStats(playerStats).applyAll().get();
+/** Returns {str: 34, ...} */
 ```
 
 * crypto
