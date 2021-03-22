@@ -45,5 +45,12 @@
       "es2015": true,
       "node": true
     }
+  },
+  "dependencies": {
+    "@perion/calc": "file:./packages/calc",
+    "@perion/core": "file:./packages/core",
+    "@perion/crypto": "file:./packages/crypto",
+    "@perion/net": "file:./packages/net",
+    "@perion/wz": "file:./packages/wz"
   }
 }
