@@ -96,7 +96,8 @@ A WZ library that can read and write to the WZ file format.
 
 ## Neat Features
 * Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
-* Everything is tested and modular, so only use the modules that you want!
+* Everything is tested and modular, so only use the modules that you want
+* Zero dependencies
 
 # Project Goals
 
