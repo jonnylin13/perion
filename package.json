@@ -1,6 +1,6 @@
 {
   "name": "@perion/perion",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A library that contains all the utilities for creating a MapleStory server emulator",
   "main": "index.js",
   "repository": {
@@ -47,10 +47,10 @@
     }
   },
   "dependencies": {
-    "@perion/calc": "file:./packages/calc",
-    "@perion/core": "file:./packages/core",
-    "@perion/crypto": "file:./packages/crypto",
-    "@perion/net": "file:./packages/net",
-    "@perion/wz": "file:./packages/wz"
+    "@perion/calc": "^0.0.1",
+    "@perion/core": "^0.0.1",
+    "@perion/crypto": "^1.0.1",
+    "@perion/net": "^0.0.2",
+    "@perion/wz": "^0.0.1"
   }
 }
