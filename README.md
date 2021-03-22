@@ -15,7 +15,7 @@ const calc = require('@titan/calc');
 /** Example player stats object */
 const playerStats = {base: {str: 4, ...}, hyper: {str: 1, ...}};
 
-/** API */
+/** crypto.calc example */
 const modifiedStats = calc.HyperStats(playerStats).applyAll().get();
 
 /** Returns {str: 34, ...} */
@@ -28,14 +28,33 @@ A cryptography library that exposes everything you need to encrypt/decrypt data 
 ```node
 const crypto = require('@titan/crypto');
 
-/** Example buffer */
-const payload = Buffer.from([1, 2]);
+/** Example data */
+const payload = Buffer.from([0x1]);
+const sendIv = Buffer.from([0x0, 0x2, 0x3, 0x4]);
+const recvIv = Buffer.from([0x4, 0x2, 0x1, 0x0]);
 
-/** API */
+/** crypto.Shanda example */
 const encrypted = crypto.Shanda.encrypt(payload);
 const decrypted = crypto.Shanda.decrypt(payload);
 
 /** Returns the input buffer with the payload encrypted/decrypted using Maple Custom Shanda */
+
+/** crypto.AES example */
+/**
+  * You must initialize the AES class with:
+  * - an IV (Initialization Vector)
+  * - a MapleStory version number
+  *
+  * The IV must have a length of 4
+  * As the server, you must send the IV for both send and recv to the client
+  */
+const sendAES = new crypto.AES(sendIv, 83);
+const recvAES = new crypto.AES(recvIc, 83);
+
+const encryptedOut = sendAES.transform(payload);
+const decryptedIn = recvAES.transform(payload);
+
+/** Returns the input buffer with the payload encrypted/decryped using Maple AES */
 ```
 
 * net
@@ -48,12 +67,21 @@ const net = require('@titan/net');
 /** Example buffer */
 const data  Buffer.from([1, 2]);
 
-/** API */
+/** crypto.Packet example */
 const packet = new net.Packet.Parser(data);
 const fields = ['id', 'name', 'hp'];
 const unpacked = packet.int().mapleascii().int().collect(fields);
 
 /** Returns {id: <number>, name: <string>, hp: <number>} */
+
+/** crypto.Writer example */
+
+/** Initialize with length */
+let packet = new net.Packet.Writer(5);
+packet = packet.byte(0x0).int(9).buffer();
+
+/** Returns the buffer with data */
+
 ```
 
 * wz
