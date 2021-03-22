@@ -1,17 +1,22 @@
 {
-  "name": "@titan/crypto",
-  "version": "1.0.0",
-  "description": "Exports the cryptography functions needed for MapleStory",
+  "name": "@titan/calc",
+  "version": "0.0.1",
+  "description": "A library for MapleStory calculations",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
     "lint": "eslint ./*.js --fix"
   },
   "keywords": [
-    "cryptography",
-    "aes",
-    "shanda",
-    "maplestory"
+    "maplestory",
+    "damage",
+    "stat",
+    "hyper",
+    "skill",
+    "calculator",
+    "calculations",
+    "formula",
+    "damage-formula"
   ],
   "author": "jonnylin13",
   "license": "ISC",

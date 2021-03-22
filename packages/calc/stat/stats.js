@@ -229,4 +229,4 @@ export class Stats {
     this.applyHyperWeaponMagicAtt();
   }
 }
-
+module.exports = {Stats};

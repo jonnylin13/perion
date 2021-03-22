@@ -14,5 +14,24 @@
     "maplestory"
   ],
   "author": "jonnylin13",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^8.3.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "google"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "env": {
+      "es2015": true,
+      "node": true
+    }
+  }
 }
