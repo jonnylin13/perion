@@ -1,6 +1,6 @@
 {
   "name": "@perion/crypto",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Exports the cryptography functions needed for MapleStory",
   "main": "index.js",
   "scripts": {

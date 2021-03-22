@@ -41,6 +41,6 @@
     }
   },
   "dependencies": {
-    "@perion/crypto": "file:../crypto"
+    "@perion/crypto": "^1.0.1"
   }
 }
