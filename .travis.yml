@@ -1,8 +1,5 @@
 language: node_js
 node_js:
   - lts/*
-before_install:
-  - npm i -g codecov
 script:
-  - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
-  - codecov
+  - npm run test
