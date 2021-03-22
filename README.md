@@ -5,7 +5,6 @@
 npm i --save @perion/perion
 ```
 * Note this project is in early development, use with caution
-
 # Overview
 
 ## Core Packages
@@ -90,7 +89,6 @@ A WZ library that can read and write to the WZ file format.
 * Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
 * Everything is tested and modular, so only use the modules that you want
 * Zero dependencies
-
 # Project Goals
 
 ## In Progress
@@ -102,7 +100,6 @@ A WZ library that can read and write to the WZ file format.
 * WZ and NX file format
 * Generic MapleStory abstractions
 * Multiple MapleStory versions
-
 # Project Overview
 
 ## Linter
