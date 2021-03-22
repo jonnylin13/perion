@@ -51,7 +51,7 @@
     "@perion/calc": "0.0.1",
     "@perion/core": "0.0.1",
     "@perion/crypto": "1.0.1",
-    "@perion/net": "0.0.2",
+    "@perion/net": "0.0.3",
     "@perion/wz": "0.0.1"
   },
   "bugs": {
