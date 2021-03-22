@@ -22,9 +22,9 @@ const modifiedStats = calc.HyperStats(playerStats).applyAll().get();
 A cryptography library that exposes everything you need to encrypt/decrypt data for MapleStory.
 
 ```node
-const crypto = require('@titan/crypto);
+const crypto = require('@titan/crypto');
 
-/** Input buffer */
+/** Example buffer */
 const payload = Buffer.from([1, 2]);
 
 /** API */
