@@ -1,6 +1,5 @@
 const assert = require('assert');
 const {AES, AESUtil} = require('../index.js');
-const net = require('../../net/index.js');
 describe('@perion/crypto.AES', function() {
   it('should scale the IV', function() {
     const scaled = AESUtil.scaleIV(Buffer.from([0x1, 0x2, 0x3, 0x4]), 4, 4);
@@ -26,7 +25,6 @@ describe('@perion/crypto.AES', function() {
     assert.ok(transformed.compare(ans1) == 0);
   });
   it('should transform the data twice to test morphIV()', function() {
-    const cast = net.Packet.cast;
     const iv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
     const aes = new AES(iv, 83);
     const data1 = Buffer.from([0x1, 0x1, 0x1, 0x1]);
