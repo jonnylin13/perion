@@ -4,7 +4,7 @@ const {ADDED_STATS, PURE_STATS} = require('./constants.js');
  * Provides stat calculations for MapleStory characters
  * @class Stats
  */
-export class Stats {
+class Stats {
   /**
    * @constructor
    * @param {Object} playerStats 
@@ -12,7 +12,7 @@ export class Stats {
   constructor({base, hyper}) {
     this.base = base;
     this.hyper = hyper;
-    this.modified = Object.assign({}, stats);
+    this.modified = Object.assign({}, {base, hyper});
   }
   /**
    * Calculates hyper pure stat modifiers
@@ -30,7 +30,7 @@ export class Stats {
    */
   applyHyperPureStats() {
     for (const name of PURE_STATS) {
-      this.modified[stat] = this.base[stat] + this._calcHyperPureStat(name);
+      this.modified[name] = this.base[name] + this._calcHyperPureStat(name);
     }
     return this;
   }
