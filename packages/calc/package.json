@@ -4,7 +4,7 @@
   "description": "A library for MapleStory calculations",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*.js",
+    "test": "nyc mocha test/*.js",
     "lint": "eslint packages/**/*.js --fix"
   },
   "keywords": [
@@ -21,10 +21,12 @@
   "author": "jonnylin13",
   "license": "Apache-2.0",
   "devDependencies": {
+    "docdash": "^1.2.0",
     "eslint": "^7.22.0",
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.6",
-    "mocha": "^8.3.2"
+    "mocha": "^8.3.2",
+    "nyc": "^15.1.0"
   },
   "eslintConfig": {
     "extends": [

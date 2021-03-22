@@ -2,12 +2,14 @@ const fs = require('fs');
 const mainPkgJson = fs.readFileSync('./package.json');
 const mainPkg = JSON.parse(mainPkgJson);
 const devDeps = mainPkg.devDependencies;
+
+const submoduleTestScript = 'nyc mocha test/*.js';
 for (const dir of fs.readdirSync('./packages')) {
   try {
     const pkgJson = fs.readFileSync(`./packages/${dir}/package.json`);
     const pkg = JSON.parse(pkgJson);
     pkg.devDependencies = Object.assign({}, devDeps);
-    pkg.scripts.test = 'mocha test/*.js';
+    pkg.scripts.test = submoduleTestScript;
     pkg.scripts.lint = mainPkg.scripts.lint;
     pkg.bugs = mainPkg.bugs;
     pkg.license = mainPkg.license;
@@ -19,7 +21,7 @@ for (const dir of fs.readdirSync('./packages')) {
      clonedPkg.description = '';
      clonedPkg.version = '0.0.0';
      clonedPkg.scripts = {};
-     clonedPkg.scripts.test = 'mocha test/*.js';
+     clonedPkg.scripts.test = submoduleTestScript;
      clonedPkg.scripts.lint = mainPkg.scripts.lint;
      fs.writeFileSync(`./packages/${dir}/package.json`, JSON.stringify(clonedPkg, null, 2));
   }
