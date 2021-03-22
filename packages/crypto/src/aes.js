@@ -62,7 +62,7 @@ class AESUtil {
     return newSequence;
   }
   /**
-   * Morphs the input byte. Throwback to odin lol
+   * Morphs the input byte
    * @function
    * @static
    * @private
@@ -144,7 +144,7 @@ class AES {
   }
   /**
    * Gets the packet length using the header
-   * @param {Buffer} header
+   * @param {number} header
    * @return {number} The packet length
    */
   _getPacketLength(header) {

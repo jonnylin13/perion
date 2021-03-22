@@ -1,4 +1,5 @@
-const Shanda = require('../../crypto/src/shanda');
+const Shanda = require('../../crypto/src/shanda.js');
+// const {Parser} = require('./parser.js');
 /**
  * Encodes a packet using MapleStory encoding
  * @function encode
@@ -23,6 +24,10 @@ function encode(data, aes) {
 function decode(data, aes) {
   let dataNoHeader = data.slice(4);
   let header = data.slice(0, 4);
+  /** TODO: Debug getPacketLength */
+  // const parsed = new Parser(header).int().collect(['header']);
+  // console.log(parsed);
+  // console.log(aes._getPacketLength(parsed.header));
   dataNoHeader = aes.transform(dataNoHeader);
   dataNoHeader = Shanda.decrypt(dataNoHeader);
   return {header: header, data: dataNoHeader};

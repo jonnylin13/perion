@@ -88,18 +88,16 @@ describe('@titan/net.Packet.cast', function() {
   });
 });
 describe('@titan/net.Packet.encode', () => {
-  it('should encode a packet', function() {
+  it('should encode and decode a packet', function() {
     const iv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
-    const recvIv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
-    let packet = new net.Packet.Writer(1);
-    packet = packet.byte(0).buffer();
-    const aes = new crypto.AES(iv, 83);
-    const result = net.Packet.encode(packet, aes);
-    const expected = Buffer.from([0x50, 0x04, 0x51, 0x04, 0x06]);
-    assert.strictEqual(result.compare(expected), 0);
-    const recv = new crypto.AES(iv, 83);
-    const decoded = net.Packet.decode(result, recv);
-    console.log(decoded);
-    console.log(aes._getPacketLength(decoded.header));
+    let packet = new net.Packet.Writer(2);
+    packet = packet.byte(0).byte(0).buffer();
+    const aes = new crypto.AES(iv, net.Packet.cast(83).short());
+    const encoded = net.Packet.encode(packet, aes);
+    assert.deepEqual(encoded, Buffer.from([
+      0x50, 0x04, 0x52, 0x04, 0xf1, 0xde
+    ]));
+    const decoded = net.Packet.decode(encoded, aes);
+    assert.deepEqual(decoded.data, Buffer.from([0x0c, 0x1e]));
   });
 });

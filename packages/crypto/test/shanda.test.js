@@ -18,6 +18,6 @@ describe('@titan/crypto.Shanda', function() {
     const encrypted = crypto.Shanda.encrypt(payload);
     assert.ok(encrypted.compare(Buffer.from([0xe3, 0x12, 0x62, 0x51])) === 0);
     const decrypted = crypto.Shanda.decrypt(encrypted);
-    assert.ok(decrypted.compare(Buffer.from([0x1, 0x1, 0x1, 0x1])));
+    assert.deepEqual(decrypted, Buffer.from([0x1, 0x1, 0x1, 0x1]));
   });
 });
