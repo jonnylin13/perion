@@ -1,4 +1,6 @@
-# `@perion/perion` [![Travis CI Build Status](https://travis-ci.org/jonnylin13/perion.svg?branch=master&status=passed)](https://github.com/jonnylin13)
+# `@perion/perion`
+
+[![Travis CI Build Status](https://travis-ci.org/jonnylin13/perion.svg?branch=master&status=passed)](https://github.com/jonnylin13)
 
 `perion` is a library of Node.js modules that helps bring MapleStory private server development to the `npm` ecosystem.
 
