@@ -5,4 +5,4 @@ class Delegator {
   getHandler(opcode) {
     return this.handlers[opcode];
   }
-}
+} /** Test */
