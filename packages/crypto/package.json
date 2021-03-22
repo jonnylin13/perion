@@ -7,6 +7,10 @@
     "test": "mocha '**/*.test.js'",
     "lint": "eslint packages/**/*.js --fix"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonnylin13/perion/tree/master/packages/crypto"
+  },
   "keywords": [
     "cryptography",
     "aes",
