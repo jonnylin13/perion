@@ -143,6 +143,16 @@ class AES {
     return header;
   }
   /**
+   * Gets the packet length using the header
+   * @param {Buffer} header
+   * @return {number} The packet length
+   */
+  _getPacketLength(header) {
+    let packetLength = ((header >>> 16) ^ (header & 0xffff));
+    packetLength = ((header << 8) & 0xff00) | ((packetLength >>> 8) & 0xff);
+    return packetLength;
+  }
+  /**
    * Transforms the data payload using the current IV
    * Will morph the IV after use.
    * @method

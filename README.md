@@ -2,6 +2,8 @@
 
 Named after the first private server I've ever played, `titan` is a library of Node.js modules that helps bring MapleStory private server development to the `npm` ecosystem.
 
+* Note this project is in early development, use with caution
+
 # Overview
 
 ## Core Packages
