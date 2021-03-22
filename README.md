@@ -39,7 +39,7 @@ const net = require('@titan/net');
 const packet = new net.Packet.Parser(<input buffer>);
 const fields = ['id', 'name', 'hp'];
 const unpacked = packet.int().mapleascii().int().collect(fields);
-/** Returns {id: <number value>, name: <ascii string value>, hp: <number value>} */
+/** Returns {id: <number>, name: <string>, hp: <number>} */
 ```
 
 * wz
