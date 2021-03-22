@@ -1,4 +1,4 @@
-const Shanda = require('../../crypto/shanda');
+const Shanda = require('../../crypto/src/shanda');
 /**
  * Encodes a packet using MapleStory encoding
  * @function encode

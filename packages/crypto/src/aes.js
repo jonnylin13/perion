@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const {KEYS, SHIFT_KEYS} = require('./constants.js');
-const net = require('../net/index.js');
+const net = require('../../net/index.js');
 const cast = net.Packet.cast;
 /**
  * An internal class that provides utility functions for AES

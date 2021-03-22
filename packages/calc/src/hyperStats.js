@@ -20,7 +20,7 @@ class Util {
    * @return {number}
    */
   static calcMaxHp(scope) {
-    return scope.hyper.maxHp * 0.02;
+    return scope.base.maxHp * scope.hyper.maxHp * 0.02;
   }
   /**
    * Calculates the Max MP hyper stat modifier
@@ -30,27 +30,27 @@ class Util {
    * @return {number}
    */
   static calcMaxMp(scope) {
-    return scope.hyper.maxMp * 0.02;
+    return scope.base.maxMp * scope.hyper.maxMp * 0.02;
   }
   /**
    * Calculates the demon force hyper stat modifier
-   * @function calcDF
+   * @function calcMaxDF
    * @static
    * @param {HyperStats} scope
    * @return {number}
    */
-  static calcDF(scope) {
-    return scope.hyper.df * 10;
+  static calcMaxDF(scope) {
+    return scope.hyper.maxDF * 10;
   }
   /**
    * Calculates the time force hyper stat modifier
-   * @function calcTF
+   * @function calcMaxTF
    * @static
    * @param {HyperStats} scope
    * @return {number}
    */
-  static calcTF(scope) {
-    return scope.hyper.tf * 10;
+  static calcMaxTF(scope) {
+    return scope.hyper.maxTF * 10;
   }
   /**
    * Calculates the hyper critical rate % stat modifier
@@ -210,22 +210,22 @@ function HyperStats({base, hyper}) {
   };
   /**
    * Applies the demon force hyper stat modifier
-   * @method applyDF
+   * @method applyMaxDF
    * @return {HyperStats}
    */
-  scope.applyDF = () => {
-    const addition = Util.calcDF(scope);
-    scope.modified.df = scope.base.df + addition;
+  scope.applyMaxDF = () => {
+    const addition = Util.calcMaxDF(scope);
+    scope.modified.maxDF = scope.base.maxDF + addition;
     return scope;
   };
   /**
    * Applies the time force hyper stat modifiers
-   * @method applyTF
+   * @method applyMaxTF
    * @return {HyperStats}
    */
-  scope.applyTF = () => {
-    const addition = Util.calcTF(scope);
-    scope.modified.tf = scope.base.tf + addition;
+  scope.applyMaxTF = () => {
+    const addition = Util.calcMaxTF(scope);
+    scope.modified.maxTF = scope.base.maxTF + addition;
     return scope;
   };
   /**

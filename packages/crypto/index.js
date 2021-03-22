@@ -1,5 +1,5 @@
-const Shanda = require('./shanda');
-const {AES, AESUtil} = require('./aes');
+const Shanda = require('./src/shanda');
+const {AES, AESUtil} = require('./src/aes');
 /**
  * A module that exports cryptography functions for MapleStory
  * @module @titan/crypto

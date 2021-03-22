@@ -49,7 +49,7 @@ const decrypted = crypto.Shanda.decrypt(payload);
   * As the server, you must send the IV for both send and recv to the client
   */
 const sendAES = new crypto.AES(sendIv, 83);
-const recvAES = new crypto.AES(recvIc, 83);
+const recvAES = new crypto.AES(recvIv, 83);
 
 const encryptedOut = sendAES.transform(payload);
 const decryptedIn = recvAES.transform(payload);
