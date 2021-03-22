@@ -12,8 +12,12 @@ A calculator library that implements standard MapleStory specific calculations s
 ```node
 const calc = require('@titan/calc');
 
+/** Example player stats object */
 const playerStats = {base: {str: 4, ...}, hyper: {str: 1, ...}};
+
+/** API */
 const modifiedStats = calc.HyperStats(playerStats).applyAll().get();
+
 /** Returns {str: 34, ...} */
 ```
 
@@ -30,6 +34,8 @@ const payload = Buffer.from([1, 2]);
 /** API */
 const encrypted = crypto.Shanda.encrypt(payload);
 const decrypted = crypto.Shanda.decrypt(payload);
+
+/** Returns the input buffer with the payload encrypted/decrypted using Maple Custom Shanda */
 ```
 
 * net
@@ -39,9 +45,14 @@ A packet parser using method-chaining syntax for compact and efficient parsing/w
 ```node
 const net = require('@titan/net');
 
+/** Example buffer */
+const data  Buffer.from([1, 2]);
+
+/** API */
 const packet = new net.Packet.Parser(data);
 const fields = ['id', 'name', 'hp'];
 const unpacked = packet.int().mapleascii().int().collect(fields);
+
 /** Returns {id: <number>, name: <string>, hp: <number>} */
 ```
 
