@@ -4,7 +4,7 @@ class ContextProvider extends BaseContextProvider {
     super();
   }
   getContext(request) {
-    return {request, test: () => console.log('This is a context function!')};
+    return {request, test: () => { return true; }};
   }
 }
 module.exports = ContextProvider;

@@ -5,7 +5,11 @@ describe('@perion/scripting.Engine', function() {
     const scriptProvider = new scripting.ScriptProvider();
     const contextProvider = new scripting.ContextProvider();
     const engine = new scripting.Engine(scriptProvider, contextProvider);
-    engine.handleRequest('test').then(res => {
-    })
+    engine.handleRequest({id: '0', type: 'example'}).then(res => {
+      assert(res === true);
+    }).catch(err => {
+      console.log(err);
+      assert(err === null || err === undefined);
+    });
   });
 });

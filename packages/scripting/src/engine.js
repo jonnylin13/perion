@@ -1,25 +1,28 @@
 class Engine {
-  constructor(scriptProvider, contextProvider) {
+  constructor(scriptProvider, contextProvider, options=null) {
     this.scriptProvider = scriptProvider;
     this.contextProvider = contextProvider;
+    this.options = options;
   }
   static evalInContext(js, context) {
     return new Promise(resolve => {
       resolve(function() {return eval(js);}.call(context));
     });
   }
-  handleRequest(request) {
-    return new Promise(resolve => {
-       // Parse the request
-      const parsedRequest = request;
-      const script = this.scriptProvider.getScript(parsedRequest);
+  async handleRequest(request) {
+    const parsedRequest = request;
+    try {
+      const script = await this.scriptProvider.getScript(parsedRequest);
       const context = this.contextProvider.getContext(parsedRequest);
-      Engine.evalInContext(script, context).then(res => {
-        resolve(true);
-      }).catch(err => {
-        resolve(false);
-      });
-    });
+      if (!script || !context) {
+        throw new Error('Could not resolve script or context');
+      }
+      const res = await Engine.evalInContext(script, context);
+      if (res) return true;
+      throw new Error(`Could not evaluate script ${request.id}.js in context`);
+    } catch (err) {
+      throw err;
+    }
   }
 }
 module.exports = Engine;

@@ -1,0 +1,1 @@
+/** Provides base for Context objects, contains standard methods for each type of Context i.e. NPC */
