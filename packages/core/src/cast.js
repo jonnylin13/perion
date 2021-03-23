@@ -96,4 +96,4 @@ class Cast {
     return Float64Array.from([this.val])[0];
   }
 }
-module.exports = {Cast};
+module.exports = Cast;

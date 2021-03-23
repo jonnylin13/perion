@@ -1,1 +1,24 @@
-/** Provides base for Context objects, contains standard methods for each type of Context i.e. NPC */
+/**
+ * Base context interface
+ * @interface
+ * @memberof module:@perion/scripting
+ */
+class BaseContext {
+  /**
+   * Instantiates a new Context
+   * @param {StateContainer} state 
+   * @param {string} type 
+   */
+  constructor(state, type) {
+    this.state = state;
+    this.type = type;
+  }
+  /**
+   * Base build method
+   * @return {Object}
+   */
+  build() {
+    return {};
+  }
+}
+module.exports = BaseContext;

@@ -1,10 +1,27 @@
 const BaseScriptProvider = require('./base/baseScriptProvider.js');
 const fs = require('fs');
+/**
+ * A class used for provisioning script files
+ * @class
+ * @memberof module:@perion/scripting
+ */
 class ScriptProvider extends BaseScriptProvider {
+  /**
+   * Returns a new instance of ScriptProvider
+   * @constructor
+   * @param {string} rootDir The root scripts directory
+   */
   constructor(rootDir='/scripts/') {
     super();
     this.rootDir = rootDir;
   }
+  /**
+   * Retrieves the requested script file (internal)
+   * @param {string} id The file identifier (name)
+   * @param {string} type The type of script
+   * @return {string} The JS file as a string
+   * @throws {Error}
+   */
   getFile(id, type) {
     return new Promise((resolve, reject) => {
       const fileDir = this.rootDir + `/${type}/${id}.js`;
@@ -14,6 +31,12 @@ class ScriptProvider extends BaseScriptProvider {
       });
     });
   }
+  /**
+   * Retrieves the requested script file
+   * @param {string} request
+   * @return {string} The JS file as a string
+   * @throws {Error}
+   */
   getScript(request) {
     return new Promise((resolve, reject) => {
       if (!('id' in request) || !('type' in request)) {

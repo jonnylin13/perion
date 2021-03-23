@@ -47,11 +47,7 @@
     }
   },
   "dependencies": {
-    "@perion/calc": "0.0.2",
-    "@perion/core": "0.0.2",
-    "@perion/crypto": "1.0.2",
-    "@perion/net": "0.0.5",
-    "@perion/wz": "0.0.1"
+    "@perion/core": "0.0.3"
   },
   "bugs": {
     "url": "https://github.com/jonnylin13/perion/issues",

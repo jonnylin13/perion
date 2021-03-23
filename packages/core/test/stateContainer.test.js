@@ -26,6 +26,12 @@ describe('@perion/core.StateContainer', function() {
         bool: true, 
         number: 1,
         string: 'test',
+        obj: {
+          string: 'test2',
+          obj: {
+            bigint: BigInt(20000000)
+          }
+        },
         bigint: BigInt(2)
       }
     );
@@ -35,9 +41,21 @@ describe('@perion/core.StateContainer', function() {
       arr: [1, 'test', 3],
       bool: true,
       number: 1,
+      obj: {
+        obj: {
+          bigint: BigInt(20000000)
+        },
+        string: 'test2'
+      },
       string: 'test',
       bigint: BigInt(2n)
     });
-    // TODO: Allow Object as datatype
+  });
+  it('should throw an error', function() {
+    try {
+      StateContainer.from('test');
+    } catch (err) {
+      assert(err !== null && err !== undefined);
+    }
   });
 });
