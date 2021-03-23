@@ -10,7 +10,7 @@ npm i --save @perion/perion
 
 ## Core Packages
 
-* calc
+* @perion/calc
 
 A calculator library that implements standard MapleStory specific calculations such as damage, stat modifiers, experience, and levels.
 ```node
@@ -25,7 +25,7 @@ const modifiedStats = calc.HyperStats(playerStats).applyAll().get();
 /** Returns {str: 34, ...} */
 ```
 
-* crypto
+* @perion/crypto
 
 A cryptography library that exposes everything you need to encrypt/decrypt data for MapleStory.
 ```node
@@ -60,7 +60,7 @@ const decryptedIn = recvAES.transform(payload);
 /** Returns the input buffer with the payload encrypted/decryped using Maple AES */
 ```
 
-* net
+* @perion/net
 
 A packet parser using method-chaining syntax for compact and efficient parsing/writing of packet structures.
 ```node
@@ -86,11 +86,19 @@ packet = packet.byte(0x0).int(9).buffer();
 
 ```
 
-* script
+* @perion/core
+
+The core library for `@perion`, contains useful abstractions and tools. For example, StateContainer is an async state container that can be serialized and sent over the wire.
+```
+/** core.StateContainer example */
+/** TO BE CONTINUED */
+```
+
+* @perion/script
 
 A generic scripting engine for NPCs, events, maps, etc.
 
-* wz
+* @perion/wz
 
 A WZ library that can read and write to the WZ file format.
 

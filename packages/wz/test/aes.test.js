@@ -1,0 +1,49 @@
+const assert = require('assert');
+const {WZAES, rotl, rotr} = require('../src/crypto/aes.js');
+describe('@perion/wz.WZAES', function() {
+  it('should instantiate a WZAES object and expand xor key', function() {
+    const aes = new WZAES('GMS');
+    aes.provisionXorKey(16);
+    assert.deepEqual(aes.xorKey, Buffer.from([
+      0x96, 0xae, 0x3f, 0xa4, 0x48, 0xfa, 0xdd, 0x90, 
+      0x46, 0x76, 0x05, 0x61, 0x97, 0xce, 0x78, 0x68
+    ]));
+    assert.deepEqual(aes.iv, aes.xorKey); // Just for this case
+  });
+  it('should test SEA IV and expand xor key', function() {
+    const aes = new WZAES('SEA');
+    aes.provisionXorKey(16);
+    assert.deepEqual(aes.iv, Buffer.from([
+      0xab, 0x65, 0x49, 0x05, 0x67, 0xcd, 0x57, 0x0a,
+      0x98, 0x7b, 0x87, 0x0a, 0xec, 0x65, 0x07, 0x8b
+    ]));
+    assert.deepEqual(aes.iv, aes.xorKey);
+  });
+  it('should test default IV and expand xor key', function() {
+    const aes = new WZAES('DEFAULT');
+    aes.provisionXorKey(16);
+    assert.deepEqual(aes.iv, Buffer.from([
+      0xdd, 0x51, 0x36, 0xd7, 0x83, 0x18, 0x38, 0x72, 
+      0xe7, 0x76, 0x41, 0x1e, 0xcc, 0xda, 0x1f, 0x6e
+    ]));
+    assert.deepEqual(aes.iv, aes.xorKey);
+  });
+  it('should expand xor key with length 18', function() {
+    const aes = new WZAES('GMS');
+    aes.provisionXorKey(18);
+    assert.deepEqual(aes.iv, Buffer.from([
+      0x2b, 0xa0, 0x44, 0x8f, 0xc1, 0x56, 0x7e, 0x32, 
+      0xfc, 0xe1, 0xf5, 0xb3, 0x14, 0x14, 0xc5, 0x22
+    ]));
+    assert.deepEqual(aes.xorKey, Buffer.from([
+      0x96, 0xae, 0x3f, 0xa4, 0x48, 0xfa, 0xdd, 0x90,
+      0x46, 0x76, 0x05, 0x61, 0x97, 0xce, 0x78, 0x68,
+      0x2b, 0xa0, 0x44, 0x8f, 0xc1, 0x56, 0x7e, 0x32, 
+      0xfc, 0xe1, 0xf5, 0xb3, 0x14, 0x14, 0xc5, 0x22
+    ]));
+  });
+  it('should test rotate left and rotate right', function() {
+    assert(rotr(2, 1) === 1);
+    assert(rotl(100, 1) === 200);
+  });
+});
