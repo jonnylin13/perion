@@ -8,7 +8,7 @@
     "url": "https://github.com/jonnylin13/perion"
   },
   "scripts": {
-    "test": "nyc --check-coverage=true --reporter=text mocha packages/**/*.test.js test/*.js",
+    "test": "nyc --check-coverage=true --reporter=text mocha packages/**/test/*.test.js test/*.js",
     "lint": "eslint packages/**/*.js --fix",
     "doc": "rm -rf docs && ./node_modules/.bin/jsdoc -r index.js ./packages/**/index.js ./packages/**/src/*.js ./README.md -c jsdoc.json -d docs",
     "deps": "node scripts/deps.js",
