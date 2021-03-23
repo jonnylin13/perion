@@ -8,7 +8,7 @@ function command(cmd, meta=true) {
   return new Promise(resolve => {
     exec(cmd, (err, stdout, stderr) => {
       if (err) {
-        console.log(`Could not publish ${dep}`); 
+        console.log(`Could not publish ${meta}`); 
         console.log(stderr);
         resolve(false);
         return;

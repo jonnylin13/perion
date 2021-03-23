@@ -1,6 +1,6 @@
 {
   "name": "@perion/net",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A few networking utilities for MapleStory server development",
   "main": "index.js",
   "directories": {
@@ -9,6 +9,10 @@
   "scripts": {
     "test": "nyc mocha test/*.js",
     "lint": "eslint packages/**/*.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonnylin13/perion/tree/master/packages/net"
   },
   "keywords": [
     "maplestory",
