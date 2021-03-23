@@ -119,6 +119,7 @@ npm run lint
 ## Test
 ```
 npm run test
+npm run lcov
 ```
 ## Documentation
 Click [here](https://jonnylin13.github.io/perion/) for the code documentation!
