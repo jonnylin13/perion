@@ -2,21 +2,21 @@ const assert = require('assert');
 const perion = require('../index.js');
 describe('@perion/titan module exports', function() {
   it('should export crypto', function() {
-    assert.strictEqual('crypto' in perion, true);
+    assert('crypto' in perion);
   });
-  it('should export crypto.AES', function() {
-    assert.strictEqual('AES' in perion.crypto, true);
+  it('should export net', function() {
+    assert('net' in perion);
   });
-  it('should export crypto.Shanda', function() {
-    assert.strictEqual('Shanda' in perion.crypto, true);
+  it('should export calc', function() {
+    assert('calc' in perion);
   });
-  it('should export net.Packet', function() {
-    assert.strictEqual('Packet' in perion.net, true);
+  it('should export core', function() {
+    assert('core' in perion);
   });
-  it('should export net.Packet.Parser', function() {
-    assert.strictEqual('Parser' in perion.net.Packet, true);
+  it('should export script', function() {
+    assert('script' in perion);
   });
-  it('should export net.Packet.Writer', function() {
-    assert.strictEqual('Writer' in perion.net.Packet, true);
+  it('should export wz', function() {
+    assert('wz' in perion);
   });
 });

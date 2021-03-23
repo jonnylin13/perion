@@ -2,12 +2,15 @@ const assert = require('assert');
 const net = require('../index.js');
 describe('@perion/net module exports', function() {
   it('should export net.Packet', function() {
-    assert.strictEqual('Packet' in net, true);
+    assert('Packet' in net);
   });
   it('should export net.Packet.Parser', function() {
-    assert.strictEqual('Parser' in net.Packet, true);
+    assert('Parser' in net.Packet);
   });
   it('should export net.Packet.Writer', function() {
-    assert.strictEqual('Writer' in net.Packet, true);
+    assert('Writer' in net.Packet);
+  });
+  it('should export net.Packet.Encoder', function() {
+    assert('Encoder' in net.Packet);
   });
 });
