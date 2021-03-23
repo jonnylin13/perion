@@ -12,7 +12,8 @@
     "lint": "eslint packages/**/*.js --fix",
     "doc": "rm -rf docs && ./node_modules/.bin/jsdoc -r index.js ./packages/**/index.js ./packages/**/src/*.js ./README.md -c jsdoc.json -d docs",
     "deps": "node scripts/deps.js",
-    "publish": "npm publish . --access public"
+    "publish": "npm publish . --access public",
+    "lcov": "nyc --reporter=lcov mocha packages/**/*.test.js test/*js"
   },
   "keywords": [
     "maplestory",

@@ -1,4 +1,4 @@
-# `@perion/perion` [![Travis CI Build Status](https://travis-ci.org/jonnylin13/perion.svg?branch=master)](https://github.com/jonnylin13) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![Code coverage](https://img.shields.io/badge/min%20coverage-90%25-green)
+# `@perion/perion` [![Travis CI Build Status](https://travis-ci.org/jonnylin13/perion.svg?branch=master)](https://github.com/jonnylin13) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  ![Code coverage](https://img.shields.io/badge/min%20coverage-90%25-green)
 
 A library of Node.js modules that help bring MapleStory private server development to the `npm` ecosystem.
 ```
