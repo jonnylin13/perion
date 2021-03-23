@@ -31,10 +31,7 @@ function publishModule(updatedSubmodules) {
       console.log('Could not write to main package.json');
       console.log(err);
     } finally {
-      command(`npm publish --access public`).then(res => {
-        if (!res) console.log('Could not publish main package');
-        else console.log('Done');
-      })
+      command(`npm i`).then(() => command(`npm publish --access public`));
     }
   });
 }
