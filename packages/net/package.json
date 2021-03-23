@@ -1,6 +1,6 @@
 {
   "name": "@perion/net",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A few networking utilities for MapleStory server development",
   "main": "index.js",
   "directories": {
