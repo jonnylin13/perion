@@ -1,6 +1,6 @@
 {
   "name": "@perion/perion",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A library that contains all the utilities for creating a MapleStory server emulator",
   "main": "index.js",
   "repository": {
