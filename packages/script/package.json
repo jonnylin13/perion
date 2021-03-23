@@ -46,9 +46,6 @@
       "node": true
     }
   },
-  "dependencies": {
-    "@perion/core": "0.0.3"
-  },
   "bugs": {
     "url": "https://github.com/jonnylin13/perion/issues",
     "email": "jonnylin13@gmail.com"
