@@ -153,7 +153,7 @@ class Util {
    */
   static calcArcaneForce(scope) {
     if (scope.hyper.arcaneForce < 11) return scope.hyper.arcaneForce * 5;
-    else 50 + (scope.hyper.arcaneForce - 10) * 10;
+    return 50 + (scope.hyper.arcaneForce - 10) * 10;
   }
 }
 /**
@@ -275,7 +275,7 @@ class HyperStats {
    * @return {HyperStats} A reference to the current HyperStats object
    */
   applyStatusResist() {
-    const addition = Util.calcStatusResist();
+    const addition = Util.calcStatusResist(this);
     this.modified.statusResist = this.base.statusResist + addition;
     return this;
   };
@@ -311,7 +311,7 @@ class HyperStats {
    * @return {HyperStats} A reference to the current HyperStats object
    */
   applyBonusExp() {
-    const addition = Util.calcBonuxExp(this);
+    const addition = Util.calcBonusExp(this);
     this.modified.bonusExp = this.base.bonusExp + addition;
     return this;
   };
@@ -322,6 +322,7 @@ class HyperStats {
   applyArcaneForce() {
     const addition = Util.calcArcaneForce(this);
     this.modified.arcaneForce = this.base.arcaneForce + addition;
+    return this;
   };
   /**
    * Applies all the hyper stat modifiers
@@ -332,8 +333,8 @@ class HyperStats {
     this.applyBonusExp();
     this.applyCrit();
     this.applyCritDmg();
-    this.applyDF();
-    this.applyTF();
+    this.applyMaxDF();
+    this.applyMaxTF();
     this.applyDmg();
     this.applyIgnoreDef();
     this.applyMaxHP();
@@ -353,4 +354,4 @@ class HyperStats {
     return this.modified;
   }
 }
-module.exports = {HyperStats};
+module.exports = {HyperStats, Util};

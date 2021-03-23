@@ -76,10 +76,10 @@ class Cast {
   }
   /**
    * Returns an int64
-   * @return {number}
+   * @return {bigint}
    */
   int64() {
-    return BigInt64Array.from([this.val])[0];
+    return BigInt(this.val);
   }
   /**
    * Returns a float32

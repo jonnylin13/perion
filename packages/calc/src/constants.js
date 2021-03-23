@@ -1,3 +1,8 @@
+/**
+ * @ignore
+ * @param {number} version MapleStory version
+ * @returns The added stats constants
+ */
 const ADDED_STATS = function(version) {
   switch(version) {
     default:
