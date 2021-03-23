@@ -1,6 +1,6 @@
 const assert = require('assert');
 const ScriptProvider = require('../src/scriptProvider');
-describe('@perion/scripting.ScriptProvider', function() {
+describe('@perion/script.ScriptProvider', function() {
   it('should throw an error', async function() {
     const scriptProvider = new ScriptProvider();
     try {

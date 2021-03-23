@@ -1,5 +1,5 @@
 {
-  "name": "@perion/scripting",
+  "name": "@perion/script",
   "version": "0.0.1",
   "description": "A library that provides a high-level scripting engine for MapleStory NPCs",
   "main": "index.js",

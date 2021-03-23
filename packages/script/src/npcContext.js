@@ -1,9 +1,9 @@
 const BaseContext = require('./base/baseContext');
 /**
  * A class that takes a StateContainer and builds a context that
- * scripting.Engine uses to evaluate.
+ * script.Engine uses to evaluate.
  * @class
- * @memberof module:@perion/scripting
+ * @memberof module:@perion/script
  */
 class NPCContext extends BaseContext {
   /**

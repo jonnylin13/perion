@@ -3,7 +3,7 @@ const fs = require('fs');
 /**
  * A class used for provisioning script files
  * @class
- * @memberof module:@perion/scripting
+ * @memberof module:@perion/script
  */
 class ScriptProvider extends BaseScriptProvider {
   /**

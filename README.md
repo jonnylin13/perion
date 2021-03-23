@@ -86,6 +86,10 @@ packet = packet.byte(0x0).int(9).buffer();
 
 ```
 
+* script
+
+A generic scripting engine for NPCs, events, maps, etc.
+
 * wz
 
 A WZ library that can read and write to the WZ file format.
@@ -104,8 +108,6 @@ A WZ library that can read and write to the WZ file format.
 * Networking protocol
 * Damage calculations
 * Event timers
-* NPC script manager
-* Event script manager
 * WZ and NX file format
 * Generic MapleStory abstractions
 * Multiple MapleStory versions

@@ -1,7 +1,7 @@
 /**
  * The generic context provider
  * @interface
- * @memberof module:@perion/scripting
+ * @memberof module:@perion/script
  */
 class BaseContextProvider {
   constructor() {}

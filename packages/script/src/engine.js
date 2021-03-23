@@ -1,7 +1,7 @@
 /**
  * The scripting engine that takes a script provider and context provider
  * @class
- * @memberof module:@perion/scripting
+ * @memberof module:@perion/script
  */
 class Engine {
   /**

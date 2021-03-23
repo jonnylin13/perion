@@ -1,7 +1,7 @@
 const assert = require('assert');
 const ContextProvider = require('../src/contextProvider');
 const contextProvider = new ContextProvider();
-describe('@perion/scripting.ContextProvider', function() {
+describe('@perion/script.ContextProvider', function() {
   it('should return an NPCContext', function() {
     const npcContext = contextProvider.getContext({type: 'npc'});
     assert(npcContext !== null);

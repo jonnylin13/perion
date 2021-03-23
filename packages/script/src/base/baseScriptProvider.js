@@ -1,7 +1,7 @@
 /**
  * The generic script provider
  * @interface
- * @memberof module:@perion/scripting
+ * @memberof module:@perion/script
  */
 class BaseScriptProvider {
   constructor() {}

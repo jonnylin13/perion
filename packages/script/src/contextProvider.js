@@ -2,9 +2,9 @@ const BaseContext = require('./base/baseContext.js');
 const BaseContextProvider = require('./base/baseContextProvider.js');
 const NPCContext = require('./npcContext.js');
 /**
- * Provides context to scripting.Engine
+ * Provides context to script.Engine
  * @class
- * @memberof module:@perion/scripting
+ * @memberof module:@perion/script
  */
 class ContextProvider extends BaseContextProvider {
   /**

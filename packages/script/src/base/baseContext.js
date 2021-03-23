@@ -1,7 +1,7 @@
 /**
  * Base context interface
  * @interface
- * @memberof module:@perion/scripting
+ * @memberof module:@perion/script
  */
 class BaseContext {
   /**
