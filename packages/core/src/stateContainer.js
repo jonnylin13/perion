@@ -1,4 +1,4 @@
-require('./mixin/bigint.js');
+require('./mixins/bigint');
 /**
  * A key:value state asynchronous, serializable state container.
  * Can store primitives and objects including BigInt.

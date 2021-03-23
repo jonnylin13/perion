@@ -1,6 +1,6 @@
 {
   "name": "@perion/script",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A library that provides a high-level scripting engine for MapleStory NPCs",
   "main": "index.js",
   "repository": {
@@ -31,6 +31,9 @@
     "jsdoc": "^3.6.6",
     "mocha": "^8.3.2",
     "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "@perion/core": "0.0.5"
   },
   "eslintConfig": {
     "extends": [
