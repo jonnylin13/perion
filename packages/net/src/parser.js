@@ -14,6 +14,16 @@
     this.parsed = [];
   }
   /**
+   * 
+   * Static constructor
+   * @static
+   * @param {Buffer} data The input data Buffer
+   * @return {Parser}
+   */
+  static from(data) {
+    return new Parser(data);
+  }
+  /**
    * Reads a byte
    * @return {Parser} Returns a reference to the current Parser
    */
@@ -28,7 +38,7 @@
    * @return {Parser} Returns a reference to the current Parser
    */
   bool() {
-    const bool = this.readByte();
+    const bool = this.byte().get();
     this.parsed.push(bool === 1 ? true : false);
     return this;
   }
@@ -47,9 +57,9 @@
    * @return {Parser} Returns a reference to the current Parser
    */
   short() {
-    const uByte = this.data.readUIntLE(this.offset, 1);
-    this.offset += 1;
-    this.parsed.push(uByte);
+    const short = this.data.readInt16LE(this.offset);
+    this.offset += 2;
+    this.parsed.push(short);
     return this;
   }
   /**
@@ -145,7 +155,8 @@
       if (byte === 0) break;
       stringArr.push(byte);
     }
-    return Buffer.from(stringArr).toString('ascii');
+    this.parsed.push(Buffer.from(stringArr).toString('ascii'));
+    return this;
   }
   /**
    * Reads a MapleStory ASCII string
@@ -153,7 +164,7 @@
    */
   mapleascii() {
     const length = this.short().get();
-    this.parsed.push(this.ascii(length));
+    this.parsed.push(this.ascii(length).get());
     return this;
   }
   /**
@@ -163,7 +174,8 @@
   pos() {
     const x = this.short().get();
     const y = this.short().get();
-    return {x, y};
+    this.parsed.push({x, y});
+    return this;
   }
   /**
    * Reads a specified length
