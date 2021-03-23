@@ -3,3 +3,6 @@
 coverage/
 examples/
 docs/
+**/node_modules/
+**/test/
+scripts/

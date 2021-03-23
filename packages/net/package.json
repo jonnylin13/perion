@@ -1,6 +1,6 @@
 {
   "name": "@perion/net",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A few networking utilities for MapleStory server development",
   "main": "index.js",
   "directories": {
@@ -47,7 +47,7 @@
     }
   },
   "dependencies": {
-    "@perion/crypto": "^1.0.1"
+    "@perion/crypto": "^1.0.2"
   },
   "bugs": {
     "url": "https://github.com/jonnylin13/perion/issues",
