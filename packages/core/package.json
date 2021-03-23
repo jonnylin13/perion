@@ -1,7 +1,7 @@
 {
   "name": "@perion/core",
   "version": "0.0.3",
-  "description": "A library with the infrastructural elements of a MapleStory emulator",
+  "description": "A library with the core utils for netcode development in Node.js",
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha test/*.js",
