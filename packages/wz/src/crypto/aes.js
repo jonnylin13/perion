@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const {AES_KEY, GMS_IV, SEA_IV} = require('./constants.js');
+const {trimKey, AES_KEY, GMS_IV, SEA_IV} = require('./constants.js');
 /**
  * Returns the AES key given a version
  * @function
@@ -9,11 +9,11 @@ const {AES_KEY, GMS_IV, SEA_IV} = require('./constants.js');
 function getCipher(version) {
   switch(version) {
     case 'GMS':
-      return {iv: SEA_IV, aesKey: AES_KEY};
+      return {iv: SEA_IV, aesKey: trimKey(AES_KEY)};
     case 'SEA':
-      return {iv: GMS_IV, aesKey: AES_KEY};
+      return {iv: GMS_IV, aesKey: trimKey(AES_KEY)};
     default:
-      return {iv: DEFAULT_IV, aesKey: AES_KEY};
+      return {iv: DEFAULT_IV, aesKey: trimKey(AES_KEY)};
   }
 }
 /**
@@ -24,11 +24,11 @@ function getCipher(version) {
  * @return {Buffer}
  */
 function expandXorKey(key, currentIV, currentXorKey, length) {
-  const finalLength = Math.round(length / 16);
+  let numBlocks = Math.round(length / 16);
   if (length % 16 != 0) {
-    finalLength += 1;
+    numBlocks += 1;
   }
-  finalLength *= 16;
+  let finalLength = numBlocks * 16;
   finalLength -= currentXorKey.length;
   const nextBlockLength = finalLength - currentXorKey.length;
   const nextBlock = Buffer.alloc(nextBlockLength);
@@ -36,12 +36,12 @@ function expandXorKey(key, currentIV, currentXorKey, length) {
    * For each 16 byte block, encrypt the IV,
    * then use the result to do the next one
    */
+  const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
   for (let i = 0; i < nextBlockLength; i += 16) {
-    const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
-    let encrypted = Buffer.concat([cipher.update(this.iv), cipher.final()]);
-    encrypted += cipher.final();
-    currentIV = encrypted;
-    encrypted.copy(nextBlock, i, i, 16);
+    // Encrypt the IV, put results into currentBlock
+    const currentBlock = cipher.update(currentIV);
+    // Copy the current block into next block
+    currentBlock.copy(nextBlock, i, i+16);
   }
   currentXorKey = Buffer.concat(currentXorKey, nextBlock);
   return {iv: currentIV, xorKey: currentXorKey}
@@ -115,7 +115,7 @@ class WZAES {
     this.version = version;
     const {aesKey, iv} = getCipher(version);
     this.aesKey = aesKey;
-    this.xorKey = iv.slice();
+    this.xorKey = Buffer.from([]);
     this.iv = iv;
     this.encryptedStrings = [];
   }
@@ -141,6 +141,15 @@ class WZAES {
     this.iv = iv;
     this.xorKey = xorKey;
     return transform(data, this.xorKey);
+  }
+  /**
+   * Provisions the XOR key
+   */
+  provisionXorKey(length) {
+    if (this.xorKey.length < length) return;
+    const result = expandXorKey(this.aesKey, this.iv, this.xorKey, length);
+    this.iv = result.iv;
+    this.xorKey = result.xorKey;
   }
 }
 module.exports = WZAES;
