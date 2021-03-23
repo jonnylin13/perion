@@ -1,6 +1,7 @@
 const BaseContext = require('./base/baseContext.js');
 const BaseContextProvider = require('./base/baseContextProvider.js');
 const NPCContext = require('./npcContext.js');
+const {StateContainer} = require('@perion/core');
 /**
  * Provides context to script.Engine
  * @class
@@ -26,7 +27,7 @@ class ContextProvider extends BaseContextProvider {
     }
     switch(request.type) {
       case 'npc':
-        return new NPCContext(null);
+        return new NPCContext(new StateContainer({}));
       case 'event':
       case 'item':
       case 'map':

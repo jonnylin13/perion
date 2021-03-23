@@ -32,6 +32,9 @@
     "mocha": "^8.3.2",
     "nyc": "^15.1.0"
   },
+  "dependencies": {
+    "@perion/core": "0.0.3"
+  },
   "eslintConfig": {
     "extends": [
       "eslint:recommended",
