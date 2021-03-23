@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>packages/crypto/index.js - Documentation</title>
+    <title>packages/script/index.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">packages/crypto/index.js</h1>
+    <h1 class="page-title">packages/script/index.js</h1>
     
 
     
@@ -42,14 +42,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const Shanda = require('./src/shanda');
-const AES = require('./src/aes');
+            <pre class="prettyprint source linenums"><code>const Engine = require('./src/engine.js');
+const ContextProvider = require('./src/contextProvider');
+const ScriptProvider = require('./src/scriptProvider');
 /**
- * A module that exports MapleStory cryptography functions
- * @module @perion/crypto
+ * A library containing scripting functionality
+ * @module @perion/script
  */
-module.exports = {Shanda, AES};
-</code></pre>
+module.exports = {Engine, ContextProvider, ScriptProvider};</code></pre>
         </article>
     </section>
 

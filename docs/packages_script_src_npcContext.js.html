@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>packages/crypto/index.js - Documentation</title>
+    <title>packages/script/src/npcContext.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">packages/crypto/index.js</h1>
+    <h1 class="page-title">packages/script/src/npcContext.js</h1>
     
 
     
@@ -42,14 +42,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const Shanda = require('./src/shanda');
-const AES = require('./src/aes');
+            <pre class="prettyprint source linenums"><code>const BaseContext = require('./base/baseContext');
 /**
- * A module that exports MapleStory cryptography functions
- * @module @perion/crypto
+ * A class that takes a StateContainer and builds a context that
+ * script.Engine uses to evaluate.
+ * @class
+ * @memberof module:@perion/script
  */
-module.exports = {Shanda, AES};
-</code></pre>
+class NPCContext extends BaseContext {
+  /**
+   * Returns an instance of NPCContext
+   * @constructor
+   * @param {StateContainer} state 
+   */
+  constructor(state) {
+    super(state, 'npc');
+  }
+  /**
+   * Returns a context that an NPC script can bind to
+   * @return {Object} The context object
+   */
+  build() {
+    return {
+      state: this.state,
+      test: () => {
+        return true;
+      }
+    };
+  }
+}
+module.exports = NPCContext;</code></pre>
         </article>
     </section>
 

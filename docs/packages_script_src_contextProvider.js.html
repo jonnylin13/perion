@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>packages/crypto/index.js - Documentation</title>
+    <title>packages/script/src/contextProvider.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">packages/crypto/index.js</h1>
+    <h1 class="page-title">packages/script/src/contextProvider.js</h1>
     
 
     
@@ -42,14 +42,47 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const Shanda = require('./src/shanda');
-const AES = require('./src/aes');
+            <pre class="prettyprint source linenums"><code>const BaseContext = require('./base/baseContext.js');
+const BaseContextProvider = require('./base/baseContextProvider.js');
+const NPCContext = require('./npcContext.js');
 /**
- * A module that exports MapleStory cryptography functions
- * @module @perion/crypto
+ * Provides context to script.Engine
+ * @class
+ * @memberof module:@perion/script
  */
-module.exports = {Shanda, AES};
-</code></pre>
+class ContextProvider extends BaseContextProvider {
+  /**
+   * Instantiates a new ContextProvider
+   * @constructor
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Returns the context to be built
+   * @param {Object} request The request containing file id and type
+   * @return {BaseContext}
+   * @throws {Error}
+   */
+  getContext(request) {
+    if (request === null || request === undefined || !('type' in request)) {
+      throw new Error('No context type provided');
+    }
+    switch(request.type) {
+      case 'npc':
+        return new NPCContext(null);
+      case 'event':
+      case 'item':
+      case 'map':
+      case 'portal':
+      case 'quest':
+      case 'reactor':
+      default:
+        throw new Error(`Could not find context type ${request.type}`);
+    }
+  }
+}
+module.exports = ContextProvider;</code></pre>
         </article>
     </section>
 
