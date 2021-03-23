@@ -55,6 +55,7 @@
     "@perion/core": "0.0.2",
     "@perion/crypto": "1.0.2",
     "@perion/net": "0.0.5",
+    "@perion/script": "file:packages/script",
     "@perion/wz": "0.0.1"
   },
   "bugs": {
