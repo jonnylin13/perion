@@ -1,0 +1,53 @@
+{
+  "name": "@perion/script",
+  "version": "0.0.1",
+  "description": "A library that provides a high-level scripting engine for MapleStory NPCs",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonnylin13/perion"
+  },
+  "scripts": {
+    "test": "nyc mocha test/*.js",
+    "lint": "eslint packages/**/*.js --fix"
+  },
+  "keywords": [
+    "maplestory",
+    "nodejs",
+    "node",
+    "javascript",
+    "private",
+    "server",
+    "private-server",
+    "mmorpg",
+    "scripting engine"
+  ],
+  "author": "jonnylin13",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "docdash": "^1.2.0",
+    "eslint": "^7.22.0",
+    "eslint-config-google": "^0.14.0",
+    "jsdoc": "^3.6.6",
+    "mocha": "^8.3.2",
+    "nyc": "^15.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "google"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "env": {
+      "es2015": true,
+      "node": true
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/jonnylin13/perion/issues",
+    "email": "jonnylin13@gmail.com"
+  }
+}
