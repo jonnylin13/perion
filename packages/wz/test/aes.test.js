@@ -1,8 +1,8 @@
 const assert = require('assert');
-const {WZAES, rotl, rotr} = require('../src/crypto/aes.js');
-describe('@perion/wz.WZAES', function() {
+const {AES, rotl, rotr} = require('../src/crypto/aes.js');
+describe('@perion/wz.AES', function() {
   it('should instantiate a WZAES object and expand xor key', function() {
-    const aes = new WZAES('GMS');
+    const aes = new AES('GMS');
     aes.provisionXorKey(16);
     assert.deepEqual(aes.xorKey, Buffer.from([
       0x96, 0xae, 0x3f, 0xa4, 0x48, 0xfa, 0xdd, 0x90, 
@@ -11,7 +11,7 @@ describe('@perion/wz.WZAES', function() {
     assert.deepEqual(aes.iv, aes.xorKey); // Just for this case
   });
   it('should test SEA IV and expand xor key', function() {
-    const aes = new WZAES('SEA');
+    const aes = new AES('SEA');
     aes.provisionXorKey(16);
     assert.deepEqual(aes.iv, Buffer.from([
       0xab, 0x65, 0x49, 0x05, 0x67, 0xcd, 0x57, 0x0a,
@@ -20,7 +20,7 @@ describe('@perion/wz.WZAES', function() {
     assert.deepEqual(aes.iv, aes.xorKey);
   });
   it('should test default IV and expand xor key', function() {
-    const aes = new WZAES('DEFAULT');
+    const aes = new AES('DEFAULT');
     aes.provisionXorKey(16);
     assert.deepEqual(aes.iv, Buffer.from([
       0xdd, 0x51, 0x36, 0xd7, 0x83, 0x18, 0x38, 0x72, 
@@ -29,7 +29,7 @@ describe('@perion/wz.WZAES', function() {
     assert.deepEqual(aes.iv, aes.xorKey);
   });
   it('should expand xor key with length 18 and test provision', function() {
-    const aes = new WZAES('GMS');
+    const aes = new AES('GMS');
     aes.provisionXorKey(18);
     assert.deepEqual(aes.iv, Buffer.from([
       0x2b, 0xa0, 0x44, 0x8f, 0xc1, 0x56, 0x7e, 0x32, 
@@ -49,7 +49,7 @@ describe('@perion/wz.WZAES', function() {
     assert(rotl(100, 1) === 200);
   });
   it('should test transform', function() {
-    const aes = new WZAES('GMS');
+    const aes = new AES('GMS');
     const data = Buffer.from([
       0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
       0x08, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10
