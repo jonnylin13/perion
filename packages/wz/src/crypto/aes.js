@@ -52,9 +52,10 @@ function expandXorKey(key, currentIV, currentXorKey, length) {
  * @return {Buffer} The decrypted data
  */
 function transform(data, key) {
-  if (data.length > key.length) {
-    throw new Error('Data length cannot be greater than key length');
-  }
+  // NEVER REACHED
+  // if (data.length > key.length) {
+  //   throw new Error('Data length cannot be greater than key length');
+  // }
   for (let i = 0; i < data.length; i++) {
     data[i] ^= key[i];
   }
@@ -105,7 +106,7 @@ function rotr(value, offset) {
  * @class
  * @memberof module:@perion/wz
  */
-class WZAES {
+class AES {
   /**
    * @constructor
    * @param {string} variant GMS or SEA
@@ -132,8 +133,7 @@ class WZAES {
    * @return {Buffer}
    */
   transform(data) {
-    const length = data.length;
-    this.provisionXorKey(this.aesKey, this.iv, this.xorKey, length);
+    this.provisionXorKey(data.length);
     return transform(data, this.xorKey);
   }
   /**
@@ -142,10 +142,10 @@ class WZAES {
    */
   provisionXorKey(length) {
     // TODO: What does this do?
-    // if (this.xorKey.length < length) return;
+    if (this.xorKey.length >= length) return;
     const result = expandXorKey(this.aesKey, this.iv, this.xorKey, length);
     this.iv = result.iv;
     this.xorKey = result.xorKey;
   }
 }
-module.exports = {WZAES, calculateHash, rotl, rotr};
+module.exports = {AES, calculateHash, rotl, rotr};

@@ -28,7 +28,7 @@ describe('@perion/wz.WZAES', function() {
     ]));
     assert.deepEqual(aes.iv, aes.xorKey);
   });
-  it('should expand xor key with length 18', function() {
+  it('should expand xor key with length 18 and test provision', function() {
     const aes = new WZAES('GMS');
     aes.provisionXorKey(18);
     assert.deepEqual(aes.iv, Buffer.from([
@@ -41,9 +41,24 @@ describe('@perion/wz.WZAES', function() {
       0x2b, 0xa0, 0x44, 0x8f, 0xc1, 0x56, 0x7e, 0x32, 
       0xfc, 0xe1, 0xf5, 0xb3, 0x14, 0x14, 0xc5, 0x22
     ]));
+    aes.provisionXorKey(16);
+    assert(aes.xorKey.length === 32);
   });
   it('should test rotate left and rotate right', function() {
     assert(rotr(2, 1) === 1);
     assert(rotl(100, 1) === 200);
+  });
+  it('should test transform', function() {
+    const aes = new WZAES('GMS');
+    const data = Buffer.from([
+      0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+      0x08, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10
+    ]);
+    const answer = Buffer.from([
+      0x96, 0xaf, 0x3d, 0xa7, 0x4c, 0xff, 0xdb, 0x97, 
+      0x4e, 0x7c, 0x0e, 0x6d, 0x9a, 0xc0, 0x77, 0x78
+    ]);
+    const transformed = aes.transform(data);
+    assert(answer.compare(transformed) === 0);
   });
 });

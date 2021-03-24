@@ -32,6 +32,7 @@ A cryptography library that exposes everything you need to encrypt/decrypt data 
 const crypto = require('@perion/crypto');
 
 /** Example data */
+/** Normally you would get this from a socket **/
 const payload = Buffer.from([0x1]);
 const sendIv = Buffer.from([0x0, 0x2, 0x3, 0x4]);
 const recvIv = Buffer.from([0x4, 0x2, 0x1, 0x0]);
@@ -89,18 +90,69 @@ packet = packet.byte(0x0).int(9).buffer();
 * @perion/core
 
 The core library for `@perion`, contains useful abstractions and tools. For example, StateContainer is an async state container that can be serialized and sent over the wire.
-```
+```node
+const core = require('@perion/core');
+
 /** core.StateContainer example */
-/** TO BE CONTINUED */
+const initialState = {
+  id: 1,
+  hp: 100,
+  mp: 100
+};
+const playerState = new core.StateContainer(initialState);
+
+async () => {
+  const id = await playerState.get('id');
+  /** id is 1 */
+  await playerState.set('hp', 90);
+  const hp = await playerState.get('hp');
+  /** hp is 90 */
+  const buffer = playerState.pack();
+  const copiedPlayerState = core.StateContainer.from(buffer);
+}();
 ```
 
 * @perion/script
 
 A generic scripting engine for NPCs, events, maps, etc.
 
+```node
+const script = require('@perion/script');
+
+/** Generic implementation */
+const scriptProvider = new script.ScriptProvider();
+const contextProvider = new script.ContextProvider();
+const engine = new script.Engine(scriptProvider, contextProvider);
+engine.handleRequest({id: '0', type: 'npc'}).then(res => {
+  assert(res === true);
+}).catch(err => {
+  console.log(err);
+  assert(err === null || err === undefined);
+});
+```
+
 * @perion/wz
 
 A WZ library that can read and write to the WZ file format.
+
+```node
+const wz = require('@perion/wz');
+
+/** AES example **/
+const AES = wz.AES;
+
+/** Example buffer **/
+const data = Buffer.from([
+  0x01, 0x02, 0x0f, 0xef
+  0x01, 0x02, 0x0f, 0xef
+  0x01, 0x02, 0x0f, 0xef
+  0x01, 0x02, 0x0f, 0xef
+]);
+const aes = new AES('GMS');
+const transformed = aes.transform(data);
+
+/** Returns the transformed buffer */
+```
 
 ## Neat Features
 
