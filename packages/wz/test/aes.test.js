@@ -1,5 +1,5 @@
 const assert = require('assert');
-const {AES, rotl, rotr} = require('../src/crypto/aes.js');
+const {AES, rotl, rotr, calculateHash} = require('../src/crypto/aes.js');
 describe('@perion/wz.AES', function() {
   it('should instantiate a WZAES object and expand xor key', function() {
     const aes = new AES('GMS');
@@ -60,5 +60,12 @@ describe('@perion/wz.AES', function() {
     ]);
     const transformed = aes.transform(data);
     assert(answer.compare(transformed) === 0);
+  });
+  it('should calculate hash', function() {
+    assert.deepEqual(calculateHash(83), {x: 172, y: 1876});
+  });
+  it('should check isEncrypted', function() {
+    const aes = new AES('GMS');
+    assert(aes.isEncrypted('test') == false);
   });
 });
