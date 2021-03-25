@@ -29,6 +29,7 @@ class Encoder {
    * @return {Object} Returns an object with {header, data}
    */
   decode(data, readOp=true) {
+    if (data.length < 4) throw new Error('Data needs atleast size of 4');
     let dataNoHeader = data.slice(4);
     let header = data.slice(0, 4);
     // TODO: Debug getPacketLength
@@ -40,6 +41,7 @@ class Encoder {
     if (!readOp) {
       return {header: header, data: dataNoHeader};
     }
+    console.log(dataNoHeader);
     const opcode = Parser.from(dataNoHeader).short().get();
     return {header: header, opcode, data: dataNoHeader.slice(2)};
   }

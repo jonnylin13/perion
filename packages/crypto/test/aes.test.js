@@ -35,17 +35,18 @@ describe('@perion/crypto.AES', function() {
   it('should transform the data twice to test morphIV()', function() {
     const iv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
     const aes = new AES(iv, 83);
+    const aesCopy = new AES(Buffer.from([0x1, 0x2, 0x3, 0x4]), 83);
     const data1 = Buffer.from([0x1, 0x1, 0x1, 0x1]);
     const transformed = aes.transform(data1);
-    const transformed2 = aes.transform(transformed);
-    const ans1 = Buffer.from([0x71, 0x05, 0x96, 0x10]);
+    const transformed2 = aesCopy.transform(transformed);
+    const ans1 = Buffer.from([0x01, 0x01, 0x01, 0x01]);
     assert.ok(transformed2.compare(ans1) == 0);
   });
   it('should get the packet header', function() {
     let iv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
     const aes = new AES(iv, 83);
     const header = aes.getPacketHeader(4);
-    assert.ok(header.compare(Buffer.from([0x50, 0x04, 0x54, 0x04])) == 0);
-    // TODO: Test get packet length
+    assert.ok(header.compare(Buffer.from([0x03, 0xac, 0x07, 0xac])) == 0);
+    assert.ok(aes._getPacketLength(header) === 4);
   });
 });

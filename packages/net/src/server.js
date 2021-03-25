@@ -14,6 +14,7 @@ class Server {
     this.instance.on('error', (err) => this.onError(err));
     this.instance.listen({port, host}, () => {
       // console.log(`Listening on ${host}:${port}`);
+      this.events.emit('ready');
     });
   }
   onConnection(socket) {
@@ -32,7 +33,7 @@ class Server {
     if (this.minSocketId === null) this.minSocketId = socket.id;
     if (this.maxSocketId === null) this.maxSocketId = socket.id;
     if (ids == Number.MAX_SAFE_INTEGER) ids = 0;
-    socket.on('data', (data) => this.onData(socket, data));
+    socket.on('data', (data) => this.onData({socket, data}));
     socket.on('error', (err) => this.onError(err, socket.id));
     socket.on('close', () => this.removeSocket(socket.id));
     this.extSockets.push(socket);
@@ -61,7 +62,7 @@ class Server {
     console.log('err: ', err);
     if (socketId) this.removeSocket(socketId);
   }
-  onData(socket, data) {
+  onData({socket, data}) {
     const packet = socket.encoder.decode(data);
     // TODO: Should we be sending the packet
     this.events.emit('packet', {socket, packet});
@@ -82,6 +83,18 @@ class Server {
       }
       resolve();
       return;
+    });
+  }
+  destroy() {
+    return new Promise((resolve, reject) => {
+
+      this.instance.close((err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(true);
+      });
     });
   }
 }

@@ -25,27 +25,29 @@ class AES {
    * @return {Buffer} The packet header Buffer
    */
   getPacketHeader(length) {
-    let a = (this.iv[3] & 0xff);
-    a |= (this.iv[2] << 8) & 0xff00;
+    let a = (((this.iv[3] && 0xff) << 8) | (this.iv[2] & 0xff));
     a ^= this.maskedVersion;
-    const b = a ^ (((length << 8) & 0xff00) | length >>> 8);
+    let b = a ^ length;
+
     const header = Buffer.from([
+      (a & 0xff),
       (a >>> 8) & 0xff,
-      a & 0xff,
+      (b & 0xff),
       (b >>> 8) & 0xff,
-      b & 0xff,
     ]);
+    for (let i = 0; i < 4; i++) {
+      header[i]
+    }
     return header;
   }
   /**
    * Gets the packet length using the header
-   * @param {number} header The packet header as an int32
+   * @param {Buffer} header The packet header
    * @return {number} The packet length
    */
   _getPacketLength(header) {
-    let packetLength = ((header >>> 16) ^ (header & 0xffff));
-    packetLength = ((header << 8) & 0xff00) | ((packetLength >>> 8) & 0xff);
-    return packetLength;
+    return (((header[0] & 0xff) | ((header[1] & 0xff) << 8)) ^
+				((header[2] & 0xff) | ((header[3] & 0xff) << 8)));
   }
   /**
    * Transforms the data payload using the current IV
@@ -136,27 +138,6 @@ class AES {
     const newSequence = Buffer.from([0xf2, 0x53, 0x50, 0xc6]);
     const skey = SHIFT_KEYS[mapleVersion];
     for (let i = 0; i < 4; i++) {
-      /** TODO: Removed, needs to be reworked */
-      // const inputByte = iv[i];
-      // const tableInput = skey[inputByte];
-      // newSequence[0] += skey[newSequence[1] - inputByte];
-      // newSequence[1] -= newSequence[2] ^ tableInput;
-      // newSequence[2] ^= skey[newSequence[3]] + inputByte;
-      // newSequence[3] -= newSequence[0] - tableInput;
-      // let val =
-      //   (
-      //     newSequence[0] |
-      //     ((newSequence[1] & 0xff) << 8 |
-      //     ((newSequence[2] & 0xff) << 16) |
-      //     ((newSequence[3]) & 0xff) << 24)
-      //   ) >>> 0;
-      // let val2 = val >>> 0x1d;
-      // val = (val << 0x03) >>> 0;
-      // val2 |= val;
-      // newSequence[0] = val2 & 0xff;
-      // newSequence[1] = (val2 >> 8) & 0xff;
-      // newSequence[2] = (val2 >> 16) & 0xff;
-      // newSequence[3] = (val2 >> 24) & 0xff;
       this._morph(iv[i], newSequence, skey);
     }
     return newSequence;
@@ -170,36 +151,21 @@ class AES {
    * @return {Buffer} The modfied Buffer
    */
   static _morph(inputByte, newSequence, shiftKey) {
-    let t1 = newSequence[1];
-    const t2 = inputByte;
-    let t3 = shiftKey[t1 & 0xFF];
-    t3 -= inputByte;
-    newSequence[0] += t3;
-    t3 = newSequence[2];
-    t3 ^= shiftKey[t2 & 0xFF];
-    t1 -= t3 & 0xFF;
-    newSequence[1] = t1;
-    t1 = newSequence[3];
-    t3 = t1;
-    t1 -= newSequence[0] & 0xFF;
-    t3 = shiftKey[t3 & 0xFF];
-    t3 += inputByte;
-    t3 ^= newSequence[2];
-    newSequence[2] = t3;
-    t1 += shiftKey[t2 & 0xFF] & 0xFF;
-    newSequence[3] = t1;
-    let merry = (newSequence[0]) & 0xFF;
-    merry |= (newSequence[1] << 8) & 0xFF00;
-    merry |= (newSequence[2] << 16) & 0xFF0000;
-    merry |= (newSequence[3] << 24) & 0xFF000000;
-    let ret = merry;
-    ret = ret >>> 0x1d;
-    merry = merry << 3;
-    ret = ret | merry;
-    newSequence[0] = (ret & 0xFF);
-    newSequence[1] = ((ret >> 8) & 0xFF);
-    newSequence[2] = ((ret >> 16) & 0xFF);
-    newSequence[3] = ((ret >> 24) & 0xFF);
+    newSequence[0] += shiftKey[newSequence[1] & 0xff] - inputByte;
+    newSequence[1] -= newSequence[2] ^ shiftKey[inputByte & 0xff] & 0xff;
+    newSequence[2] ^= shiftKey[newSequence[3] & 0xff] + inputByte;
+    newSequence[4] += (shiftKey[inputByte & 0xff] & 0xff);
+    newSequence[4] -= (newSequence[0] & 0xff);
+    let mask = 0;
+    mask |= (newSequence[0] & 0xff);
+    mask |= (newSequence[1] << 8) & 0xff00;
+    mask |= (newSequence[2] << 16) & 0xff0000;
+    mask |= (newSequence[3] << 24) & 0xff000000;
+    mask = (mask >> 0x1d | mask << 3);
+    for (let j = 0; j < 4; j++) {
+      const value = mask >> (8 * j);
+      newSequence[j] = value & 0xff;
+    }
     return newSequence;
   }
 }
