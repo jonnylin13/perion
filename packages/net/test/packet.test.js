@@ -67,7 +67,7 @@ describe('@perion/net.Packet.Parser', function() {
       0x74, 0x65, 0x73, 0x74
     ]);
     const parser = Parser.from(packet);
-    const result = parser.ascii(4).get();
+    const result = parser.ascii({length: 4}).get();
     assert.strictEqual(result, 'test');
   });
   it('should read a null ascii string', function() {
@@ -192,11 +192,12 @@ describe('@perion/net.Packet.encode', () => {
     let packet = new net.Packet.Writer(2);
     packet = packet.byte(0).byte(0).buffer();
     const aes = new crypto.AES(iv, 83);
-    const encoded = net.Packet.Encoder.encode(packet, aes);
+    const encoder = new net.Packet.Encoder({aes, shanda: crypto.Shanda});
+    const encoded = encoder.encode(packet);
     assert.deepEqual(encoded, Buffer.from([
       0x50, 0x04, 0x52, 0x04, 0xf1, 0xde
     ]));
-    const decoded = net.Packet.Encoder.decode(encoded, aes);
+    const decoded = encoder.decode(encoded, false);
     assert.deepEqual(decoded.data, Buffer.from([0x0c, 0x1e]));
   });
 });

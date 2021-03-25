@@ -1,0 +1,6 @@
+class WZFile {
+  constructor() {}
+  parse() {
+    
+  }
+}

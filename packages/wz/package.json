@@ -21,7 +21,8 @@
     "eslint-config-google": "^0.14.0",
     "jsdoc": "^3.6.6",
     "mocha": "^8.3.2",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "util.promisify": "^1.1.1"
   },
   "eslintConfig": {
     "extends": [
@@ -40,5 +41,9 @@
   "bugs": {
     "url": "https://github.com/jonnylin13/perion/issues",
     "email": "jonnylin13@gmail.com"
+  },
+  "dependencies": {
+    "@perion/core": "^0.0.5",
+    "@perion/net": "^0.0.6"
   }
 }

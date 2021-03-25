@@ -1,0 +1,26 @@
+{
+  "name": "internal",
+  "messages": {
+    "ping": {
+      "opcode": "0x400",
+      "schema": []
+    },
+    "pong": {
+      "opcode": "0x401",
+      "schema": []
+    },
+    "custom": {
+      "opcode": "0x402",
+      "schema": [
+        "byte", "short", "int", "long", 
+        "ascii?length=4", "nullascii", "mapleascii"
+      ]
+    },
+    "test": {
+      "opcode": "0x403",
+      "schema": [
+        "error"
+      ]
+    }
+  }
+}

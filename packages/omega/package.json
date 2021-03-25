@@ -1,26 +1,25 @@
 {
-  "name": "@perion/net",
-  "version": "0.0.6",
-  "description": "A few networking utilities for MapleStory server development",
+  "name": "@perion/omega",
+  "version": "0.0.0",
+  "description": "",
   "main": "index.js",
-  "directories": {
-    "test": "test"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonnylin13/perion"
   },
   "scripts": {
     "test": "nyc mocha test/*.js",
     "lint": "eslint packages/**/*.js --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jonnylin13/perion/tree/master/packages/net"
-  },
   "keywords": [
     "maplestory",
-    "networking",
-    "protocol",
-    "binary",
-    "parse",
-    "parsing"
+    "nodejs",
+    "node",
+    "javascript",
+    "private",
+    "server",
+    "private-server",
+    "mmorpg"
   ],
   "author": "jonnylin13",
   "license": "Apache-2.0",
@@ -48,8 +47,12 @@
     }
   },
   "dependencies": {
-    "@perion/core": "^0.0.5",
-    "@perion/crypto": "^1.0.2"
+    "@perion/calc": "0.0.2",
+    "@perion/core": "0.0.5",
+    "@perion/crypto": "1.0.2",
+    "@perion/net": "0.0.6",
+    "@perion/script": "0.0.2",
+    "@perion/wz": "0.0.1"
   },
   "bugs": {
     "url": "https://github.com/jonnylin13/perion/issues",

@@ -27,7 +27,7 @@ class ContextProvider extends BaseContextProvider {
     }
     switch(request.type) {
       case 'npc':
-        return new NPCContext(new StateContainer({}));
+        return new NPCContext(new StateContainer({id: request.id}));
       case 'event':
       case 'item':
       case 'map':

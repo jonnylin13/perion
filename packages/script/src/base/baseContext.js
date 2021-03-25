@@ -6,11 +6,11 @@
 class BaseContext {
   /**
    * Instantiates a new Context
-   * @param {StateContainer} state 
+   * @param {StateContainer} stateContainer 
    * @param {string} type 
    */
-  constructor(state, type) {
-    this.state = state;
+  constructor(stateContainer, type) {
+    this.stateContainer = stateContainer;
     this.type = type;
   }
   /**

@@ -9,10 +9,10 @@ class NPCContext extends BaseContext {
   /**
    * Returns an instance of NPCContext
    * @constructor
-   * @param {StateContainer} state 
+   * @param {StateContainer} stateContainer 
    */
-  constructor(state) {
-    super(state, 'npc');
+  constructor(stateContainer) {
+    super(stateContainer, 'npc');
   }
   /**
    * Returns a context that an NPC script can bind to
@@ -20,10 +20,8 @@ class NPCContext extends BaseContext {
    */
   build() {
     return {
-      state: this.state,
-      test: () => {
-        return true;
-      }
+      stateContainer: this.stateContainer,
+      test: () => true
     };
   }
 }

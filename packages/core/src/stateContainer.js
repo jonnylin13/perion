@@ -1,4 +1,5 @@
 require('./mixins/bigint');
+const MAX_EXPIRATION = 2592000;
 /**
  * A key:value state asynchronous, serializable state container.
  * Can store primitives and objects including BigInt.
@@ -56,12 +57,21 @@ class StateContainer {
    * @param {*} value 
    * @return {*} Returns the value
    */
-  set(key, value) {
-    return new Promise(resolve => {
-      setTimeout(() => {
+  set(key, value, cache=null) {
+    return new Promise((resolve, reject) => {
+      if (!cache) {
         this.state[key] = value;
         resolve(this.state[key]);
-      }, 0);
+        return;
+      }
+      cache.set(key, JSON.stringify(value), MAX_EXPIRATION, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        this.state[key] = value;
+        resolve(this.state[key]);
+      });
     });
   }
   /**
@@ -69,13 +79,22 @@ class StateContainer {
    * @param {*} key 
    * @return {*} Returns the value
    */
-  delete(key) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        const value = this.state[key];
+  delete(key, cache=null) {
+    return new Promise((resolve, reject) => {
+      const value = this.state[key];
+      if (!cache) {
         delete this.state[key];
-        resolve(this.state[key]);
-      }, 0);
+        resolve(true);
+        return;
+      }
+      cache.del(key, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        delete this.state[key];
+        resolve(true);
+      });
     });
   }
   /**
@@ -83,21 +102,56 @@ class StateContainer {
    * @param {*} key 
    * @return {*} Returns the removed object
    */
-  get(key) {
-    return new Promise(resolve => {
-       resolve(this.state[key]);
+  get(key, cache=null) {
+    return new Promise((resolve, reject) => {
+      if (!cache) {
+        resolve(this.state[key]);
+        return;
+      }
+      cache.get(key, (err, data) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        try {
+          const unpacked = StateContainer.unpack(data);
+          resolve(unpacked);
+        } catch (err) {
+          reject(err);
+        }
+      });
     });
   }
   /**
    * Serializes a StateContainer into a Buffer
    * @return {Buffer}
    */
-  pack() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(Buffer.from(JSON.stringify(this.state)));
-      }, 0);
+  pack(key=null) {
+    return new Promise((resolve, reject) => {
+      if (key) {
+        if (!this.state[key]) {
+          reject(new Error(`Key ${key} does not exist`));
+          return;
+        }
+        const obj = JSON.stringify(this.state[key]);
+        resolve(obj);
+        return;
+      }
+      resolve(Buffer.from(JSON.stringify(this.state)));
     });
+  }
+  /**
+   * Deserializes a field value
+   * @param {Buffer} data 
+   * @returns 
+   */
+  static unpack(data) {
+    try {
+      const parsed = JSON.parse(data.toString('utf-8'));
+      return StateContainer._checkBigInt(parsed);
+    } catch (err) {
+      throw err;
+    }
   }
 }
 module.exports = StateContainer;

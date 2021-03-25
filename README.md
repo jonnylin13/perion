@@ -159,7 +159,7 @@ const transformed = aes.transform(data);
 * Uses Google's recommended JS style guidelines, fully documented code including full JSDoc comments
 * Modular packages, so use what you want
 * Full test coverage, with a minimum coverage threshold of 90%
-* Zero dependencies
+* Minimal dependencies
 
 # Project Goals
 

@@ -135,7 +135,10 @@
    * @param {number} length Length of the string
    * @return {Parser} Returns a reference to the current Parser
    */
-  ascii(length) {
+  ascii({length}) {
+    if (typeof length === 'string') {
+      length = Number(length);
+    }
     const stringBuffer = Buffer.alloc(length);
     for (let i = 0; i < length; i++) {
       stringBuffer[i] = this.byte().get();
@@ -164,7 +167,7 @@
    */
   mapleascii() {
     const length = this.short().get();
-    this.parsed.push(this.ascii(length).get());
+    this.parsed.push(this.ascii({length}).get());
     return this;
   }
   /**
@@ -234,6 +237,16 @@
     if (!removeParsed) return this.parsed[this.parsed.length - 1];
     const latest = this.parsed.pop();
     return latest;
+  }
+  /**
+   * Parses a schema
+   * @param {Object} schema
+   * @return {Parser}
+   */
+  parse(schema) {
+    for (const type of schema) {
+      if (type === 'ascii') this.ascii('test')
+    }
   }
 }
 module.exports = Parser;
