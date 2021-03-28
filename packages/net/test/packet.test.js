@@ -186,21 +186,3 @@ describe('@perion/net.Packet.Writer', function() {
     assert.ok(packet.buffer().byteLength == 6);
   });
 });
-describe('@perion/net.Packet.encode', () => {
-  it('should encode and decode a packet', function() {
-    const iv = Buffer.from([0x1, 0x2, 0x3, 0x4]);
-    let packet = new net.Packet.Writer(2);
-    packet = packet.byte(0).byte(0).buffer();
-    const aes = new crypto.AES(iv, 83);
-    console.log(packet);
-    const encoder = new net.Packet.Encoder({aes, shanda: crypto.Shanda});
-    const encoded = encoder.encode(packet);
-    console.log(encoded);
-    assert.deepEqual(encoded, Buffer.from([
-      0x50, 0x04, 0x52, 0x04, 0xf1, 0xde
-    ]));
-    const decoded = encoder.decode(encoded, false);
-    console.log(decoded);
-    assert.deepEqual(decoded.data, Buffer.from([0x0c, 0x1e]));
-  });
-});

@@ -52,9 +52,9 @@ class Protocol {
     const {protoName, msgName} = Protocol._parseKey(protocolKey);
     const protocol = this.protocols[protoName];
     // TODO: Check for protocol.messages
-    if (!protocol || !(msgName in protocol)) {
+    if (!protocol) {
       throw new Error(
-        `Tried to build unknown protocol message ${protoName}.${msgName}`
+        `Tried to build from unknown protocol ${protoName}.${msgName}`
       );
     }
     let length = 0;

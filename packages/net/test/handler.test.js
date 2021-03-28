@@ -12,9 +12,9 @@ describe('@perion/net.BaseHandler', function() {
     try {
       const baseHandler = new BaseHandler(0x01);
       assert(baseHandler.opcode === 0x01);
-      baseHandler.handle();
+      baseHandler.handle({socket: {}, packet: {}});
     } catch (err) {
-      assert(err !== null && err !== undefined);
+      assert(err.message.includes('Nope'));
     }
   });
 });

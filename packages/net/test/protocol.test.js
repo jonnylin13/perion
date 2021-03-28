@@ -71,4 +71,47 @@ describe('@perion/net.Protocol', function() {
       assert(err !== null && err !== undefined);
     }
   });
+  it('should look for a nonexisting schema', function() {
+    const proto = new Protocol(['internal.proto.json']);
+    const schema = proto.findSchema('internal', 0x500);
+    assert(schema === null);
+  });
+  it('should return a schema', function() {
+    const proto = new Protocol(['internal.proto.json']);
+    const schema = proto.schema('internal.ping');
+    assert(schema.length === 0);
+    try {
+      proto.schema('internal.nonexistent');
+    } catch (err) {
+      assert(err.message.includes('Unknown message name'));
+    }
+    try {
+      proto.schema('internal.invalid_schema');
+    } catch (err) {
+      assert(err.message.includes('Missing schema'));
+    }
+  });
+  it('should check build errors', function() {
+    const proto = new Protocol(['internal.proto.json']);
+    try {
+      proto.build('interna.nonexistent');
+    } catch(err) {
+      assert(err.message.includes('unknown protocol'));
+    }
+    try {
+      proto.build('internal.invalid_schema');
+    } catch(err) {
+      assert(err.message.includes('Missing schema'));
+    }
+    try {
+      proto.build('internal.missing');
+    } catch(err) {
+      assert(err.message.includes('Unknown message name'));
+    }
+    try {
+      proto.build('internal.invalid_opcode');
+    } catch(err) {
+      assert(err.message.includes('Missing opcode'));
+    }
+  });
 });

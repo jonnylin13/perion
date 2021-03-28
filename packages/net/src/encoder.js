@@ -41,8 +41,9 @@ class Encoder {
     if (!readOp) {
       return {header: header, data: dataNoHeader};
     }
-    console.log(dataNoHeader);
+    // console.log(dataNoHeader);
     const opcode = Parser.from(dataNoHeader).short().get();
+    // console.log(dataNoHeader);
     return {header: header, opcode, data: dataNoHeader.slice(2)};
   }
 }

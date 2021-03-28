@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@perion/core": "^0.0.5",
-    "@perion/crypto": "^1.0.2"
+    "@perion/crypto": "^1.0.3"
   },
   "bugs": {
     "url": "https://github.com/jonnylin13/perion/issues",

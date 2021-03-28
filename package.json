@@ -12,7 +12,8 @@
     "lint": "eslint packages/**/*.js --fix",
     "doc": "rm -rf docs && ./node_modules/.bin/jsdoc -r index.js ./packages/**/index.js ./packages/**/src/*.js ./README.md -c jsdoc.json -d docs",
     "deps": "node scripts/deps.js",
-    "lcov": "nyc --reporter=lcov mocha packages/**/*.test.js test/*js"
+    "lcov": "nyc --reporter=lcov mocha packages/**/*.test.js test/*js",
+    "locks": "node scripts/locks.js"
   },
   "keywords": [
     "maplestory",
@@ -52,7 +53,7 @@
   "dependencies": {
     "@perion/calc": "0.0.2",
     "@perion/core": "0.0.5",
-    "@perion/crypto": "1.0.2",
+    "@perion/crypto": "1.0.3",
     "@perion/net": "0.0.6",
     "@perion/script": "0.0.2",
     "@perion/wz": "0.0.1"

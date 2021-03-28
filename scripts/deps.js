@@ -23,6 +23,7 @@ for (const dir of fs.readdirSync('./packages')) {
      clonedPkg.scripts = {};
      clonedPkg.scripts.test = submoduleTestScript;
      clonedPkg.scripts.lint = mainPkg.scripts.lint;
+     delete clonedPkg.dependencies;
      fs.writeFileSync(`./packages/${dir}/package.json`, JSON.stringify(clonedPkg, null, 2));
   }
 }

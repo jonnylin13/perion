@@ -13,4 +13,13 @@ describe('@perion/net module exports', function() {
   it('should export net.Packet.Encoder', function() {
     assert('Encoder' in net.Packet);
   });
+  it('should export net.Packet.BaseHandler', function() {
+    assert('BaseHandler' in net.Packet);
+  });
+  it('should export net.Packet.Delegator', function() {
+    assert('Delegator' in net.Packet);
+  });
+  it('should export net.Packet.Protocol', function() {
+    assert('Protocol' in net.Packet);
+  })
 });

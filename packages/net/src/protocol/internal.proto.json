@@ -21,6 +21,12 @@
       "schema": [
         "error"
       ]
+    },
+    "invalid_schema": {
+      "opcode": "0x404"
+    },
+    "invalid_opcode": {
+      "schema": []
     }
   }
 }
