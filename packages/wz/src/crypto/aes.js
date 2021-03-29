@@ -9,40 +9,52 @@ const {AES_KEY, GMS_IV, SEA_IV, DEFAULT_IV} = require('./constants.js');
 function getCipher(variant) {
   switch(variant) {
     case 'GMS':
+    case 'GMST':
+    case 'TESP':
       return {iv: GMS_IV, aesKey: AES_KEY};
-    case 'SEA':
+    case 'SEA': 
+    case 'MSEA': 
+    case 'KMS': 
+    case 'KMST': 
+    case 'JMS':
+    case 'JMST':
       return {iv: SEA_IV, aesKey: AES_KEY};
     default:
       return {iv: DEFAULT_IV, aesKey: AES_KEY};
   }
 }
 /**
- * Expands the XOR key and returns it
+ * 
+ * @param {*} variant 
+ * @param {*} length 
+ */
+function getWZKey(variant, length) {
+  length = (length & ~15) + ((length & 15) > 0 ? 16 : 0);
+  const cipher = getCipher(variant);
+  return generateKey(cipher.iv, cipher.aesKey, length);
+}
+/**
+ * Generates an XOR key
  * @function
  * @param {Buffer} currentXorKey
  * @param {number} length
  * @return {Buffer}
  */
-function expandXorKey(key, currentIV, currentXorKey, length) {
+function generateKey(iv, aesKey, length) {
   let numBlocks = Math.round(length / 16);
-  if (length % 16 != 0) {
+  if (length % 16 !== 0) {
     numBlocks += 1;
   }
-  let finalLength = numBlocks * 16;
-  finalLength -= currentXorKey.length;
-  const nextBlockLength = finalLength - currentXorKey.length;
-  const nextBlock = Buffer.alloc(nextBlockLength);
-  // For each 16 byte block, encrypt the IV,
-  // then use the resilt to do the next one
-  const cipher = crypto.createCipheriv('aes-256-ecb', key, null);
-  for (let i = 0; i < nextBlockLength; i += 16) {
-    let currentBlock = nextBlock.slice(i, i+16);
-    const encrypted = cipher.update(currentIV);
-    encrypted.copy(nextBlock, i);
-    currentIV = currentBlock;
+  const totalLength = numBlocks * 16;
+  const xorKey = Buffer.alloc(totalLength);
+  const cipher = crypto.createCipheriv('aes-256-ecb', aesKey, null);
+  for (let i = 0; i < totalLength; i += 16) {
+    let currentBlock = xorKey.slice(i, i+16);
+    const encrypted = cipher.update(iv);
+    encrypted.copy(xorKey, i);
+    iv = currentBlock;
   }
-  currentXorKey = Buffer.concat([currentXorKey, nextBlock]);
-  return {iv: currentIV, xorKey: currentXorKey}
+  return xorKey;
 }
 /**
  * Transforms a Buffer
@@ -52,7 +64,7 @@ function expandXorKey(key, currentIV, currentXorKey, length) {
  * @return {Buffer} The decrypted data
  */
 function transform(data, key) {
-  // NEVER REACHED
+  // TODO: Can this be reached?
   // if (data.length > key.length) {
   //   throw new Error('Data length cannot be greater than key length');
   // }
@@ -79,7 +91,7 @@ function calculateHash(mapleVersion) {
 	x ^= ((y >> 16) & 0xff);
 	x ^= ((y >> 8) & 0xff);
 	x ^= ((y >> 0) & 0xff);
-  return {x, y};
+  return {version: x, hash: y};
 }
 /**
  * Bitshift to the left, puts the bits pushed off at the right
@@ -111,41 +123,74 @@ class AES {
    * @constructor
    * @param {string} variant GMS or SEA
    */
-  constructor(variant) {
+  constructor(variant, keyLength) {
     this.variant = variant;
-    const {aesKey, iv} = getCipher(variant);
-    this.aesKey = aesKey;
-    this.xorKey = Buffer.from([]);
-    this.iv = iv;
-    this.encryptedStrings = [];
+    // From reWZ
+    this._generateKeys(keyLength === undefined ? 0x10000 : keyLength);
   }
   /**
-   * Returns true if the input string is encrypted
-   * @param {string} input
-   * @return {boolean}
+   * Decrypts an ASCII string
+   * @param {Buffer} bytes
+   * @param {boolean} encrypted
+   * @return {string}
    */
-  isEncrypted(input) {
-    return this.encryptedStrings.includes(input);
+  decryptASCII(bytes, encrypted=true) {
+    this._checkKeyLength(bytes.length);
+    const key = encrypted ? this._asciiEncKey : this._asciiKey;
+    const decrypted = transform(bytes, key);
+    return decrypted.toString('ascii');
   }
   /**
-   * Transforms a buffer
-   * @param {Buffer} data
-   * @return {Buffer}
+   * Decrypts a Unicode string
+   * @param {Buffer} bytes
+   * @param {boolean} encrypted
+   * @return {string} 
    */
-  transform(data) {
-    this.provisionXorKey(data.length);
-    return transform(data, this.xorKey);
+  decryptUnicode(bytes, encrypted=true) {
+    this._checkKeyLength(bytes.length);
+    const key = encrypted ? this._unicodeEncKey : this._unicodeKey;
+    const decrypted = transform(bytes, key);
+    return decrypted.toString('utf-8');
   }
   /**
-   * Provisions the XOR key
+   * Decrypts a Buffer of bytes
+   * @param {Buffer} bytes 
+   * @return {Buffer} The decrypted bytes
+   */
+  decrypt(bytes) {
+    this._checkKeyLength(bytes.length);
+    return transform(bytes, this._wzKey);
+  }
+  /**
+   * Generates XOR keys for each type needed (WZ, Unicode, ASCII)
+   * @param {number} length 
+   */
+  _generateKeys(length) {
+    this._wzKey = getWZKey(this.variant, length);
+    this._asciiEncKey = Buffer.alloc(this._wzKey.length);
+    this._asciiKey = Buffer.alloc(this._wzKey.length);
+    this._unicodeEncKey = Buffer.alloc(this._wzKey.length);
+    this._unicodeKey = Buffer.alloc(this._wzKey.length);
+
+    let mask = 0xAA;
+    for (let i = 0; i < this._wzKey.length; ++i, ++mask) {
+      this._asciiKey[i] = mask;
+      this._asciiEncKey[i] = this._wzKey[i] ^ mask;
+    }
+    mask = 0xAAAA;
+    for (let i = 0; i < this._wzKey.length / 2; i += 2, ++mask) {
+      this._unicodeKey[i] = mask & 0xff;
+      this._unicodeKey[i+1] = ((mask & 0xff00) >> 8);
+      this._unicodeEncKey[i] = this._wzKey[i] ^ this._unicodeKey[i];
+      this._unicodeEncKey[i+1] = this._wzKey[i+1] ^ this._unicodeKey[i+1];
+    }
+  }
+  /**
+   * Checks key length and provisions more bytes if needed
    * @param {number} length
    */
-  provisionXorKey(length) {
-    // TODO: What does this do?
-    if (this.xorKey.length >= length) return;
-    const result = expandXorKey(this.aesKey, this.iv, this.xorKey, length);
-    this.iv = result.iv;
-    this.xorKey = result.xorKey;
+  _checkKeyLength(length) {
+    if (this._wzKey.length < length) this._generateKeys(length);
   }
 }
 module.exports = {AES, calculateHash, rotl, rotr};
